@@ -37,7 +37,7 @@
 			<% String id = (String) request.getAttribute("id"); %>
 			<% int noMax = (int) request.getAttribute("noMax"); %>
 			<form action="RacingUmamusumeList" method="post">
-				<input type="text" name="id" value="<%= id == null ? "" : id %>" placeholder="公式の勝負服番号もしくは名前" title="公式の勝負服番号もしくは名前/3桁までの数字もしくは20桁までのカタカナ" size="24" pattern="(^[0-9０-９]{1,3}$)|(^[ァ-ヴーｦ-ﾟ]{0,20}$)">
+				<input type="text" name="id" value="<%= id == null ? "" : id %>" placeholder="公式の勝負服番号もしくは名前" title="公式の勝負服番号もしくは名前/3桁までの数字もしくは20桁までのカタカナ" size="26" pattern="(^[0-9０-９]{1,3}$)|(^[ァ-ヴーｦ-ﾟ]{0,20}$)">
 				<button type="submit">検索</button>
 			</form>
 			<br>

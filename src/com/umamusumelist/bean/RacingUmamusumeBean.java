@@ -6,9 +6,9 @@ import java.sql.Date;
  * 勝負服を得たウマ娘を取り扱うBean
  *
  * @author Umamusumelist.com
- * @version 5.0
+ * @version 5.1
  */
-public class RacingUmamusumeBean {
+public final class RacingUmamusumeBean {
 
 	/** 排他的な勝負服であるか */
 	private final boolean isExclusive;
@@ -30,17 +30,27 @@ public class RacingUmamusumeBean {
 
 	/**
 	 * 新規インスタンス作成
-	 * @param isExclusive 排他的な勝負服であるか
-	 * @param racingSuitNo 勝負服番号
-	 * @param name 名前
-	 * @param parameter ウマ娘公式ポータルサイトにおける識別子
-	 * @param appeared ウマ娘公式ポータルサイトにて勝負服が登録された日時
-	 * @param umadexNo 図鑑番号
+	 *
+	 * @param isExclusive
+	 *            排他的な勝負服であるか
+	 * @param racingSuitNo
+	 *            勝負服番号
+	 * @param name
+	 *            名前
+	 * @param parameter
+	 *            ウマ娘公式ポータルサイトにおける識別子
+	 * @param appeared
+	 *            ウマ娘公式ポータルサイトにて勝負服が登録された日時
+	 * @param umadexNo
+	 *            図鑑番号
 	 * @return 同一の引数を用いる新たなBeanオブジェクトのインスタンス
-	 * @exception NullPointerException 名前がnull
-	 * @exception IllegalArgumentException 勝負服番号もしくは図鑑番号が0未満
+	 * @exception NullPointerException
+	 *                名前がnull
+	 * @exception IllegalArgumentException
+	 *                勝負服番号もしくは図鑑番号が0未満
 	 */
-	public static RacingUmamusumeBean create(boolean isExclusive, int racingSuitNo, String name, String parameter, Date appeared, int umadexNo) {
+	public static RacingUmamusumeBean create(final boolean isExclusive, final int racingSuitNo, final String name,
+			final String parameter, final Date appeared, final int umadexNo) {
 		if (name == null) {
 			throw new NullPointerException("名前がnullです");
 		}
@@ -49,24 +59,33 @@ public class RacingUmamusumeBean {
 			throw new IllegalArgumentException("勝負服番号もしくは図鑑番号が0未満です");
 		}
 
-		return new RacingUmamusumeBean(isExclusive, racingSuitNo, name, parameter, appeared, umadexNo);
+		return new RacingUmamusumeBean(isExclusive, racingSuitNo, name, parameter, appeared == null ? null : new Date(appeared.getTime()),
+				umadexNo);
 	}
 
 	/**
 	 * 新規インスタンス作成時のコンストラクター
-	 * @param isExclusive 排他的な勝負服であるか
-	 * @param racingSuitNo 勝負服番号
-	 * @param name 名前
-	 * @param parameter ウマ娘公式ポータルサイトにおける識別子
-	 * @param appeared ウマ娘公式ポータルサイトにて勝負服が登録された日時
-	 * @param umadexNo 図鑑番号
+	 *
+	 * @param isExclusive
+	 *            排他的な勝負服であるか
+	 * @param racingSuitNo
+	 *            勝負服番号
+	 * @param name
+	 *            名前
+	 * @param parameter
+	 *            ウマ娘公式ポータルサイトにおける識別子
+	 * @param appeared
+	 *            ウマ娘公式ポータルサイトにて勝負服が登録された日時
+	 * @param umadexNo
+	 *            図鑑番号
 	 */
-	private RacingUmamusumeBean(boolean isExclusive, int racingSuitNo, String name, String parameter, Date appeared, int umadexNo) {
+	private RacingUmamusumeBean(final boolean isExclusive, final int racingSuitNo, final String name,
+			final String parameter, final Date appeared, final int umadexNo) {
 		this.isExclusive = isExclusive;
 		this.racingSuitNo = racingSuitNo;
 		this.name = name;
 		this.parameter = parameter;
-		this.appeared = appeared;
+		this.appeared = appeared == null ? null : new Date(appeared.getTime());
 		this.umadexNo = umadexNo;
 	}
 
@@ -112,7 +131,7 @@ public class RacingUmamusumeBean {
 	 * @return ウマ娘公式ポータルサイトにて勝負服が登録された日時
 	 */
 	public Date appeared() {
-		return appeared;
+		return appeared == null ? null : new Date(appeared.getTime());
 	}
 
 	/**

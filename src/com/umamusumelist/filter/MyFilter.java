@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletResponse;
  * アクセス制御を行うフィルター
  *
  * @author Umamusumelist.com
- * @version 5.0
+ * @version 5.1
  */
-public class MyFilter implements Filter {
+public final class MyFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig config) {

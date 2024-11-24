@@ -4,9 +4,9 @@ package com.umamusumelist.bean;
  * ウマ娘でないトレセン学園関係者を取り扱うBean
  *
  * @author Umamusumelist.com
- * @version 5.0
+ * @version 5.1
  */
-public class NotUmamusumeBean {
+public final class NotUmamusumeBean {
 
 	/** 名前 */
 	private final String name;
@@ -22,7 +22,7 @@ public class NotUmamusumeBean {
 	 * @return 同一の引数を用いる新たなBeanオブジェクトのインスタンス
 	 * @exception NullPointerException 名前がnull
 	 */
-	public static NotUmamusumeBean create(String name, String parameter) {
+	public static NotUmamusumeBean create(final String name, final String parameter) {
 		if (name == null) {
 			throw new NullPointerException("名前がnullです");
 		}
@@ -36,7 +36,7 @@ public class NotUmamusumeBean {
 	 * @param name 名前
 	 * @param parameter ウマ娘公式ポータルサイトにおける識別子
 	 */
-	private NotUmamusumeBean(String name, String parameter) {
+	private NotUmamusumeBean(final String name, final String parameter) {
 		// TODO 自動生成されたコンストラクター・スタブ
 		this.name = name;
 		this.parameter = parameter;

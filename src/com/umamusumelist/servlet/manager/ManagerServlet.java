@@ -13,10 +13,10 @@ import javax.servlet.http.HttpSession;
  * 管理者専用ページへのログインに関する処理を行うサーブレット
  *
  * @author Umamusumelist.com
- * @version 5.0
+ * @version 5.1
  */
 @WebServlet(name = "/Manager/")
-public class ManagerServlet extends HttpServlet {
+public final class ManagerServlet extends HttpServlet {
 
 	/**
 	 * 新規インスタンス作成時のコンストラクター

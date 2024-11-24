@@ -1,6 +1,7 @@
 package com.umamusumelist.servlet.manager;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -8,7 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.umamusumelist.bean.NotUmamusumeBean;
 import com.umamusumelist.dao.NotUmamusumeDAO;
@@ -17,11 +17,11 @@ import com.umamusumelist.dao.NotUmamusumeDAO;
  * ウマ娘でないトレセン学園関係者の登録・削除処理を行うサーブレット
  *
  * @author Umamusumelist.com
- * @version 5.0
+ * @version 5.1
  *
  */
 @WebServlet(name = "Manager/SetOrDeleteNotUmamusume")
-public class SetOrDeleteNotUmamusumeServlet extends HttpServlet {
+public final class SetOrDeleteNotUmamusumeServlet extends HttpServlet {
 
 	/**
 	 * 新規インスタンス作成時のコンストラクター
@@ -66,14 +66,13 @@ public class SetOrDeleteNotUmamusumeServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		final NotUmamusumeDAO nudao = new NotUmamusumeDAO();
-
 		try {
 			request.setCharacterEncoding("UTF-8");
-			HttpSession session = request.getSession(false);
+
+			final NotUmamusumeDAO nudao = new NotUmamusumeDAO();
 
 			// 現在のセッションが無ければ、セッション有効期限切れ画面を表示する。
-			if (session == null) {
+			if (request.getSession(false) == null) {
 				request.getRequestDispatcher("../WEB-INF/login/SessionTimeout.html").forward(request, response);
 				return;
 			}
@@ -89,14 +88,6 @@ public class SetOrDeleteNotUmamusumeServlet extends HttpServlet {
 			forward(request, response, name, parameter, button, target, nudao);
 		} catch (Exception e) {
 			e.printStackTrace();
-			request.setAttribute("message", "エラーが発生しました");
-			request.setAttribute("notUmamusumeList", nudao.getList()); // ウマ娘でないトレセン学園関係者一覧
-			try {
-				request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteNotUmamusume.jsp").forward(request, response);
-			} catch (ServletException | IOException e2) {
-				// TODO 自動生成された catch ブロック
-				e2.printStackTrace();
-			}
 		}
 	}
 
@@ -111,100 +102,67 @@ public class SetOrDeleteNotUmamusumeServlet extends HttpServlet {
 	 * <br>
 	 * 削除が行われる条件: 削除対象が選択されている
 	 *
-	 * @param name 名前
-	 * @param parameter ウマ娘公式ポータルサイトにおける識別子
-	 * @param button ボタンの種類
-	 * @param target 変更前の名前
-	 * @throws ServletException
-	 * @throws IOException
+	 * @param name
+	 *            名前
+	 * @param parameter
+	 *            ウマ娘公式ポータルサイトにおける識別子
+	 * @param button
+	 *            ボタンの種類
+	 * @param target
+	 *            変更前の名前
 	 */
-	private void forward(HttpServletRequest request, HttpServletResponse response, String name, String parameter,
-			String button, String target, NotUmamusumeDAO nudao) throws ServletException, IOException {
+	private void forward(final HttpServletRequest request, final HttpServletResponse response, final String name,
+			final String parameter, final String button, final String target, final NotUmamusumeDAO nudao)
+			throws ServletException, SQLException, IOException {
 		// TODO 自動生成されたメソッド・スタブ
-		// 追加ボタン
-		if (button != null && button.equals("add")) {
-			// 名前もしくはパラメーターが入力されていない
-			if (name.equals("") || parameter.equals("")) {
+		if (button != null && button.equals("add")) { // 追加ボタン
+			if (name.equals("") || parameter.equals("")) { // 名前もしくはパラメーターが入力されていない
 				request.setAttribute("message", "名前とパラメーターを入力してください");
-				request.setAttribute("notUmamusumeList", nudao.getList());
-				request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteNotUmamusume.jsp").forward(request, response);
-				return;
-			}
-
-			// 入力した名前、パラメーターのいずれかが既存のデータと重複している
-			if (isFound(nudao.getList(), name, parameter)) {
+			} else if (isFound(nudao.getList(), name, parameter)) { // 入力した名前、パラメーターのいずれかが既存のデータと重複している
 				request.setAttribute("message", "すでに登録している名前もしくはパラメーターです");
-				request.setAttribute("notUmamusumeList", nudao.getList());
-				request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteNotUmamusume.jsp").forward(request, response);
-				return;
+			} else { // 正常に登録される
+				nudao.setNotUmamusume(name, parameter);
+				request.setAttribute("message", "登録しました");
 			}
-
-			// 正常に登録される
-			nudao.setNotUmamusume(name, parameter);
-			request.setAttribute("message", "登録しました");
-			request.setAttribute("notUmamusumeList", nudao.getList());
-			request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteNotUmamusume.jsp").forward(request, response);
-			return;
-
-		} else if (button != null && button.equals("update")) {
-			// 変更対象が選択されていないか、変更後の名前もしくはパラメーターが入力されていない
-			if (target.equals("") || name.equals("") || parameter.equals("")) {
+		} else if (button != null && button.equals("update")) { // 変更ボタン
+			if (target.equals("") || name.equals("") || parameter.equals("")) { // 変更対象が選択されていないか、変更後の名前もしくはパラメーターが入力されていない
 				request.setAttribute("message", "変更対象を選択し、変更後の名前とパラメーターを入力してください");
-				request.setAttribute("notUmamusumeList", nudao.getList());
-				request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteNotUmamusume.jsp").forward(request, response);
-				return;
-			}
-
-			// 入力した名前、パラメーターのいずれかが既存のデータと重複している
-			if (isFound(nudao.getList(), name, parameter)) {
+			} else if (isFound(nudao.getList(), name, parameter)) { // 入力した名前、パラメーターのいずれかが既存のデータと重複している
 				request.setAttribute("message", "すでに登録している名前もしくはパラメーターです");
-				request.setAttribute("notUmamusumeList", nudao.getList());
-				request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteNotUmamusume.jsp").forward(request, response);
-				return;
+			} else { // 正常に変更される
+				nudao.updateName(target, name, parameter);
+				request.setAttribute("message", "変更しました");
 			}
-
-			// 正常に変更される
-			nudao.updateName(target, name, parameter);
-			request.setAttribute("message", "変更しました");
-			request.setAttribute("notUmamusumeList", nudao.getList());
-			request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteNotUmamusume.jsp").forward(request, response);
-			return;
-		}  else if (button != null && button.equals("delete")) {
-			// 削除対象が選択されていない
-			if (target.equals("")) {
+		} else if (button != null && button.equals("delete")) { // 削除ボタン
+			if (target.equals("")) { // 削除対象が選択されていない
 				request.setAttribute("message", "削除対象を選択してください");
-				request.setAttribute("notUmamusumeList", nudao.getList());
-				request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteNotUmamusume.jsp").forward(request, response);
-				return;
+			} else { // 正常に削除される
+				nudao.deleteNotUmamusume(target);
+				request.setAttribute("message", "削除しました");
 			}
-
-			// 正常に削除される
-			nudao.deleteNotUmamusume(target);
-			request.setAttribute("message", "削除しました");
-			request.setAttribute("notUmamusumeList", nudao.getList());
-			request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteNotUmamusume.jsp").forward(request, response);
-			return;
-		} else {
-			request.setAttribute("notUmamusumeList", nudao.getList());
-			request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteNotUmamusume.jsp").forward(request, response);
 		}
 
+		request.setAttribute("notUmamusumeList", nudao.getList());
+		request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteNotUmamusume.jsp").forward(request, response);
 	}
 
 	/**
 	 * 入力した名前、ウマ娘公式ポータルサイトにおける識別子が既存のデータと重複しているかの判定
 	 *
-	 * @param name 名前
-	 * @param parameter ウマ娘公式ポータルサイトにおける識別子
+	 * @param name
+	 *            名前
+	 * @param parameter
+	 *            ウマ娘公式ポータルサイトにおける識別子
 	 * @return 判定結果
 	 */
-	private boolean isFound(List<NotUmamusumeBean> nub, String name, String parameter) {
+	private boolean isFound(final List<NotUmamusumeBean> nub, final String name, final String parameter) {
 		for (NotUmamusumeBean nu : nub) {
 			if (name.equals("") || parameter.equals("")) {
 				continue;
 			}
 
-			if (name.equals(nu.name().substring(0, nu.name().indexOf("?") != -1 ? nu.name().indexOf("?") : nu.name().length()))) {
+			if (name.equals(nu.name().substring(0,
+					nu.name().indexOf("?") != -1 ? nu.name().indexOf("?") : nu.name().length()))) {
 				return true;
 			}
 

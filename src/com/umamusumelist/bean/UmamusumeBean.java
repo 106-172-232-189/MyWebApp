@@ -4,9 +4,9 @@ package com.umamusumelist.bean;
  * ウマ娘を取り扱うBean
  *
  * @author Umamusumelist.com
- * @version 5.0
+ * @version 5.1
  */
-public class UmamusumeBean {
+public final class UmamusumeBean {
 
 	/** 図鑑番号 */
 	private final int umadexNo;
@@ -31,7 +31,7 @@ public class UmamusumeBean {
 	 * @exception NullPointerException 名前がnull
 	 * @exception IllegalArgumentException 勝負服番号もしくは図鑑番号が0未満
 	 */
-	public static UmamusumeBean create(int umadexNo, String name, String parameter, int racingSuitNo) {
+	public static UmamusumeBean create(final int umadexNo, final String name, final String parameter, final int racingSuitNo) {
 		if (name == null) {
 			throw new NullPointerException("名前がnullです");
 		}
@@ -51,7 +51,7 @@ public class UmamusumeBean {
 	 * @param parameter ウマ娘公式ポータルサイトにおける識別子
 	 * @param racingSuitNo 勝負服番号
 	 */
-	private UmamusumeBean(int umadexNo, String name, String parameter, int racingSuitNo) {
+	private UmamusumeBean(final int umadexNo, final String name, final String parameter, final int racingSuitNo) {
 		// TODO 自動生成されたコンストラクター・スタブ
 		this.umadexNo = umadexNo;
 		this.name = name;

@@ -22,7 +22,7 @@
 		<p><%= message == null ? "" : message %></p>
 		<h2>登録</h2>
 		<form action="SetOrDeleteUmamusume" method="post">
-			名前: <input type="text" name="name" placeholder="全角カタカナ1-20文字" title="全角カタカナ1-20文字" pattern="^[ァ-ヴー]{1,20}$|^[(]不明[0-9]{1,3}[)]$"><br>
+			名前: <input type="text" name="name" placeholder="全角カタカナ1-20文字" title="全角カタカナ1-20文字" pattern="^[ァ-ヴー]{1,20}$|^[(]不明[A-Z]{1,3}[)]$"><br>
 			パラメーター: <input type="text" name="parameter" placeholder="半角英数字1-30文字" title="半角英数字1-30文字" pattern="^[a-z0-9.]{1,30}$"><br>
 			<button type="submit" name="button" value="add">登録</button>
 		</form>
@@ -36,7 +36,7 @@
 				<option value="<%= u.umadexNo() %>">No.<%= u.umadexNo() %>: <%= u.name() == null ? "" : u.name() %></option>
 				<% } %>
 			</select><br>
-			変更後の名前: <input type="text" name="name" placeholder="全角カタカナ1-20文字" title="全角カタカナ1-20文字" pattern="^[ァ-ヴー]{1,20}$|^[(]不明[0-9]{1,3}[)]$"><br>
+			変更後の名前: <input type="text" name="name" placeholder="全角カタカナ1-20文字" title="全角カタカナ1-20文字" pattern="^[ァ-ヴー]{1,20}$|^[(]不明[A-Z]{1,3}[)]$"><br>
 			変更後のパラメーター: <input type="text" name="parameter" placeholder="半角英数字1-30文字" title="半角英数字1-30文字" pattern="^[a-z0-9.]{1,30}$"><br>
 			<button type="submit" name="button" value="update">変更</button>
 		</form>

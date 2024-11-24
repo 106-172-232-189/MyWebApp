@@ -5,7 +5,7 @@ package com.umamusumelist.util;
  *
  * @author https://www7a.biglobe.ne.jp/~java-master/samples/string/HankakuKatakanaToZenkakuKatakana.html
  */
-public class KatakanaToZenkaku {
+public final class KatakanaToZenkaku {
 
 	/** 半角カタカナ群 */
 	private static final char[] HANKAKU_KATAKANA = { '｡', '｢', '｣', '､', '･', 'ｦ', 'ｧ', 'ｨ', 'ｩ', 'ｪ', 'ｫ', 'ｬ', 'ｭ',

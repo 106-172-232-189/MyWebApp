@@ -1,9 +1,9 @@
 package com.umamusumelist.servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,10 +19,10 @@ import com.umamusumelist.dao.UmamusumeDAO;
  * ウマ娘、ウマ娘でないトレセン学園関係者の取得に関する処理を行うサーブレット
  *
  * @author Umamusumelist.com
- * @version 5.0
+ * @version 5.1
  */
 @WebServlet(name = "/UmamusumeList")
-public class UmamusumeServlet extends HttpServlet {
+public final class UmamusumeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
@@ -53,9 +53,7 @@ public class UmamusumeServlet extends HttpServlet {
 			request.setAttribute("umamusumeList", udao.getList()); // ウマ娘一覧
 			request.setAttribute("notUmamusumeList", nudao.getList()); // ウマ娘でないトレセン学園関係者一覧
 			request.getRequestDispatcher("./jsp/UmamusumeJSP.jsp").forward(request, response);
-		} catch (ServletException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -80,9 +78,7 @@ public class UmamusumeServlet extends HttpServlet {
 			request.setAttribute("umamusumeList", getList(udao, id)); // 検索結果一覧
 			request.setAttribute("notUmamusumeList", getList(nudao, id)); // ウマ娘でないトレセン学園関係者一覧
 			request.getRequestDispatcher("./jsp/UmamusumeJSP.jsp").forward(request, response);
-		} catch (ServletException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -93,7 +89,7 @@ public class UmamusumeServlet extends HttpServlet {
 	 * @param id 検索欄に入力された文字列
 	 * @return idでウマ娘一覧の中から検索した結果を格納するArrayListオブジェクト
 	 */
-	private List<UmamusumeBean> getList(final UmamusumeDAO udao, final String id) {
+	private List<UmamusumeBean> getList(final UmamusumeDAO udao, final String id) throws SQLException {
 		if (id == null || id.equals("")) {
 			return udao.getList();
 		}
@@ -111,7 +107,7 @@ public class UmamusumeServlet extends HttpServlet {
 	 * @param id 検索欄に入力された文字列
 	 * @return idでウマ娘でないトレセン学園関係者一覧の中から検索した結果を格納するArrayListオブジェクト
 	 */
-	private List<NotUmamusumeBean> getList(NotUmamusumeDAO nudao, String id) {
+	private List<NotUmamusumeBean> getList(NotUmamusumeDAO nudao, String id) throws SQLException {
 		// TODO 自動生成されたメソッド・スタブ
 		if (id == null || id.equals("")) {
 			return nudao.getList();

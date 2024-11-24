@@ -39,7 +39,7 @@
 			<% int noMaxA = (int) request.getAttribute("noMaxA"); %>
 			<% int noMaxB = (int) request.getAttribute("noMaxB"); %>
 			<form action="UmamusumeList" method="post">
-				<input type="text" name="id" value="<%= id == null ? "" : id %>" placeholder="公式の図鑑番号もしくは名前" title="公式の図鑑番号もしくは名前/&quot;3桁までの数字&quot;もしくは&quot;20桁までのカタカナ(一部を除く)&quot;" size="24" pattern="(^[0-9０-９]{1,3}$)|(^[^\x01-\x7E]{0,20}$)">
+				<input type="text" name="id" value="<%= id == null ? "" : id %>" placeholder="公式の図鑑番号もしくは名前" title="公式の図鑑番号もしくは名前/&quot;3桁までの数字&quot;もしくは&quot;20桁までのカタカナ(一部を除く)&quot;" size="26" pattern="(^[0-9０-９]{1,3}$)|(^[^\x01-\x7E]{0,20}$)">
 				<button type="submit">検索</button>
 			</form>
 			<br>
@@ -50,14 +50,14 @@
 				<% List<UmamusumeBean> umamusumeList = (List) request.getAttribute("umamusumeList"); %>
 				<% for (UmamusumeBean u : umamusumeList) { %>
 					<% if (u.umadexNo() < 800) { %>
-					<tr>
-						<td style="text-align: center;">No.<%= u.umadexNo() %><% if (u.racingSuitNo() != 0) { %><br><div class="div3">(<%= "勝負服" + u.racingSuitNo() + (u.racingSuitNo() >= 100 ? "" : "号") %>)</div><% } %></td><td><% if (u.parameter() != null) { %><a href="https://umamusume.jp/character/<%= u.parameter() %>"><% } %><%= u.name() == null || u.name().startsWith("(不明") ? "&mdash;" : (u.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(u.name()) : u.name()) %><% if (u.parameter() != null) { %></a><% } %></td>
-					</tr>
+				<tr>
+					<td style="text-align: center;">No.<%= u.umadexNo() %><% if (u.racingSuitNo() != 0) { %><br><div class="div3">(<%= "勝負服" + u.racingSuitNo() + (u.racingSuitNo() >= 100 ? "" : "号") %>)</div><% } %></td><td><% if (u.parameter() != null) { %><a href="https://umamusume.jp/character/<%= u.parameter() %>"><% } %><%= u.name() == null || u.name().startsWith("(不明") ? "&mdash;" : (u.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(u.name()) : u.name()) %><% if (u.parameter() != null) { %></a><% } %></td>
+				</tr>
 					<% } %>
 					<% if (u.umadexNo() >= 800) { %>
-					<tr>
-						<td style="text-align: center;" <% if (u.umadexNo() >= 800 && u.umadexNo() < 900) { %>class="div5"<% } %>><%= u.umadexNo() >= 800 && u.umadexNo() < 900 ? "トレセン学園<br>関係者No." + (u.umadexNo() - 800) : "没No." + (u.umadexNo() - 900) %><% if (u.racingSuitNo() != 0) { %><br><div class="div5">(<%= "EX勝負服" + u.racingSuitNo() %>)<% } %></div></td><td><% if (u.parameter() != null) { %><a href="https://umamusume.jp/character/<%= u.parameter() %>"><% } %><%= u.name() == null || u.name().startsWith("(不明") ? "&mdash;" : (u.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(u.name()) : u.name()) %><% if (u.parameter() != null) { %></a><% } %></td>
-					</tr>
+				<tr>
+					<td style="text-align: center;" <% if (u.umadexNo() >= 800 && u.umadexNo() < 900) { %>class="div5"<% } %>><%= u.umadexNo() >= 800 && u.umadexNo() < 900 ? "トレセン学園<br>関係者No." + (u.umadexNo() - 800) : "没No." + (u.umadexNo() - 900) %><% if (u.racingSuitNo() != 0) { %><br><div class="div5">(<%= "EX勝負服" + u.racingSuitNo() %>)<% } %></div></td><td><% if (u.parameter() != null) { %><a href="https://umamusume.jp/character/<%= u.parameter() %>"><% } %><%= u.name() == null || u.name().startsWith("(不明") ? "&mdash;" : (u.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(u.name()) : u.name()) %><% if (u.parameter() != null) { %></a><% } %></td>
+				</tr>
 					<% } %>
 				<% } %>
 			</table>

@@ -1,9 +1,9 @@
 package com.umamusumelist.servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,10 +16,10 @@ import com.umamusumelist.dao.RacingUmamusumeDAO;
  * 勝負服を得ているウマ娘の取得に関する処理を行うサーブレット
  *
  * @author Umamusumelist.com
- * @version 5.0
+ * @version 5.1
  */
 @WebServlet(name = "/RacingUmamusumeList")
-public class RacingUmamusumeServlet extends HttpServlet {
+public final class RacingUmamusumeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -47,9 +47,7 @@ public class RacingUmamusumeServlet extends HttpServlet {
 			request.setAttribute("racingUmamusumeList", rudao.getList(false)); // 勝負服を得ているウマ娘一覧
 			request.setAttribute("racingUmamusumeListExclusive", rudao.getList(true)); // 勝負服を得ている特殊なウマ娘一覧
 			request.getRequestDispatcher("./jsp/RacingUmamusumeJSP.jsp").forward(request, response);
-		} catch (ServletException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -72,9 +70,7 @@ public class RacingUmamusumeServlet extends HttpServlet {
 			request.setAttribute("racingUmamusumeListExclusive", getRacingUmamusume(true, rudao, id)); // 検索結果一覧(特殊)
 			request.setAttribute("id", id);
 			request.getRequestDispatcher("./jsp/RacingUmamusumeJSP.jsp").forward(request, response);
-		} catch (ServletException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -86,7 +82,7 @@ public class RacingUmamusumeServlet extends HttpServlet {
 	 * @param id 検索欄に入力された文字列
 	 * @return idで勝負服を得ているウマ娘一覧の中から検索した結果を格納するArrayListオブジェクト
 	 */
-	private List<RacingUmamusumeBean> getRacingUmamusume(final boolean isExclusive, final RacingUmamusumeDAO rudao, final String id) {
+	private List<RacingUmamusumeBean> getRacingUmamusume(final boolean isExclusive, final RacingUmamusumeDAO rudao, final String id) throws SQLException {
 		if (id == null || id.equals("")) {
 			return rudao.getList(isExclusive);
 		}
