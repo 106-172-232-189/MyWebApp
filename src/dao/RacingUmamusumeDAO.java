@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.RacingUmamusumeBean;
+import util.KatakanaToZenkaku;
 
 public class RacingUmamusumeDAO {
 
@@ -140,7 +141,7 @@ public class RacingUmamusumeDAO {
 		final List<RacingUmamusumeBean> rubl = new ArrayList<>();
 
 		try {
-			ps.setString(1, "%" + name + "%");
+			ps.setString(1, "%" + KatakanaToZenkaku.katakanaToZenkaku(name) + "%");
 
 			final ResultSet rs = ps.executeQuery();
 			while (rs.next()) {

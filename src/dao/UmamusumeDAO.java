@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.UmamusumeBean;
+import util.KatakanaToZenkaku;
 
 public class UmamusumeDAO {
 
@@ -174,7 +175,7 @@ public class UmamusumeDAO {
 		final List<UmamusumeBean> ubl = new ArrayList<>();
 
 		try {
-			ps.setString(1, "%" + name + "%");
+			ps.setString(1, "%" + KatakanaToZenkaku.katakanaToZenkaku(name) + "%");
 
 			final ResultSet rs = ps.executeQuery();
 			while (rs.next()) {

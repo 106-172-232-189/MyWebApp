@@ -22,9 +22,9 @@
 		<p><%= message == null ? "" : message %></p>
 		<h2>登録</h2>
 		<form action="SetOrDeleteUmamusumeExclusive" method="post">
-			名前: <input type="text" name="name" placeholder="全角カタカナ30文字以内" pattern="^[\u30A0-\u30FF]{0,30}$|^[(]不明[0-9]{1,3}[)]$"><br>
-			図鑑番号: <input type="text" name="no" placeholder="800～999までの番号" pattern="^[8-9８-９][0-9０-９]{2}$"><br>
-			パラメーター: <input type="text" name="parameter" placeholder="半角英字30文字以内" pattern="^[a-z0-9.]{0,30}$"><br>
+			名前: <input type="text" name="name" placeholder="全角カタカナ1-20文字" title="全角カタカナ1-20文字" pattern="^[ァ-ヴー]{1,20}$|^[(]不明[0-9]{1,3}[)]$"><br>
+			図鑑番号: <input type="text" name="no" placeholder="800～999までの番号" title="800～999までの番号" pattern="^[8-9８-９][0-9０-９]{2}$"><br>
+			パラメーター: <input type="text" name="parameter" placeholder="半角英数字0-30文字" title="半角英数字0-30文字" pattern="^[a-z0-9.]{0,30}$"><br>
 			<button type="submit" name="button" value="add">登録</button>
 		</form>
 		<br>

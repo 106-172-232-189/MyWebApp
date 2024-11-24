@@ -21,6 +21,7 @@
 		<meta name='description' content='ウマ娘の一覧を追加順で表示しています。図鑑番号＝追加順です。'>
 		<title>ウマ娘 キャラクター一覧</title>
 		<link rel="stylesheet" href="./css/Style1.css">
+		<link rel="stylesheet" href="./css/Style4.css">
 		<link rel="icon" href="./favicon.ico">
 		<link rel="icon" sizes="192x192" href="./android-touch-icon-192x192.png">
 		<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon-180x180.png">
@@ -36,7 +37,7 @@
 			<% int noMaxA = (int) request.getAttribute("noMaxA"); %>
 			<% int noMaxB = (int) request.getAttribute("noMaxB"); %>
 			<form action="UmamusumeList" method="post">
-				<input type="text" name="id" value="<%= id == null ? "" : id %>" placeholder="公式の図鑑番号もしくは名前" pattern="(^[1-7]?[0-9]{1,2}$)|(^[^\x01-\x7E]{0,30}$)">
+				<input type="text" name="id" value="<%= id == null ? "" : id %>" placeholder="公式の図鑑番号もしくは名前" title="&quot;3桁までの数字&quot;もしくは&quot;20桁までのカタカナ(一部を除く)&quot;" pattern="(^[0-9０-９]{1,3}$)|(^[^\x01-\x7E]{0,20}$)">
 				<button type="submit">検索</button>
 			</form>
 			<br>
@@ -77,7 +78,7 @@
 			]<br>
 			</div>
 			<p>↓管理者からのお願い↓</p>
-			<blockquote class="twitter-tweet tw-align-center"><p lang="ja" dir="ltr">もしも<a href="https://umamusume.jp/sp/character/">ｳﾏ娘公式ｻｲﾄ</a>に登録されているウマ娘の<br><a href="http://umamusumelist.com/UmamusumeList">当サイトの図鑑番号順ページ</a><br>への登録漏れがありましたら、私に報告をお願い<br>します。すぐに修正登録を行います。<a href="https://twitter.com/hashtag/%E3%82%A6%E3%83%9E%E5%A8%98?src=hash&amp;ref_src=twsrc%5Etfw">#ウマ娘</a></p>&mdash; むっぎー (@RbSbH9WTaKkBtGd) <a href="https://twitter.com/RbSbH9WTaKkBtGd/status/1705496976949944495?ref_src=twsrc%5Etfw">September 23, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+			<blockquote class="twitter-tweet tw-align-center"><p lang="ja" dir="ltr">もしも<a href="https://umamusume.jp/character/">ｳﾏ娘公式ｻｲﾄ</a>に登録されているウマ娘の<br><a href="http://umamusumelist.com/UmamusumeList">当サイトの図鑑番号順ページ</a><br>への登録漏れがありましたら、私に報告をお願い<br>します。すぐに修正登録を行います。<a href="https://twitter.com/hashtag/%E3%82%A6%E3%83%9E%E5%A8%98?src=hash&amp;ref_src=twsrc%5Etfw">#ウマ娘</a></p>&mdash; むっぎー (@RbSbH9WTaKkBtGd) <a href="https://twitter.com/RbSbH9WTaKkBtGd/status/1779827006269714681">April 15, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 			<input type="button" onclick="location.href='./'" value="トップページに戻る">
 		</div>
 	</body>

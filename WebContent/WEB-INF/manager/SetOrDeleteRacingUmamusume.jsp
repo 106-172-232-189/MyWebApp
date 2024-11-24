@@ -46,7 +46,7 @@
 				<% } %>
 			</select><br>
 			勝負服登録日(通常): <input type="date" name="appeared" class="notExclusive" disabled="disabled" id="today"><br>
-			勝負服番号(特殊): <input type="text" class="exclusive" name="no" placeholder="2桁までの番号" pattern="^[0-9０-９]{1,2}$" disabled="disabled"><br>
+			勝負服番号(特殊): <input type="text" class="exclusive" name="no" placeholder="2桁までの番号" title="2桁までの番号" pattern="^[0-9０-９]{1,2}$" disabled="disabled"><br>
 			<button type="submit" name="button" value="add">追加</button>
 			<h2>削除</h2>
 			名前:

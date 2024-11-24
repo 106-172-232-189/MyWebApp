@@ -1,13 +1,19 @@
 th:nth-of-type(1) {
-	width: 75px;
+	width: 128px;
+}
+
+th:nth-of-type(2) {
+	width: 240px;
 }
 
 td:nth-of-type(1) {
+	width: 75px;
 	text-align: center;
 	border-right: none;
 }
 
 td:nth-of-type(2) {
+	width: 51px;
 	text-align: center;
 	font-size: 25px;
 	border-left: none;
@@ -31,10 +37,19 @@ td:nth-of-type(1), td:nth-of-type(2) {
 
 @media screen and (max-width: 530px) {
 	th:nth-of-type(1) {
+		width: 93px;
+	}
+
+	th:nth-of-type(2) {
+		width: 172px;
+	}
+
+	td:nth-of-type(1) {
 		width: 54px;
 	}
 
 	td:nth-of-type(2) {
+		width: 37px;
 		font-size: 18px;
 	}
 

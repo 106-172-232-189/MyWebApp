@@ -36,13 +36,13 @@
 			<% String id = (String) request.getAttribute("id"); %>
 			<% int noMax = (int) request.getAttribute("noMax"); %>
 			<form action="RacingUmamusumeList" method="post">
-				<input type="text" name="id" value="<%= id == null ? "" : id %>" placeholder="公式の勝負服番号もしくは名前" pattern="(^[0-9０-９]{1,3}$)|(^[^\x01-\x7E]{0,30}$)">
+				<input type="text" name="id" value="<%= id == null ? "" : id %>" placeholder="公式の勝負服番号もしくは名前" title="3桁までの数字もしくは20桁までのカタカナ" pattern="(^[0-9０-９]{1,3}$)|(^[ァ-ヴーｦ-ﾟ]{0,20}$)">
 				<button type="submit">検索</button>
 			</form>
 			<br>
 			<table>
 				<tr class="tr-sp">
-					<th>種別</th><th>番号</th><th>名前</th><th><div class="div6">勝負服登録日</div></th>
+					<th colspan="2">勝負服</th><th>名前</th><th><div class="div6">勝負服登録日</div></th>
 				</tr>
 				<% List<RacingUmamusumeBean> racingUmamusumeList = (List) request.getAttribute("racingUmamusumeList"); %>
 				<% List<RacingUmamusumeBean> racingUmamusumeListExclusive = (List) request.getAttribute("racingUmamusumeListExclusive"); %>
@@ -51,12 +51,32 @@
 					<td>勝負服</td><td><%= ru.racingSuitNo() %></td><td><% if (ru.parameter() != null) { %><a href="https://umamusume.jp/character/<%= ru.parameter() %>"><% } %><%= ru.name() == null ? "&mdash;" : (ru.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(ru.name()) : ru.name()) %><% if (ru.parameter() != null) { %></a><% } %></td><td><div class="div6"><%= ru.appeared() == null ? "-" : ru.appeared() %></div></td>
 				</tr>
 				<% } %>
+				<script>
+					const txtArray = [];
+				</script>
 				<% for (RacingUmamusumeBean ru : racingUmamusumeListExclusive) { %>
 				<tr class="tr-sp">
-					<td><span class="span-a">EX</span><br><span class="span-b">勝負服</span></td><td><%= ru.racingSuitNo() %></td><td><% if (ru.parameter() != null) { %><a href="https://umamusume.jp/character/<%= ru.parameter() %>"><% } %><%= ru.name() == null ? "&mdash;" : (ru.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(ru.name()) : ru.name()) %><% if (ru.parameter() != null) { %></a><% } %></td><td><div class="div6"><%= ru.appeared() == null ? "-" : ru.appeared() %></div></td>
+					<script>
+						txtArray.push([['<span class="span-a">EX</span><br><span class="span-b">勝負服</span>', <%= ru.racingSuitNo() %>], ['勝負服', <%= 900 + ru.racingSuitNo() %>]]);
+					</script>
+					<td><span class="span-c"><span class="span-a">EX</span><br><span class="span-b">勝負服</span></span></td><td><span class="span-d"><%= ru.racingSuitNo() %></span></td><td><% if (ru.parameter() != null) { %><a href="https://umamusume.jp/character/<%= ru.parameter() %>"><% } %><%= ru.name() == null ? "&mdash;" : (ru.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(ru.name()) : ru.name()) %><% if (ru.parameter() != null) { %></a><% } %></td><td><div class="div6"><%= ru.appeared() == null ? "-" : ru.appeared() %></div></td>
 				</tr>
 				<% } %>
 			</table>
+			<script>
+				var j = 1;
+				setInterval(function () {
+					if (txtArray.length > 0) {
+						const spanC = document.getElementsByClassName('span-c');
+						const spanD = document.getElementsByClassName('span-d');
+						for (var i = 0; i < spanC.length; i++) {
+							spanC[i].innerHTML = txtArray[i][j][0];
+							spanD[i].innerHTML = txtArray[i][j][1];
+						}
+						j = (j + 1) % txtArray[0].length;
+					}
+				}, 5000);
+			</script>
 			<br>
 			<div class="div4">
 			勝負服が登録された(育成ウマ娘として実装された)ウマ娘の総数: <%= noMax %><br>
@@ -74,7 +94,7 @@
 			]<br>
 			</div>
 			<p>↓管理者からのお願い↓</p>
-			<blockquote class="twitter-tweet tw-align-center"><p lang="ja" dir="ltr">もしも<a href="https://umamusume.jp/sp/character/">ウマ娘公式サイト</a><br>にて「新規育成ウマ娘が発表される前に勝負服が<br>登録された」ことを確認次第、私に報告をお願い<br>します。すぐに<a href="http://umamusumelist.com/RacingUmamusumeList">当ｻｲﾄの勝負服番号順/実装順ﾍﾟｰｼﾞ</a><br>にて暫定登録を行います。<a href="https://twitter.com/hashtag/%E3%82%A6%E3%83%9E%E5%A8%98?src=hash&amp;ref_src=twsrc%5Etfw">#ウマ娘</a></p>&mdash; むっぎー (@RbSbH9WTaKkBtGd) <a href="https://twitter.com/RbSbH9WTaKkBtGd/status/1684711768361451520?ref_src=twsrc%5Etfw">July 27, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+			<blockquote class="twitter-tweet tw-align-center"><p lang="ja" dir="ltr">もしも<a href="https://umamusume.jp/character/">ウマ娘公式サイト</a><br>にて「新規育成ウマ娘が発表される前に勝負服が<br>登録された」ことを確認次第、私に報告をお願い<br>します。すぐに<a href="http://umamusumelist.com/RacingUmamusumeList">当ｻｲﾄの勝負服番号順/実装順ﾍﾟｰｼﾞ</a><br>にて暫定登録を行います。<a href="https://twitter.com/hashtag/%E3%82%A6%E3%83%9E%E5%A8%98?src=hash&amp;ref_src=twsrc%5Etfw">#ウマ娘</a></p>&mdash; むっぎー (@RbSbH9WTaKkBtGd) <a href="https://twitter.com/RbSbH9WTaKkBtGd/status/1779827257986703690">April 15, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 			<input type="button" onclick="location.href='./'" value="トップページに戻る">
 		</div>
 	</body>
