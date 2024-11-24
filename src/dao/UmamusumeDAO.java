@@ -59,15 +59,13 @@ public class UmamusumeDAO {
 		}
 	}
 
-	// 図鑑番号(mode=true)もしくは勝負服番号(mode=false)でウマ娘一覧の中から検索する。
-	private PreparedStatement searchByNo(boolean mode) {
+	// 図鑑番号でウマ娘一覧の中から検索する。
+	private PreparedStatement searchByNo() {
 		try {
 			return c.prepareStatement(
 				"SELECT noA, name, parameter, noB FROM (" +
 				"SELECT A.no AS noA, A.name, A.parameter, B.no AS noB FROM Umamusume AS A LEFT OUTER JOIN Racing_Umamusume AS B on (A.name IS null AND B.name IS null) OR A.name = B.name " +
-				"UNION " +
-				"SELECT A.no AS noA, A.name, A.parameter, B.no AS noB FROM Umamusume_Exclusive AS A LEFT OUTER JOIN Racing_Umamusume_Exclusive AS B on (A.name IS null AND B.name IS null) OR A.name = B.name) " +
-				"AS Umamusume WHERE " + (mode ? "noA = ?;" : "noB = ?;")
+				") AS Umamusume WHERE noA = ?;"
 			);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -129,7 +127,8 @@ public class UmamusumeDAO {
 
 		try {
 			while (rs.next()) {
-				ubl.add(UmamusumeBean.create(rs.getInt("noA"),
+				ubl.add(UmamusumeBean.create(isExclusive,
+											 rs.getInt("noA"),
 											 rs.getString("name"),
 											 rs.getString("parameter"),
 											 rs.getInt("noB")));
@@ -156,7 +155,8 @@ public class UmamusumeDAO {
 
 		try {
 			while (rs.next()) {
-				ubl.add(UmamusumeBean.create(rs.getInt("noA"),
+				ubl.add(UmamusumeBean.create(isExclusive,
+											 rs.getInt("noA"),
 											 rs.getString("name"),
 											 rs.getString("parameter"),
 											 rs.getInt("noB")));
@@ -178,7 +178,8 @@ public class UmamusumeDAO {
 
 			final ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				ubl.add(UmamusumeBean.create(rs.getInt("noA"),
+				ubl.add(UmamusumeBean.create(rs.getInt("noA") >= 800,
+											 rs.getInt("noA"),
 											 rs.getString("name"),
 											 rs.getString("parameter"),
 											 rs.getInt("noB")));
@@ -190,9 +191,9 @@ public class UmamusumeDAO {
 		return ubl;
 	}
 
-	// 図鑑番号(mode=true)もしくは勝負服番号(mode=false)でウマ娘一覧の中から検索する。
-	public List<UmamusumeBean> getUmamusume(boolean mode, final int no) {
-		final PreparedStatement ps = searchByNo(mode);
+	// 図鑑番号でウマ娘一覧の中から検索する。
+	public List<UmamusumeBean> getUmamusume(final int no) {
+		final PreparedStatement ps = searchByNo();
 		final List<UmamusumeBean> ubl = new ArrayList<>();
 
 		try {
@@ -200,7 +201,8 @@ public class UmamusumeDAO {
 
 			final ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				ubl.add(UmamusumeBean.create(rs.getInt("noA"),
+				ubl.add(UmamusumeBean.create(rs.getInt("noA") >= 800,
+											 rs.getInt("noA"),
 											 rs.getString("name"),
 											 rs.getString("parameter"),
 											 rs.getInt("noB")));

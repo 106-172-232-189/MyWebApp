@@ -46,7 +46,7 @@
 				<% } %>
 			</select><br>
 			勝負服登録日(通常): <input type="date" name="appeared" class="notExclusive" disabled="disabled" id="today"><br>
-			勝負服番号(特殊): <input type="text" class="exclusive" name="no" placeholder="800～999までの番号" pattern="^[8-9８-９][0-9０-９]{2}$" disabled="disabled"><br>
+			勝負服番号(特殊): <input type="text" class="exclusive" name="no" placeholder="2桁までの番号" pattern="^[0-9０-９]{1,2}$" disabled="disabled"><br>
 			<button type="submit" name="button" value="add">追加</button>
 			<h2>削除</h2>
 			名前:
@@ -59,7 +59,7 @@
 			<select name="target4" class="exclusive" disabled="disabled">
 				<option value="0"></option>
 				<% for (RacingUmamusumeBean ru : racingUmamusumeListExclusive) { %>
-				<option value="<%= ru.no() %>">勝負服<%= ru.no() %>号: <%= ru.name() == null ? "" : ru.name() %></option>
+				<option value="<%= ru.no() %>">EX勝負服<%= ru.no() %>号: <%= ru.name() == null ? "" : ru.name() %></option>
 				<% } %>
 			</select><br>
 			<button type="submit" name="button" value="delete">削除</button>

@@ -154,9 +154,8 @@ public class SetOrDeleteRacingUmamusumeServlet extends HttpServlet {
 				return;
 			}
 
-			// 新たに登録する特殊な勝負服番号が既存の勝負服番号と重複している
-			if (isFound(rudao.getList(false), rudao.getList(true), no)) {
-				request.setAttribute("message", "すでに登録している勝負服番号です");
+			if (isFound(rudao.getList(true), no)) {
+				request.setAttribute("message", "既に登録してある勝負服番号です");
 				request.setAttribute("umamusumeListNotExclusive", ublNex);
 				request.setAttribute("umamusumeListExclusive", ublEx);
 				request.setAttribute("racingUmamusumeListNotExclusive", rudao.getList(false));
@@ -210,16 +209,9 @@ public class SetOrDeleteRacingUmamusumeServlet extends HttpServlet {
 		}
 	}
 
-	// 入力した特殊な勝負服番号が既存の勝負服番号と重複していないかを判定する
-	private boolean isFound(final List<RacingUmamusumeBean> rublNex, final List<RacingUmamusumeBean> rublEx,
-			final int no) {
-		for (RacingUmamusumeBean rub : rublNex) {
-			if (no == rub.no()) {
-				return true;
-			}
-		}
-
-		for (RacingUmamusumeBean rub : rublEx) {
+	private boolean isFound(List<RacingUmamusumeBean> rubl, int no) {
+		// TODO 自動生成されたメソッド・スタブ
+		for (RacingUmamusumeBean rub : rubl) {
 			if (no == rub.no()) {
 				return true;
 			}

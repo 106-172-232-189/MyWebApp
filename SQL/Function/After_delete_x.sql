@@ -1,7 +1,7 @@
-CREATE OR REPLACE FUNCTION public.After_delete_x(
-)
-RETURNS VOID
-LANGUAGE 'sql'
+CREATE OR REPLACE FUNCTION public.after_delete_x(
+	)
+    RETURNS void
+    LANGUAGE 'sql'
 AS $BODY$
 	UPDATE Racing_umamusume AS A SET no = B.no
 	FROM (SELECT ROW_NUMBER() OVER (ORDER BY no) AS no, name FROM Racing_umamusume) AS B

@@ -34,9 +34,9 @@ public class RacingUmamusumeDAO {
 		try {
 			return c.prepareStatement(
 				(isExclusive ?
-				"SELECT A.no, A.name, A.appeared, B.parameter FROM Racing_Umamusume_Exclusive AS A INNER JOIN Umamusume_Exclusive AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name)) " :
-				"SELECT A.no, A.name, A.appeared, B.parameter FROM Racing_Umamusume AS A INNER JOIN Umamusume AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name)) ") +
-				"ORDER BY no;").executeQuery();
+				"SELECT A.no AS noA, A.name AS name, A.appeared AS appeared, B.parameter AS parameter, B.no AS noB FROM Racing_Umamusume_Exclusive AS A INNER JOIN Umamusume_Exclusive AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name)) " :
+				"SELECT A.no AS noA, A.name AS name, A.appeared AS appeared, B.parameter AS parameter, B.no AS noB FROM Racing_Umamusume AS A INNER JOIN Umamusume AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name)) ") +
+				"ORDER BY A.no;").executeQuery();
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
@@ -48,11 +48,11 @@ public class RacingUmamusumeDAO {
 	private PreparedStatement searchByName() {
 		try {
 			return c.prepareStatement(
-				"SELECT no, name, appeared, parameter FROM (" +
-				"SELECT A.no, A.name, A.appeared, B.parameter FROM Racing_Umamusume AS A INNER JOIN Umamusume AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name)) " +
+				"SELECT noA, name, appeared, parameter, noB FROM ( " +
+				"SELECT A.no AS noA, A.name AS name, A.appeared AS appeared, B.parameter AS parameter, B.no AS noB FROM Racing_Umamusume AS A INNER JOIN Umamusume AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name)) " +
 				"UNION " +
-				"SELECT A.no, A.name, A.appeared, B.parameter FROM Racing_Umamusume_Exclusive AS A INNER JOIN Umamusume_Exclusive AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name))) " +
-				"AS Racing_Umamusume WHERE name LIKE ? ORDER BY no;");
+				"SELECT A.no AS noA, A.name AS name, A.appeared AS appeared, B.parameter AS parameter, B.no AS noB FROM Racing_Umamusume_Exclusive AS A INNER JOIN Umamusume_Exclusive AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name))) " +
+				"AS Racing_Umamusume WHERE name LIKE ? ORDER BY noA;");
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
@@ -64,12 +64,9 @@ public class RacingUmamusumeDAO {
 	private PreparedStatement searchByNo() {
 		try {
 			return c.prepareStatement(
-				"SELECT no, name, appeared, parameter FROM (" +
-				"SELECT A.no, A.name, A.appeared, B.parameter FROM Racing_Umamusume AS A INNER JOIN Umamusume AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name)) " +
-				"UNION " +
-				"SELECT A.no, A.name, A.appeared, B.parameter FROM Racing_Umamusume_Exclusive AS A INNER JOIN Umamusume_Exclusive AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name))) " +
-				"AS Racing_Umamusume WHERE no = ?;"
-			);
+					"SELECT noA, name, appeared, parameter, noB FROM ( " +
+					"SELECT A.no AS noA, A.name AS name, A.appeared AS appeared, B.parameter AS parameter, B.no AS noB FROM Racing_Umamusume AS A INNER JOIN Umamusume AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name)) " +
+					") AS Racing_Umamusume WHERE noA = ? ORDER BY noA;");
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
@@ -111,10 +108,12 @@ public class RacingUmamusumeDAO {
 
 		try {
 			while (rs.next()) {
-				rubl.add(RacingUmamusumeBean.create(rs.getInt("no"),
+				rubl.add(RacingUmamusumeBean.create(isExclusive,
+													rs.getInt("noA"),
 													rs.getString("name"),
 													rs.getString("parameter"),
-													rs.getDate("appeared")));
+													rs.getDate("appeared"),
+													rs.getInt("noB")));
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
@@ -141,10 +140,12 @@ public class RacingUmamusumeDAO {
 
 			final ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				rubl.add(RacingUmamusumeBean.create(rs.getInt("no"),
+				rubl.add(RacingUmamusumeBean.create(rs.getInt("noB") >= 800,
+													rs.getInt("noA"),
 													rs.getString("name"),
 													rs.getString("parameter"),
-													rs.getDate("appeared")));
+													rs.getDate("appeared"),
+													rs.getInt("noB")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -163,10 +164,12 @@ public class RacingUmamusumeDAO {
 
 			final ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				rubl.add(RacingUmamusumeBean.create(rs.getInt("no"),
+				rubl.add(RacingUmamusumeBean.create(rs.getInt("noB") >= 800,
+													rs.getInt("noA"),
 													rs.getString("name"),
 													rs.getString("parameter"),
-													rs.getDate("appeared")));
+													rs.getDate("appeared"),
+													rs.getInt("noB")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

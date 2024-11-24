@@ -58,13 +58,11 @@ public class UmamusumeServlet extends HttpServlet {
 			request.setCharacterEncoding("UTF-8");
 
 			final String id = request.getParameter("id"); // 検索欄に入力された文字列
-			final boolean mode = request.getParameter("mode") == null ? true : Boolean.parseBoolean(request.getParameter("mode")); // 図鑑番号(true)か勝負服番号(false)か
 			UmamusumeDAO udao = new UmamusumeDAO();
 			request.setAttribute("id", id);
-			request.setAttribute("mode", mode);
 			request.setAttribute("noMaxA", udao.noMax()); // 特殊なウマ娘を除いたウマ娘の総数
 			request.setAttribute("noMaxB", new RacingUmamusumeDAO().noMax()); // 勝負服が登録された(育成ウマ娘として実装された)ウマ娘の総数
-			request.setAttribute("umamusumeList", getList(udao, mode, id)); // 検索結果一覧
+			request.setAttribute("umamusumeList", getList(udao, id)); // 検索結果一覧
 			request.getRequestDispatcher("./jsp/UmamusumeJSP.jsp").forward(request, response);
 		} catch (ServletException e) {
 			e.printStackTrace();
@@ -74,13 +72,13 @@ public class UmamusumeServlet extends HttpServlet {
 	}
 
 	// 入力された値が数値として解決できるかを確認して検索する。
-	private List<UmamusumeBean> getList(final UmamusumeDAO udao, final boolean mode, final String id) {
+	private List<UmamusumeBean> getList(final UmamusumeDAO udao, final String id) {
 		if (id == null || id.equals("")) {
 			return udao.getList();
 		}
 
 		try {
-			return udao.getUmamusume(mode, Integer.parseInt(id));
+			return udao.getUmamusume(Integer.parseInt(id));
 		} catch (NumberFormatException e) {
 			return udao.getUmamusume(id);
 		}
