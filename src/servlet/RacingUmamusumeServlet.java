@@ -38,7 +38,8 @@ public class RacingUmamusumeServlet extends HttpServlet {
 
 			final RacingUmamusumeDAO rudao = new RacingUmamusumeDAO();
 			request.setAttribute("noMax", rudao.noMax()); // 勝負服を得ているウマ娘の総数
-			request.setAttribute("racingUmamusumeList", rudao.getList()); // 勝負服を得ているウマ娘一覧
+			request.setAttribute("racingUmamusumeList", rudao.getList(false)); // 勝負服を得ているウマ娘一覧
+			request.setAttribute("racingUmamusumeListExclusive", rudao.getList(true)); // 勝負服を得ている特殊なウマ娘一覧
 			request.getRequestDispatcher("./jsp/RacingUmamusumeJSP.jsp").forward(request, response);
 		} catch (ServletException e) {
 			e.printStackTrace();
@@ -59,7 +60,8 @@ public class RacingUmamusumeServlet extends HttpServlet {
 			final RacingUmamusumeDAO rudao = new RacingUmamusumeDAO();
 			final String id = request.getParameter("id"); // 検索欄に入力された文字列
 			request.setAttribute("noMax", rudao.noMax()); // 勝負服を得ているウマ娘の総数
-			request.setAttribute("racingUmamusumeList", getRacingUmamusume(rudao, id)); // 検索結果一覧
+			request.setAttribute("racingUmamusumeList", getRacingUmamusume(false, rudao, id)); // 検索結果一覧
+			request.setAttribute("racingUmamusumeListExclusive", getRacingUmamusume(true, rudao, id)); // 検索結果一覧(特殊)
 			request.setAttribute("id", id);
 			request.getRequestDispatcher("./jsp/RacingUmamusumeJSP.jsp").forward(request, response);
 		} catch (ServletException e) {
@@ -70,16 +72,20 @@ public class RacingUmamusumeServlet extends HttpServlet {
 	}
 
 	// 入力された値が数値として解決できるかを確認して検索する。
-	private List<RacingUmamusumeBean> getRacingUmamusume(final RacingUmamusumeDAO rudao, final String id) {
+	private List<RacingUmamusumeBean> getRacingUmamusume(final boolean isExclusive, final RacingUmamusumeDAO rudao, final String id) {
 		if (id == null || id.equals("")) {
-			return rudao.getList();
+			return rudao.getList(isExclusive);
 		}
 
-		try {
-			return rudao.getRacingUmamusume(Integer.parseInt(id));
-		} catch (NumberFormatException e) {
-			return rudao.getRacingUmamusume(id);
+		if (!isExclusive) {
+			try {
+				return rudao.getRacingUmamusume(Integer.parseInt(id));
+			} catch (NumberFormatException e) {
+				return rudao.getRacingUmamusume(isExclusive, id);
+			}
 		}
+
+		return rudao.getRacingUmamusume(isExclusive, id);
 	}
 
 }

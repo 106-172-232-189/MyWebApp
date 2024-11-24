@@ -78,7 +78,7 @@ public class UmamusumeDAO {
 		try {
 			return c.prepareStatement(
 				isExclusive ?
-				"SELECT A.no AS noA, A.name, A.parameter, B.no AS noB FROM Umamusume_Exclusive AS A LEFT OUTER JOIN Racing_Umamusume_Exclusive AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name)) WHERE B.no IS NULL AND A.no > 801 ORDER BY A.no;" :
+				"SELECT A.no AS noA, A.name, A.parameter, B.no AS noB FROM Umamusume_Exclusive AS A LEFT OUTER JOIN Racing_Umamusume_Exclusive AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name)) WHERE B.no IS NULL AND A.no > 802 ORDER BY A.no;" :
 				"SELECT A.no AS noA, A.name, A.parameter, B.no AS noB FROM Umamusume AS A LEFT OUTER JOIN Racing_Umamusume AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name)) WHERE B.no IS NULL ORDER BY A.no;"
 			).executeQuery();
 		} catch (SQLException e) {

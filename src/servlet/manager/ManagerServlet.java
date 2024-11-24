@@ -1,9 +1,6 @@
 package servlet.manager;
 
 import java.io.IOException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -50,20 +47,13 @@ public class ManagerServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 
 		HttpSession session = request.getSession(false);
-		final String previousPassword = request.getParameter("password");
-		String password = "";
+		final String password = request.getParameter("password");
 
 		// 現在のセッションが無ければ、ログイン画面を表示し、セッションがあれば管理者画面を表示する。
-		// ログインするためのパスワードや入力したパスワードはSHA-512で暗号化される。
-		if (session == null && previousPassword == null) {
+		// ログインするためのパスワードや入力したパスワードはフロントエンドにてSHA-512で暗号化される。
+		if (session == null && password == null) {
 			request.getRequestDispatcher("../WEB-INF/login/Login.html").forward(request, response);
-		} else if (session == null && previousPassword != null) {
-			try {
-				password = String.format("%040x", new BigInteger(1, MessageDigest.getInstance("SHA-512").digest(previousPassword.getBytes())));
-			} catch (NoSuchAlgorithmException e) {
-				e.printStackTrace();
-			}
-
+		} else if (session == null && password != null) {
 			if (!password.equals("3570d2cb3425d9420f64111ee5aab65fcb679a7f69774e605ce00cfebc5be45df1d1cccd9603a7f04626e47dd18c80ae566143affae4639d3a3bbd9b6a841dca")) {
 				request.getRequestDispatcher("../WEB-INF/login/PasswordIsIncorrect.html").forward(request, response);
 				return;

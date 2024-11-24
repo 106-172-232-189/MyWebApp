@@ -15,15 +15,23 @@ table {
 }
 
 .tr-sp {
-	height: 69px;
+	height: 43px;
+}
+
+.td-sp {
+	font-size: 13px;
 }
 
 th, td {
 	border: 1px solid;
 }
 
-.div3 {
+.div3, .div5 {
 	font-size: 15px;
+}
+
+.imgB {
+	width: 500px;
 }
 
 @media screen and (max-width: 530px) {
@@ -32,7 +40,7 @@ th, td {
 	}
 
 	.div3 {
-		font-size: 13px;
+		font-size: 12px;
 	}
 
 	table {
@@ -40,11 +48,19 @@ th, td {
 	}
 
 	.tr-sp {
-		height: 51px;
+		height: 30px;
 	}
 
 	div, .div4 {
 		font-size: 13px;
+	}
+
+	.div5 {
+		font-size: 11px;
+	}
+
+	.imgB {
+		width: 90%;
 	}
 
 }

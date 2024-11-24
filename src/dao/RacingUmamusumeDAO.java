@@ -34,8 +34,10 @@ public class RacingUmamusumeDAO {
 		try {
 			return c.prepareStatement(
 				(isExclusive ?
-				"SELECT A.no AS noA, A.name AS name, A.appeared AS appeared, B.parameter AS parameter, B.no AS noB FROM Racing_Umamusume_Exclusive AS A INNER JOIN Umamusume_Exclusive AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name)) " :
-				"SELECT A.no AS noA, A.name AS name, A.appeared AS appeared, B.parameter AS parameter, B.no AS noB FROM Racing_Umamusume AS A INNER JOIN Umamusume AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name)) ") +
+				"SELECT A.no AS noA, A.name AS name, A.appeared AS appeared, B.parameter AS parameter, B.no AS noB FROM Racing_Umamusume_Exclusive AS A INNER JOIN Umamusume_Exclusive AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name)) "
+				:
+				"SELECT A.no AS noA, A.name AS name, A.appeared AS appeared, B.parameter AS parameter, B.no AS noB FROM Racing_Umamusume AS A INNER JOIN Umamusume AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name)) "
+				) +
 				"ORDER BY A.no;").executeQuery();
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
@@ -45,14 +47,16 @@ public class RacingUmamusumeDAO {
 	}
 
 	// 名前もしくは名前の一部で勝負服を得ているウマ娘一覧の中から検索する。
-	private PreparedStatement searchByName() {
+	private PreparedStatement searchByName(final boolean isExclusive) {
 		try {
 			return c.prepareStatement(
-				"SELECT noA, name, appeared, parameter, noB FROM ( " +
-				"SELECT A.no AS noA, A.name AS name, A.appeared AS appeared, B.parameter AS parameter, B.no AS noB FROM Racing_Umamusume AS A INNER JOIN Umamusume AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name)) " +
-				"UNION " +
-				"SELECT A.no AS noA, A.name AS name, A.appeared AS appeared, B.parameter AS parameter, B.no AS noB FROM Racing_Umamusume_Exclusive AS A INNER JOIN Umamusume_Exclusive AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name))) " +
-				"AS Racing_Umamusume WHERE name LIKE ? ORDER BY noA;");
+				"SELECT noA, name, appeared, parameter, noB FROM (" +
+					(isExclusive ?
+					"SELECT A.no AS noA, A.name AS name, A.appeared AS appeared, B.parameter AS parameter, B.no AS noB FROM Racing_Umamusume_Exclusive AS A INNER JOIN Umamusume_Exclusive AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name))"
+					:
+					"SELECT A.no AS noA, A.name AS name, A.appeared AS appeared, B.parameter AS parameter, B.no AS noB FROM Racing_Umamusume AS A INNER JOIN Umamusume AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name))"
+					) +
+				") AS Racing_Umamusume WHERE name LIKE ? ORDER BY noA;");
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
@@ -64,9 +68,9 @@ public class RacingUmamusumeDAO {
 	private PreparedStatement searchByNo() {
 		try {
 			return c.prepareStatement(
-					"SELECT noA, name, appeared, parameter, noB FROM ( " +
+				"SELECT noA, name, appeared, parameter, noB FROM ( " +
 					"SELECT A.no AS noA, A.name AS name, A.appeared AS appeared, B.parameter AS parameter, B.no AS noB FROM Racing_Umamusume AS A INNER JOIN Umamusume AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name)) " +
-					") AS Racing_Umamusume WHERE noA = ? ORDER BY noA;");
+				") AS Racing_Umamusume WHERE noA = ? ORDER BY noA;");
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
@@ -131,8 +135,8 @@ public class RacingUmamusumeDAO {
 	}
 
 	// 名前もしくは名前の一部で勝負服を得ているウマ娘一覧の中から検索する。
-	public List<RacingUmamusumeBean> getRacingUmamusume(final String name) {
-		final PreparedStatement ps = searchByName();
+	public List<RacingUmamusumeBean> getRacingUmamusume(final boolean isExclusive, final String name) {
+		final PreparedStatement ps = searchByName(isExclusive);
 		final List<RacingUmamusumeBean> rubl = new ArrayList<>();
 
 		try {
@@ -140,7 +144,7 @@ public class RacingUmamusumeDAO {
 
 			final ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				rubl.add(RacingUmamusumeBean.create(rs.getInt("noB") >= 800,
+				rubl.add(RacingUmamusumeBean.create(isExclusive,
 													rs.getInt("noA"),
 													rs.getString("name"),
 													rs.getString("parameter"),

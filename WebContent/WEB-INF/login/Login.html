@@ -6,16 +6,30 @@
 		<title>ログイン</title>
 		<link rel="stylesheet" href="../../css/Style3.css">
 		<link rel="stylesheet" href="../../css/Style4.css">
+		<script src="../../js/SHA512.js"></script>
 	</head>
 	<body>
 		<button type="button" onclick="location.href='../'">トップページに戻る</button>
 		<h1>パスワードを入力</h1>
 		<p>半角英数字10文字～20文字</p>
 		<div class="div2">
-			<form action="./" method="post">
-				<input type="text" name="password" pattern="[a-zA-Z0-9]{10,20}" autocomplete="off">
+			<form id="passwordForm" action="./" method="post">
+				パスワード: <input id="password" type="text" name="semiPassword" pattern="[a-zA-Z0-9]{10,20}" autocomplete="off">
+				<input id="hashedPassword" type="hidden" name="password">
 				<button type="submit">ログイン</button>
 			</form>
+			<script>
+				const passwordForm = document.getElementById("passwordForm");
+				passwordForm.addEventListener("submit", function(event) {
+					var password = document.getElementById("password");
+					var hashedPassword = document.getElementById("hashedPassword");
+					var sha512 = new jsSHA("SHA-512", "TEXT");
+					sha512.update(password.value);
+					const hash = sha512.getHash("HEX");
+					hashedPassword.value = hash;
+					password.value = "";
+				});
+			</script>
 		</div>
 	</body>
 </html>

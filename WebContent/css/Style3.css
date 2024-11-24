@@ -11,12 +11,20 @@ h1.err {
 	justify-content: center;
 }
 
-@media screen and (max-width: 500px) {
+.imgA {
+	width: 500px;
+}
+
+@media screen and (max-width: 530px) {
 	body {
 		font-family: 'ヒラギノ角ゴ ProN';
 	}
 
 	.div2 {
 		flex-direction: column;
+	}
+
+	.imgA {
+		width: 90%;
 	}
 }

@@ -18,7 +18,8 @@
 		</script>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width">
-		<title>ウマ娘一覧 図鑑番号順</title>
+		<meta name='description' content='ウマ娘の一覧を追加順で表示しています。図鑑番号＝追加順です。'>
+		<title>ウマ娘 キャラクター一覧</title>
 		<link rel="stylesheet" href="./css/Style1.css">
 		<link rel="icon" href="./favicon.ico">
 		<link rel="icon" sizes="192x192" href="./android-touch-icon-192x192.png">
@@ -26,7 +27,10 @@
 	</head>
 	<body>
 		<button type="button" onclick="location.href='./'">トップページに戻る</button>
-		<h1>ウマ娘一覧 図鑑番号順</h1>
+		<h1>ウマ娘 キャラクター一覧</h1>
+		<img src="./img/Umamusume_Top_Number_Trio.jpg" alt="ポーズをとるトウカイテイオー、スペシャルウィーク、サイレンススズカ" class="imgB" style="display: block; margin: auto;">
+		<div class="div4" style="text-align: center;">©Cygames</div>
+		<br>
 		<div>
 			<% String id = (String) request.getAttribute("id"); %>
 			<% int noMaxA = (int) request.getAttribute("noMaxA"); %>
@@ -44,12 +48,12 @@
 				<% for (UmamusumeBean u : umamusumeList) { %>
 					<% if (u.noA().intValue() < 800) { %>
 					<tr>
-						<td style="text-align: center;">No.<%= u.noA() %><% if (u.noB().intValue() != 0) { %><br><div class="div3">(<%= "勝負服" + u.noB() + "号" %>)</div><% } %></td><td><% if (u.parameter() != null) { %><a href="https://umamusume.jp/character/detail/?name=<%= u.parameter() %>"><% } %><%= u.name() == null ? "" : (u.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(u.name()) : u.name()) %><% if (u.parameter() != null) { %></a><% } %></td>
+						<td style="text-align: center;">No.<%= u.noA() %><% if (u.noB().intValue() != 0) { %><br><div class="div3">(<%= "勝負服" + u.noB() + (u.noB().intValue() >= 100 ? "" : "号") %>)</div><% } %></td><td><% if (u.parameter() != null) { %><a href="https://umamusume.jp/character/detail/?name=<%= u.parameter() %>"><% } %><%= u.name() == null ? "" : (u.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(u.name()) : u.name()) %><% if (u.parameter() != null) { %></a><% } %></td>
 					</tr>
 					<% } %>
 					<% if (u.noA().intValue() >= 800) { %>
 					<tr>
-						<td style="text-align: center; <%= u.noA().intValue() >= 800 && u.noA().intValue() < 900 ? "font-size: 12px;" : "" %>"><%= u.noA().intValue() >= 800 && u.noA().intValue() < 900 ? "トレセン学園<br>関係者No." + (u.noA().intValue() - 800) : "没No." + (u.noA().intValue() - 900) %><% if (u.noB().intValue() != 0) { %><br><div style="font-size: 12px;">(<%= "EX勝負服" + u.noB() + "号" %>)<% } %></div></td><td><% if (u.parameter() != null) { %><a href="https://umamusume.jp/character/detail/?name=<%= u.parameter() %>"><% } %><%= u.name() == null ? "" : (u.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(u.name()) : u.name()) %><% if (u.parameter() != null) { %></a><% } %></td>
+						<td style="text-align: center;" <% if (u.noA().intValue() >= 800 && u.noA().intValue() < 900) { %>class="div5"<% } %>><%= u.noA().intValue() >= 800 && u.noA().intValue() < 900 ? "トレセン学園<br>関係者No." + (u.noA().intValue() - 800) : "没No." + (u.noA().intValue() - 900) %><% if (u.noB().intValue() != 0) { %><br><div class="div5">(<%= "EX勝負服" + u.noB() %>)<% } %></div></td><td><% if (u.parameter() != null) { %><a href="https://umamusume.jp/character/detail/?name=<%= u.parameter() %>"><% } %><%= u.name() == null ? "" : (u.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(u.name()) : u.name()) %><% if (u.parameter() != null) { %></a><% } %></td>
 					</tr>
 					<% } %>
 				<% } %>
@@ -72,7 +76,8 @@
 			&nbsp;&nbsp;&nbsp;&nbsp;勝負服番号を確認する際に参考にしたページ②: <br class="br-sp"><a href="https://umamusume.wikiru.jp/index.php?%B0%E9%C0%AE%A5%A6%A5%DE%CC%BC%A1%A2%A5%B5%A5%DD%A1%BC%A5%C8%A5%AB%A1%BC%A5%C9%BC%C2%C1%F5%CD%FA%CE%F2">https://umamusume.wikiru.jp/index.php?育成ウマ娘、サポートカード実装履歴</a><br>
 			]<br>
 			</div>
-			<p><a class="twitter-timeline" data-lang="ja" data-height="350" href="https://twitter.com/RbSbH9WTaKkBtGd?ref_src=twsrc%5Etfw">管理者のTwitterアカウント</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+			<p>↓管理者からのお願い↓</p>
+			<blockquote class="twitter-tweet tw-align-center"><p lang="ja" dir="ltr">もしも<a href="https://t.co/qt3AE6tJGI">https://t.co/qt3AE6tJGI</a><br>に登録されているウマ娘の<a href="https://t.co/7XzxfFrF9d">https://t.co/7XzxfFrF9d</a><br>への登録漏れがありましたら、私に報告をお願いします。すぐに修正登録を行います。<a href="https://twitter.com/hashtag/%E3%82%A6%E3%83%9E%E5%A8%98?src=hash&amp;ref_src=twsrc%5Etfw">#ウマ娘</a></p>&mdash; むっぎー (@RbSbH9WTaKkBtGd) <a href="https://twitter.com/RbSbH9WTaKkBtGd/status/1705496976949944495?ref_src=twsrc%5Etfw">September 23, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 			<input type="button" onclick="location.href='./'" value="トップページに戻る">
 		</div>
 	</body>
