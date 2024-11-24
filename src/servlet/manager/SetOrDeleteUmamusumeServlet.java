@@ -69,7 +69,7 @@ public class SetOrDeleteUmamusumeServlet extends HttpServlet {
 			// 名前
 			final String name = request.getParameter("name") == null ? "" : request.getParameter("name");
 			// パラメーター
-			final String parameter = request.getParameter("parameter");
+			final String parameter = request.getParameter("parameter") == null ? "" : request.getParameter("parameter");
 			// 追加ボタンもしくは変更ボタンもしくは削除ボタン
 			final String button = request.getParameter("button");
 			// 図鑑番号
@@ -96,16 +96,16 @@ public class SetOrDeleteUmamusumeServlet extends HttpServlet {
 		// TODO 自動生成されたメソッド・スタブ
 		// 追加ボタン
 		if (button != null && button.equals("add")) {
-			// 通常はこのif文の中身を処理しません
-			if (parameter == null) {
-				request.setAttribute("message", "パラメーターを入力してください");
+			// 名前もしくはパラメーターが入力されていない
+			if (name.equals("") || parameter.equals("")) {
+				request.setAttribute("message", "名前とパラメーターを入力してください");
 				request.setAttribute("umamusumeList", ubl);
 				request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteUmamusume.jsp").forward(request, response);
 				return;
 			}
 
 			// 入力した名前、パラメーターのいずれかが既存のデータと重複している
-			if (isFound(ubl, name, parameter)) {
+			if (isFound(udao.getList(), name, parameter)) {
 				request.setAttribute("message", "すでに登録している名前もしくはパラメーターです");
 				request.setAttribute("umamusumeList", ubl);
 				request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteUmamusume.jsp").forward(request, response);
@@ -121,7 +121,7 @@ public class SetOrDeleteUmamusumeServlet extends HttpServlet {
 		// 変更ボタン
 		} else if (button != null && button.equals("update")) {
 			// 変更対象が選択されていないか、変更後の名前もしくはパラメーターが入力されていない
-			if (target == 0 || name == null || name.equals("") || parameter == null || parameter.equals("")) {
+			if (target == 0 || name.equals("") || parameter.equals("")) {
 				request.setAttribute("message", "変更対象を選択し、変更後の名前とパラメーターを入力してください");
 				request.setAttribute("umamusumeList", ubl);
 				request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteUmamusume.jsp").forward(request, response);
@@ -159,13 +159,15 @@ public class SetOrDeleteUmamusumeServlet extends HttpServlet {
 	// 入力した名前、パラメーターが既存のデータと重複していないかを判定する
 	private boolean isFound(List<UmamusumeBean> ubl, String name, String parameter) {
 		for (UmamusumeBean u : ubl) {
-			if (u.name() == null || name.equals("") || parameter.equals("")) {
+			if (name.equals("") || parameter.equals("")) {
 				continue;
 			}
 
-			if (name.equals(
-					u.name().substring(0, u.name().indexOf("?") != -1 ? u.name().indexOf("?") : u.name().length()))
-					|| parameter.equals(u.parameter())) {
+			if (name.equals(u.name().substring(0, u.name().indexOf("?") != -1 ? u.name().indexOf("?") : u.name().length()))) {
+				return true;
+			}
+
+			if (parameter.equals(u.parameter())) {
 				return true;
 			}
 		}

@@ -130,21 +130,9 @@ public class SetOrDeleteRacingUmamusumeServlet extends HttpServlet {
 		// TODO 自動生成されたメソッド・スタブ
 		// 追加ボタン
 		if (button != null && button.equals("add")) {
-			// 勝負服を得た特殊なウマ娘を新たに追加する際、勝負服番号が入力されていない
-			if (isExclusive && no == 0) {
-				request.setAttribute("message", "勝負服番号を入力してください");
-				request.setAttribute("umamusumeListNotExclusive", ublNex);
-				request.setAttribute("umamusumeListExclusive", ublEx);
-				request.setAttribute("racingUmamusumeListNotExclusive", rudao.getList(false));
-				request.setAttribute("racingUmamusumeListExclusive", rudao.getList(true));
-				request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteRacingUmamusume.jsp").forward(request,
-						response);
-				return;
-			}
-
-			// 登録対象が選択されていない
-			if ((isExclusive ? target2 : target) == 0) {
-				request.setAttribute("message", "登録対象を選択してください");
+			// 勝負服を得たウマ娘を新たに追加する際、登録対象が選択されていない、また、特殊なウマ娘の場合は、勝負服番号が入力されていない
+			if ((isExclusive ? target2 : target) == 0 || (isExclusive && no == 0)) {
+				request.setAttribute("message", "登録対象を選択し、特殊なウマ娘の場合は勝負服番号を入力してください");
 				request.setAttribute("umamusumeListNotExclusive", ublNex);
 				request.setAttribute("umamusumeListExclusive", ublEx);
 				request.setAttribute("racingUmamusumeListNotExclusive", rudao.getList(false));
@@ -212,7 +200,7 @@ public class SetOrDeleteRacingUmamusumeServlet extends HttpServlet {
 	private boolean isFound(List<RacingUmamusumeBean> rubl, int no) {
 		// TODO 自動生成されたメソッド・スタブ
 		for (RacingUmamusumeBean rub : rubl) {
-			if (no == rub.no()) {
+			if (no == rub.racingSuitNo()) {
 				return true;
 			}
 		}

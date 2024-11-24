@@ -22,7 +22,7 @@
 		<p><%= message == null ? "" : message %></p>
 		<h2>登録</h2>
 		<form action="SetOrDeleteUmamusume" method="post">
-			名前: <input type="text" name="name" placeholder="全角カタカナ30文字以内" pattern="^[a-z0-9?\u30A0-\u30FF]{0,30}$"><br>
+			名前: <input type="text" name="name" placeholder="全角カタカナ30文字以内" pattern="^[\u30A0-\u30FF]{0,30}$|^[(]不明[0-9]{1,3}[)]$"><br>
 			パラメーター: <input type="text" name="parameter" placeholder="半角英字30文字以内" pattern="^[a-z0-9.]{0,30}$"><br>
 			<button type="submit" name="button" value="add">登録</button>
 		</form>
@@ -31,12 +31,12 @@
 		<form action="SetOrDeleteUmamusume" method="post">
 			変更対象:
 			<select name="target">
-				<option value=""></option>
+				<option value="0"></option>
 				<% for (UmamusumeBean u : umamusumeList) { %>
-				<option value="<%= u.noA() %>">No.<%= u.noA() %>: <%= u.name() == null ? "" : u.name() %></option>
+				<option value="<%= u.umadexNo() %>">No.<%= u.umadexNo() %>: <%= u.name() == null ? "" : u.name() %></option>
 				<% } %>
 			</select><br>
-			変更後の名前: <input type="text" name="name" placeholder="全角カタカナ1文字～30文字" pattern="^[a-z0-9?\u30A0-\u30FF]{1,30}$"><br>
+			変更後の名前: <input type="text" name="name" placeholder="全角カタカナ1文字～30文字" pattern="^[\u30A0-\u30FF]{0,30}$|^[(]不明[0-9]{1,3}[)]$"><br>
 			変更後のパラメーター: <input type="text" name="parameter" placeholder="半角英字1文字～30文字" pattern="^[a-z0-9.]{1,30}$"><br>
 			<button type="submit" name="button" value="update">変更</button>
 		</form>
@@ -45,9 +45,9 @@
 		<form action="SetOrDeleteUmamusume" method="post">
 			削除対象:
 			<select name="target">
-				<option value=""></option>
+				<option value="0"></option>
 				<% for (UmamusumeBean u : umamusumeList) { %>
-				<option value="<%= u.noA() %>">No.<%= u.noA() %>: <%= u.name() == null ? "" : u.name() %></option>
+				<option value="<%= u.umadexNo() %>">No.<%= u.umadexNo() %>: <%= u.name() == null ? "" : u.name() %></option>
 				<% } %>
 			</select><br>
 			<button type="submit" name="button" value="delete">削除</button>

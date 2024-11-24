@@ -36,13 +36,13 @@
 			<select name="target" class="notExclusive" disabled="disabled">
 				<option value="0"></option>
 				<% for (UmamusumeBean u : umamusumeListNotExclusive) { %>
-				<option value="<%= u.noA() %>">No.<%= u.noA() %>: <%= u.name() == null ? "" : u.name() %></option>
+				<option value="<%= u.umadexNo() %>">No.<%= u.umadexNo() %>: <%= u.name() == null ? "" : u.name() %></option>
 				<% } %>
 			</select>
 			<select name="target2" class="exclusive" disabled="disabled">
 				<option value="0"></option>
 				<% for (UmamusumeBean u : umamusumeListExclusive) { %>
-				<option value="<%= u.noA() %>">No.<%= u.noA() %>: <%= u.name() == null ? "" : u.name() %></option>
+				<option value="<%= u.umadexNo() %>">No.<%= u.umadexNo() %>: <%= u.name() == null ? "" : u.name() %></option>
 				<% } %>
 			</select><br>
 			勝負服登録日(通常): <input type="date" name="appeared" class="notExclusive" disabled="disabled" id="today"><br>
@@ -53,13 +53,13 @@
 			<select name="target3" class="notExclusive" disabled="disabled">
 				<option value="0"></option>
 				<% for (RacingUmamusumeBean ru : racingUmamusumeListNotExclusive) { %>
-				<option value="<%= ru.no() %>">勝負服<%= ru.no() %>号: <%= ru.name() == null ? "" : ru.name() %></option>
+				<option value="<%= ru.racingSuitNo() %>">勝負服<%= ru.racingSuitNo() %>号: <%= ru.name() == null ? "" : ru.name() %></option>
 				<% } %>
 			</select>
 			<select name="target4" class="exclusive" disabled="disabled">
 				<option value="0"></option>
 				<% for (RacingUmamusumeBean ru : racingUmamusumeListExclusive) { %>
-				<option value="<%= ru.no() %>">EX勝負服<%= ru.no() %>号: <%= ru.name() == null ? "" : ru.name() %></option>
+				<option value="<%= ru.racingSuitNo() %>">EX勝負服<%= ru.racingSuitNo() %>号: <%= ru.name() == null ? "" : ru.name() %></option>
 				<% } %>
 			</select><br>
 			<button type="submit" name="button" value="delete">削除</button>

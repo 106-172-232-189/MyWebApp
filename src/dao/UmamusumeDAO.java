@@ -226,10 +226,10 @@ public class UmamusumeDAO {
 			if (isExclusive) {
 				// 特殊なウマ娘を新規登録する場合、特殊な図鑑番号を添える。
 				ps.setInt(1, no);
-				ps.setString(2, name.equals("") ? null : name);
+				ps.setString(2, name);
 				ps.setString(3, parameter.equals("") ? null : parameter);
 			} else {
-				ps.setString(1, name.equals("") ? null : name);
+				ps.setString(1, name);
 				ps.setString(2, parameter.equals("") ? null : parameter);
 			}
 			ps.executeUpdate();

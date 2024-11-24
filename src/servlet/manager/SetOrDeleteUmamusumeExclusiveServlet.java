@@ -73,7 +73,7 @@ public class SetOrDeleteUmamusumeExclusiveServlet extends HttpServlet {
 			final int no = request.getParameter("no") == null || request.getParameter("no").equals("") ? 0
 					: Integer.parseInt(request.getParameter("no"));
 			// パラメーター
-			final String parameter = request.getParameter("parameter");
+			final String parameter = request.getParameter("parameter") == null ? "" : request.getParameter("parameter");
 			// 追加ボタンもしくは削除ボタン
 			final String button = request.getParameter("button");
 			// 特殊な図鑑番号(削除)
@@ -101,21 +101,11 @@ public class SetOrDeleteUmamusumeExclusiveServlet extends HttpServlet {
 		// TODO 自動生成されたメソッド・スタブ
 		// 追加ボタン
 		if (button != null && button.equals("add")) {
-			// 通常はこのif文の中身を処理しません
-			if (parameter == null) {
-				request.setAttribute("message", "パラメーターを入力してください");
+			// 名前もしくは特殊な図鑑番号が入力されていない
+			if (name.equals("") || no == 0) {
+				request.setAttribute("message", "名前と図鑑番号を入力してください");
 				request.setAttribute("umamusumeList", ubl);
-				request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteUmamusumeExclusive.jsp").forward(request,
-						response);
-				return;
-			}
-
-			// 特殊な図鑑番号が入力されていない
-			if (no == 0) {
-				request.setAttribute("message", "図鑑番号を入力してください");
-				request.setAttribute("umamusumeList", ubl);
-				request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteUmamusumeExclusive.jsp").forward(request,
-						response);
+				request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteUmamusumeExclusive.jsp").forward(request, response);
 				return;
 			}
 
@@ -160,20 +150,22 @@ public class SetOrDeleteUmamusumeExclusiveServlet extends HttpServlet {
 		}
 	}
 
-	// 入力した名前、図鑑番号、パラメーターが既存のデータと重複していないかを判定する
+	// 入力した名前、図鑑番号が既存のデータと重複していないかを判定する
 	private boolean isFound(List<UmamusumeBean> ubl, String name, int no, String parameter) {
 		for (UmamusumeBean u : ubl) {
-			if (no == u.noA()) {
+			if (name.equals(u.name().substring(0, u.name().indexOf("?") != -1 ? u.name().indexOf("?") : u.name().length()))) {
 				return true;
 			}
 
-			if (u.name() == null || name.equals("") || parameter.equals("")) {
+			if (no == u.umadexNo()) {
+				return true;
+			}
+
+			if (parameter.equals("")) {
 				continue;
 			}
 
-			if (name.equals(
-					u.name().substring(0, u.name().indexOf("?") != -1 ? u.name().indexOf("?") : u.name().length()))
-					|| parameter.equals(u.parameter())) {
+			if (parameter.equals(u.parameter())) {
 				return true;
 			}
 		}

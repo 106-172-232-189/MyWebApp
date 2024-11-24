@@ -5,35 +5,39 @@ import java.sql.Date;
 public class RacingUmamusumeBean {
 
 	private final boolean isExclusive; // 排他的であるか
-	private final Integer no; // 勝負服番号
+	private final int racingSuitNo; // 勝負服番号
 	private final String name; // 名前
 	private final String parameter; // パラメーター
 	private final Date appeared; // 勝負服登録日
-	private final Integer noB; // 図鑑番号
+	private final int umadexNo; // 図鑑番号
 
-	public static RacingUmamusumeBean create(boolean isExclusive, Integer no, String name, String parameter, Date appeared, Integer noB) {
-		if (no == null || noB == null) {
-			throw new NullPointerException("noがnullです");
+	public static RacingUmamusumeBean create(boolean isExclusive, int racingSuitNo, String name, String parameter, Date appeared, int umadexNo) {
+		if (name == null) {
+			throw new NullPointerException("名前がnullです");
 		}
 
-		return new RacingUmamusumeBean(isExclusive, no, name, parameter, appeared, noB);
+		if (racingSuitNo < 0 || umadexNo < 0) {
+			throw new IllegalArgumentException("勝負服番号もしくは図鑑番号が0未満です");
+		}
+
+		return new RacingUmamusumeBean(isExclusive, racingSuitNo, name, parameter, appeared, umadexNo);
 	}
 
-	private RacingUmamusumeBean(boolean isExclusive, Integer no, String name, String parameter, Date appeared, Integer noB) {
+	private RacingUmamusumeBean(boolean isExclusive, int racingSuitNo, String name, String parameter, Date appeared, int umadexNo) {
 		this.isExclusive = isExclusive;
-		this.no = no;
+		this.racingSuitNo = racingSuitNo;
 		this.name = name;
 		this.parameter = parameter;
 		this.appeared = appeared;
-		this.noB = noB;
+		this.umadexNo = umadexNo;
 	}
 
 	public boolean isExclusive() {
 		return isExclusive;
 	}
 
-	public Integer no() {
-		return no;
+	public int racingSuitNo() {
+		return racingSuitNo;
 	}
 
 	public String name() {
@@ -48,8 +52,8 @@ public class RacingUmamusumeBean {
 		return appeared;
 	}
 
-	public Integer noB() {
-		return noB;
+	public int umadexNo() {
+		return umadexNo;
 	}
 
 }
