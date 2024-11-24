@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+	<welcome-file-list>
+		<welcome-file>Top.html</welcome-file>
+	</welcome-file-list>
+
+	<error-page>
+		<error-code>400</error-code>
+		<location>/error/400_BadRequest.html</location>
+	</error-page>
+	<error-page>
+		<error-code>401</error-code>
+		<location>/error/401_Unauthorized.html</location>
+	</error-page>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/error/403_Forbidden.html</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/error/404_NotFound.html</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/error/500_InternalServerError.html</location>
+	</error-page>
+
+	<servlet>
+		<servlet-name>UmamusumeList</servlet-name>
+		<servlet-class>servlet.UmamusumeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UmamusumeList</servlet-name>
+		<url-pattern>/UmamusumeList</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>RacingUmamusumeList</servlet-name>
+		<servlet-class>servlet.RacingUmamusumeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RacingUmamusumeList</servlet-name>
+		<url-pattern>/RacingUmamusumeList</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Manager</servlet-name>
+		<servlet-class>servlet.manager.ManagerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Manager</servlet-name>
+		<url-pattern>/Manager/</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SetOrDeleteUmamusume</servlet-name>
+		<servlet-class>servlet.manager.SetOrDeleteUmamusumeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SetOrDeleteUmamusume</servlet-name>
+		<url-pattern>/Manager/SetOrDeleteUmamusume</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SetOrDeleteUmamusumeExclusive</servlet-name>
+		<servlet-class>servlet.manager.SetOrDeleteUmamusumeExclusiveServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SetOrDeleteUmamusumeExclusive</servlet-name>
+		<url-pattern>/Manager/SetOrDeleteUmamusumeExclusive</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SetOrDeleteRacingUmamusume</servlet-name>
+		<servlet-class>servlet.manager.SetOrDeleteRacingUmamusumeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SetOrDeleteRacingUmamusume</servlet-name>
+		<url-pattern>/Manager/SetOrDeleteRacingUmamusume</url-pattern>
+	</servlet-mapping>
+
+	<session-config>
+		<session-timeout>2</session-timeout>
+	</session-config>
+</web-app>

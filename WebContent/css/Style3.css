@@ -1,0 +1,22 @@
+h1, h2, p, .div2 {
+	text-align: center;
+}
+
+h1.err {
+	text-align: left;
+}
+
+.div2 {
+	display: flex;
+	justify-content: center;
+}
+
+@media screen and (max-width: 500px) {
+	body {
+		font-family: 'ヒラギノ角ゴ ProN';
+	}
+
+	.div2 {
+		flex-direction: column;
+	}
+}

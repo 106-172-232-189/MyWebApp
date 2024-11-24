@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<title>ログイン</title>
+		<link rel="stylesheet" href="../../css/Style3.css">
+		<link rel="stylesheet" href="../../css/Style4.css">
+	</head>
+	<body>
+		<button type="button" onclick="location.href='../'">トップページに戻る</button>
+		<h1>パスワードを入力</h1>
+		<p>半角英数字10文字～20文字</p>
+		<div class="div2">
+			<form action="./" method="post">
+				<input type="text" name="password" pattern="[a-zA-Z0-9]{10,20}" autocomplete="off">
+				<button type="submit">ログイン</button>
+			</form>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,53 @@
+h1, h2, p, form {
+	text-align: center;
+}
+
+.search {
+	display: inline-flex;
+}
+
+table {
+	margin-left: auto;
+	margin-right: auto;
+	border-collapse: collapse;
+	font-family: 'ヒラギノ角ゴ ProN';
+	font-size: 25px;
+}
+
+th, td {
+	border: 1px solid;
+}
+
+.div3 {
+	font-size: 15px;
+}
+
+@media screen and (max-width: 500px) {
+	body {
+		font-family: 'ヒラギノ角ゴ ProN';
+	}
+
+	.div3 {
+		font-size: 11px;
+	}
+
+	table {
+		font-size: 18px;
+	}
+
+	div, .div4 {
+		font-size: 13px;
+	}
+}
+
+@media screen and (min-width: 435px){
+	.br-sp {
+		display: none;
+	}
+}
+
+@media screen and (min-width: 400px){
+	.br-sp2 {
+		display: none;
+	}
+}

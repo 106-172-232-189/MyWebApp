@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<title>管理者専用ページ</title>
+		<link rel="stylesheet" href="../../css/Style3.css">
+		<link rel="icon" href="../../favicon.ico">
+		<link rel="icon" sizes="192x192" href="../../android-touch-icon-192x192.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon-180x180.png">
+	</head>
+	<body>
+		<button type="button" onclick="location.href='../'">トップページに戻る</button>
+		<h1>管理者専用ページ</h1>
+		<div class="div2">
+			<form action="./SetOrDeleteUmamusume" method="post">
+				<button type="submit">登録/削除(図鑑番号)</button>
+			</form>
+			<form action="./SetOrDeleteUmamusumeExclusive" method="post">
+				<button type="submit">登録/削除(図鑑番号(800番台、900番台))</button>
+			</form>
+			<form action="./SetOrDeleteRacingUmamusume" method="post">
+				<button type="submit">登録/削除(勝負服)</button>
+			</form>
+		</div>
+	</body>
+</html>
