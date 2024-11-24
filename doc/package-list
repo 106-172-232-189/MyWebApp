@@ -1,0 +1,6 @@
+com.umamusumelist.bean
+com.umamusumelist.dao
+com.umamusumelist.filter
+com.umamusumelist.servlet
+com.umamusumelist.servlet.manager
+com.umamusumelist.util

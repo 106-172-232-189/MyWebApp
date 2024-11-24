@@ -3,8 +3,9 @@
     pageEncoding="UTF-8"
     import="java.util.List,
     		java.util.ArrayList,
-    		bean.UmamusumeBean,
-    		util.KatakanaToHankaku"%>
+    		com.umamusumelist.bean.UmamusumeBean,
+    		com.umamusumelist.bean.NotUmamusumeBean,
+    		com.umamusumelist.util.KatakanaToHankaku"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -25,6 +26,7 @@
 		<link rel="icon" href="./favicon.ico">
 		<link rel="icon" sizes="192x192" href="./android-touch-icon-192x192.png">
 		<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon-180x180.png">
+		<script src="./js/ShowConfirm.js"></script>
 	</head>
 	<body>
 		<button type="button" onclick="location.href='./'">トップページに戻る</button>
@@ -37,7 +39,7 @@
 			<% int noMaxA = (int) request.getAttribute("noMaxA"); %>
 			<% int noMaxB = (int) request.getAttribute("noMaxB"); %>
 			<form action="UmamusumeList" method="post">
-				<input type="text" name="id" value="<%= id == null ? "" : id %>" placeholder="公式の図鑑番号もしくは名前" title="&quot;3桁までの数字&quot;もしくは&quot;20桁までのカタカナ(一部を除く)&quot;" pattern="(^[0-9０-９]{1,3}$)|(^[^\x01-\x7E]{0,20}$)">
+				<input type="text" name="id" value="<%= id == null ? "" : id %>" placeholder="公式の図鑑番号もしくは名前" title="公式の図鑑番号もしくは名前/&quot;3桁までの数字&quot;もしくは&quot;20桁までのカタカナ(一部を除く)&quot;" size="24" pattern="(^[0-9０-９]{1,3}$)|(^[^\x01-\x7E]{0,20}$)">
 				<button type="submit">検索</button>
 			</form>
 			<br>
@@ -49,14 +51,27 @@
 				<% for (UmamusumeBean u : umamusumeList) { %>
 					<% if (u.umadexNo() < 800) { %>
 					<tr>
-						<td style="text-align: center;">No.<%= u.umadexNo() %><% if (u.racingSuitNo() != 0) { %><br><div class="div3">(<%= "勝負服" + u.racingSuitNo() + (u.racingSuitNo() >= 100 ? "" : "号") %>)</div><% } %></td><td><% if (u.parameter() != null) { %><a href="https://umamusume.jp/character/<%= u.parameter() %>"><% } %><%= u.name() == null ? "&mdash;" : (u.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(u.name()) : u.name()) %><% if (u.parameter() != null) { %></a><% } %></td>
+						<td style="text-align: center;">No.<%= u.umadexNo() %><% if (u.racingSuitNo() != 0) { %><br><div class="div3">(<%= "勝負服" + u.racingSuitNo() + (u.racingSuitNo() >= 100 ? "" : "号") %>)</div><% } %></td><td><% if (u.parameter() != null) { %><a href="https://umamusume.jp/character/<%= u.parameter() %>"><% } %><%= u.name() == null || u.name().startsWith("(不明") ? "&mdash;" : (u.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(u.name()) : u.name()) %><% if (u.parameter() != null) { %></a><% } %></td>
 					</tr>
 					<% } %>
 					<% if (u.umadexNo() >= 800) { %>
 					<tr>
-						<td style="text-align: center;" <% if (u.umadexNo() >= 800 && u.umadexNo() < 900) { %>class="div5"<% } %>><%= u.umadexNo() >= 800 && u.umadexNo() < 900 ? "トレセン学園<br>関係者No." + (u.umadexNo() - 800) : "没No." + (u.umadexNo() - 900) %><% if (u.racingSuitNo() != 0) { %><br><div class="div5">(<%= "EX勝負服" + u.racingSuitNo() %>)<% } %></div></td><td><% if (u.parameter() != null) { %><a href="https://umamusume.jp/character/<%= u.parameter() %>"><% } %><%= u.name() == null ? "&mdash;" : (u.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(u.name()) : u.name()) %><% if (u.parameter() != null) { %></a><% } %></td>
+						<td style="text-align: center;" <% if (u.umadexNo() >= 800 && u.umadexNo() < 900) { %>class="div5"<% } %>><%= u.umadexNo() >= 800 && u.umadexNo() < 900 ? "トレセン学園<br>関係者No." + (u.umadexNo() - 800) : "没No." + (u.umadexNo() - 900) %><% if (u.racingSuitNo() != 0) { %><br><div class="div5">(<%= "EX勝負服" + u.racingSuitNo() %>)<% } %></div></td><td><% if (u.parameter() != null) { %><a href="https://umamusume.jp/character/<%= u.parameter() %>"><% } %><%= u.name() == null || u.name().startsWith("(不明") ? "&mdash;" : (u.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(u.name()) : u.name()) %><% if (u.parameter() != null) { %></a><% } %></td>
 					</tr>
 					<% } %>
+				<% } %>
+			</table>
+			<br>
+			<h2>ウマ娘でないトレセン学園関係者</h2>
+			<table>
+				<tr>
+					<th class="nameOfNotUmamusume">名前</th>
+				</tr>
+				<% List<NotUmamusumeBean> notUmamusumeList = (List) request.getAttribute("notUmamusumeList"); %>
+				<% for (NotUmamusumeBean nu : notUmamusumeList) { %>
+				<tr>
+					<td><% if (nu.parameter() != null) { %><a href="https://umamusume.jp/character/<%= nu.parameter() %>"><% } %><%= nu.name() == null || nu.name().startsWith("(不明") ? "&mdash;" : nu.name() %><% if (nu.parameter() != null) { %></a><% } %></td>
+				</tr>
 				<% } %>
 			</table>
 			<br>
@@ -79,6 +94,8 @@
 			</div>
 			<p>↓管理者からのお願い↓</p>
 			<blockquote class="twitter-tweet tw-align-center"><p lang="ja" dir="ltr">もしも<a href="https://umamusume.jp/character/">ｳﾏ娘公式ｻｲﾄ</a>に登録されているウマ娘の<br><a href="http://umamusumelist.com/UmamusumeList">当サイトの図鑑番号順ページ</a><br>への登録漏れがありましたら、私に報告をお願い<br>します。すぐに修正登録を行います。<a href="https://twitter.com/hashtag/%E3%82%A6%E3%83%9E%E5%A8%98?src=hash&amp;ref_src=twsrc%5Etfw">#ウマ娘</a></p>&mdash; むっぎー (@RbSbH9WTaKkBtGd) <a href="https://twitter.com/RbSbH9WTaKkBtGd/status/1779827006269714681">April 15, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+			<p>連絡は<a id="mailLink" href="mailto:admin@umamusumelist.com" onclick="showConfirm()">admin@umamusumelist.com</a><br class="br-sp4">までお願いします。</p>
+			<br>
 			<input type="button" onclick="location.href='./'" value="トップページに戻る">
 		</div>
 	</body>

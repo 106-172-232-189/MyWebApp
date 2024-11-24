@@ -3,8 +3,8 @@
 	pageEncoding="UTF-8"
 	import="java.util.List,
 			java.util.ArrayList,
-			bean.RacingUmamusumeBean,
-			util.KatakanaToHankaku"%>
+			com.umamusumelist.bean.RacingUmamusumeBean,
+			com.umamusumelist.util.KatakanaToHankaku"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -25,6 +25,7 @@
 		<link rel="icon" href="./favicon.ico">
 		<link rel="icon" sizes="192x192" href="./android-touch-icon-192x192.png">
 		<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon-180x180.png">
+		<script src="./js/ShowConfirm.js"></script>
 	</head>
 	<body>
 		<button type="button" onclick="location.href='./'">トップページに戻る</button>
@@ -36,7 +37,7 @@
 			<% String id = (String) request.getAttribute("id"); %>
 			<% int noMax = (int) request.getAttribute("noMax"); %>
 			<form action="RacingUmamusumeList" method="post">
-				<input type="text" name="id" value="<%= id == null ? "" : id %>" placeholder="公式の勝負服番号もしくは名前" title="3桁までの数字もしくは20桁までのカタカナ" pattern="(^[0-9０-９]{1,3}$)|(^[ァ-ヴーｦ-ﾟ]{0,20}$)">
+				<input type="text" name="id" value="<%= id == null ? "" : id %>" placeholder="公式の勝負服番号もしくは名前" title="公式の勝負服番号もしくは名前/3桁までの数字もしくは20桁までのカタカナ" size="24" pattern="(^[0-9０-９]{1,3}$)|(^[ァ-ヴーｦ-ﾟ]{0,20}$)">
 				<button type="submit">検索</button>
 			</form>
 			<br>
@@ -48,7 +49,7 @@
 				<% List<RacingUmamusumeBean> racingUmamusumeListExclusive = (List) request.getAttribute("racingUmamusumeListExclusive"); %>
 				<% for (RacingUmamusumeBean ru : racingUmamusumeList) { %>
 				<tr class="tr-sp">
-					<td>勝負服</td><td><%= ru.racingSuitNo() %></td><td><% if (ru.parameter() != null) { %><a href="https://umamusume.jp/character/<%= ru.parameter() %>"><% } %><%= ru.name() == null ? "&mdash;" : (ru.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(ru.name()) : ru.name()) %><% if (ru.parameter() != null) { %></a><% } %></td><td><div class="div6"><%= ru.appeared() == null ? "-" : ru.appeared() %></div></td>
+					<td>勝負服</td><td><%= ru.racingSuitNo() %></td><td><% if (ru.parameter() != null) { %><a href="https://umamusume.jp/character/<%= ru.parameter() %>"><% } %><%= ru.name() == null || ru.name().startsWith("(不明") ? "&mdash;" : (ru.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(ru.name()) : ru.name()) %><% if (ru.parameter() != null) { %></a><% } %></td><td><div class="div6"><%= ru.appeared() == null ? "-" : ru.appeared() %></div></td>
 				</tr>
 				<% } %>
 				<script>
@@ -59,7 +60,7 @@
 					<script>
 						txtArray.push([['<span class="span-a">EX</span><br><span class="span-b">勝負服</span>', <%= ru.racingSuitNo() %>], ['勝負服', <%= 900 + ru.racingSuitNo() %>]]);
 					</script>
-					<td><span class="span-c"><span class="span-a">EX</span><br><span class="span-b">勝負服</span></span></td><td><span class="span-d"><%= ru.racingSuitNo() %></span></td><td><% if (ru.parameter() != null) { %><a href="https://umamusume.jp/character/<%= ru.parameter() %>"><% } %><%= ru.name() == null ? "&mdash;" : (ru.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(ru.name()) : ru.name()) %><% if (ru.parameter() != null) { %></a><% } %></td><td><div class="div6"><%= ru.appeared() == null ? "-" : ru.appeared() %></div></td>
+					<td><span class="span-c"><span class="span-a">EX</span><br><span class="span-b">勝負服</span></span></td><td><span class="span-d"><%= ru.racingSuitNo() %></span></td><td><% if (ru.parameter() != null) { %><a href="https://umamusume.jp/character/<%= ru.parameter() %>"><% } %><%= ru.name() == null || ru.name().startsWith("(不明") ? "&mdash;" : (ru.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(ru.name()) : ru.name()) %><% if (ru.parameter() != null) { %></a><% } %></td><td><div class="div6"><%= ru.appeared() == null ? "-" : ru.appeared() %></div></td>
 				</tr>
 				<% } %>
 			</table>
@@ -95,6 +96,8 @@
 			</div>
 			<p>↓管理者からのお願い↓</p>
 			<blockquote class="twitter-tweet tw-align-center"><p lang="ja" dir="ltr">もしも<a href="https://umamusume.jp/character/">ウマ娘公式サイト</a><br>にて「新規育成ウマ娘が発表される前に勝負服が<br>登録された」ことを確認次第、私に報告をお願い<br>します。すぐに<a href="http://umamusumelist.com/RacingUmamusumeList">当ｻｲﾄの勝負服番号順/実装順ﾍﾟｰｼﾞ</a><br>にて暫定登録を行います。<a href="https://twitter.com/hashtag/%E3%82%A6%E3%83%9E%E5%A8%98?src=hash&amp;ref_src=twsrc%5Etfw">#ウマ娘</a></p>&mdash; むっぎー (@RbSbH9WTaKkBtGd) <a href="https://twitter.com/RbSbH9WTaKkBtGd/status/1779827257986703690">April 15, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+			<p>連絡は<a id="mailLink" href="mailto:admin@umamusumelist.com" onclick="showConfirm()">admin@umamusumelist.com</a><br class="br-sp4">までお願いします。</p>
+			<br>
 			<input type="button" onclick="location.href='./'" value="トップページに戻る">
 		</div>
 	</body>

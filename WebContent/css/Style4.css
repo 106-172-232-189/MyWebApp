@@ -1,9 +1,9 @@
-th:nth-of-type(2) {
+th:nth-of-type(2), .nameOfNotUmamusume {
 	width: 275px;
 }
 
 @media screen and (max-width: 530px) {
-	th:nth-of-type(2) {
+	th:nth-of-type(2), .nameOfNotUmamusume {
 		width: 200px;
 	}
-}
+}}
