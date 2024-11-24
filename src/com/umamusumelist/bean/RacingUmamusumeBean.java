@@ -6,7 +6,7 @@ import java.sql.Date;
  * 勝負服を得たウマ娘を取り扱うBean
  *
  * @author Umamusumelist.com
- * @version 5.1
+ * @version 5.2
  */
 public final class RacingUmamusumeBean {
 
