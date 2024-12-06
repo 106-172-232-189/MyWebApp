@@ -1,11 +1,12 @@
 <%@ page session="false" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
     import="java.util.List,
     		java.util.ArrayList,
     		com.umamusumelist.bean.UmamusumeBean,
     		com.umamusumelist.bean.NotUmamusumeBean,
-    		com.umamusumelist.util.KatakanaToHankaku"%>
+    		com.umamusumelist.util.KatakanaToHankaku,
+			java.time.LocalDateTime,
+			java.time.format.DateTimeFormatter" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -29,7 +30,7 @@
 		<script src="./js/ShowConfirm.js"></script>
 	</head>
 	<body>
-		<button type="button" onclick="location.href='./'">トップページに戻る</button>
+		<button type="button" onclick="location.href='./'">ﾄｯﾌﾟﾍﾟｰｼﾞへ</button><button type="button" onclick="location.href='./RacingUmamusumeList'">ｷｬﾗｸﾀｰ一覧(実装順)ﾍﾟｰｼﾞへ</button>
 		<h1>ウマ娘 キャラクター一覧</h1>
 		<img src="./img/Umamusume_Top_Number_Trio.jpg" alt="ポーズをとるトウカイテイオー、スペシャルウィーク、サイレンススズカ" class="imgB" style="display: block; margin: auto;">
 		<div class="div4" style="text-align: center;">©Cygames</div>
@@ -85,6 +86,7 @@
 			公式サイトのウマ娘紹介ページで勝負服が登録される基本的な条件: 新たに育成ウマ娘として実装され、かつ衣装違いではない<br>
 			※: 図鑑番号はトレセン学園関係者であるウマ娘の番号及び没ウマ娘の番号を除いて公式です。<br>
 			※※: 勝負服番号はEX勝負服を除いて公式です。<br>
+			※※※: 図鑑に登録されていないウマ娘については、<a href="https://twitter.com/RbSbH9WTaKkBtGd/status/1715564824858624044">こちらのポスト/ツイート</a>を参照してください。<br>
 			出典: [<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;勝負服が称号の意味も兼ねていると解釈した根拠: <br class="br-sp"><a href="https://twitter.com/uma_musu/status/1356165415336960013">https://twitter.com/uma_musu/status/<br class="br-sp">1356165415336960013</a>,<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;ウマ娘やその勝負服が登録される公式サイトのページ: <br class="br-sp"><a href="https://umamusume.jp/character/">https://umamusume.jp/character/</a>,<br>
@@ -96,7 +98,16 @@
 			<blockquote class="twitter-tweet tw-align-center"><p lang="ja" dir="ltr">もしも<a href="https://umamusume.jp/character/">ｳﾏ娘公式ｻｲﾄ</a>に登録されているウマ娘の<br><a href="http://umamusumelist.com/UmamusumeList">当サイトの図鑑番号順ページ</a><br>への登録漏れがありましたら、私に報告をお願い<br>します。すぐに修正登録を行います。<a href="https://twitter.com/hashtag/%E3%82%A6%E3%83%9E%E5%A8%98?src=hash&amp;ref_src=twsrc%5Etfw">#ウマ娘</a></p>&mdash; むっぎー (@RbSbH9WTaKkBtGd) <a href="https://twitter.com/RbSbH9WTaKkBtGd/status/1779827006269714681">April 15, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 			<p>連絡は<a id="mailLink" href="mailto:admin@umamusumelist.com" onclick="showConfirm()">admin@umamusumelist.com</a><br class="br-sp4">までお願いします。</p>
 			<br>
-			<input type="button" onclick="location.href='./'" value="トップページに戻る">
+			<span style="display: flex; justify-content: space-between;"><span><input type="button" onclick="location.href='./'" value="ﾄｯﾌﾟﾍﾟｰｼﾞへ"><input type="button" onclick="location.href='./RacingUmamusumeList'" value="ｷｬﾗｸﾀｰ一覧(実装順)ﾍﾟｰｼﾞへ"></span><span>Version 5.2</span></span>
 		</div>
 	</body>
 </html>
+<%
+String xffh = request.getHeader("X-Forwarded-For");
+System.out.println(
+	(xffh == null ? request.getRemoteAddr() : xffh.split(",")[0].trim()) + " " +
+	LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'(UTC+09:00)'")) + " " +
+	request.getMethod() +
+	" /UmamusumeList"
+);
+%>
