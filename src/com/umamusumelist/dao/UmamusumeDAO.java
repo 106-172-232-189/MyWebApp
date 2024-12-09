@@ -15,7 +15,7 @@ import com.umamusumelist.util.KatakanaToZenkaku;
  * ウマ娘を取り扱うDAO
  *
  * @author Umamusumelist.com
- * @version 5.1
+ * @version 5.2
  */
 public final class UmamusumeDAO {
 

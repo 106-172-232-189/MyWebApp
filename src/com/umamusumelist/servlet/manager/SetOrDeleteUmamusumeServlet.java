@@ -17,7 +17,7 @@ import com.umamusumelist.dao.UmamusumeDAO;
  * ウマ娘の登録・削除処理を行うサーブレット
  *
  * @author Umamusumelist.com
- * @version 5.1
+ * @version 5.2
  *
  */
 @WebServlet(name = "Manager/SetOrDeleteUmamusume")
@@ -40,7 +40,7 @@ public final class SetOrDeleteUmamusumeServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
 		try {
 			request.setCharacterEncoding("UTF-8");
@@ -56,6 +56,7 @@ public final class SetOrDeleteUmamusumeServlet extends HttpServlet {
 			request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteUmamusume.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -66,7 +67,7 @@ public final class SetOrDeleteUmamusumeServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
 		try {
 			request.setCharacterEncoding("UTF-8");
@@ -91,6 +92,7 @@ public final class SetOrDeleteUmamusumeServlet extends HttpServlet {
 			forward(request, response, name, parameter, button, target, udao);
 		} catch (Exception e) {
 			e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 

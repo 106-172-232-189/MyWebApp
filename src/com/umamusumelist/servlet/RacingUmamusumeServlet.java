@@ -16,7 +16,7 @@ import com.umamusumelist.dao.RacingUmamusumeDAO;
  * 勝負服を得ているウマ娘の取得に関する処理を行うサーブレット
  *
  * @author Umamusumelist.com
- * @version 5.1
+ * @version 5.2
  */
 @WebServlet(name = "/RacingUmamusumeList")
 public final class RacingUmamusumeServlet extends HttpServlet {
@@ -37,7 +37,7 @@ public final class RacingUmamusumeServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
 		try {
 			request.setCharacterEncoding("UTF-8");
@@ -49,6 +49,7 @@ public final class RacingUmamusumeServlet extends HttpServlet {
 			request.getRequestDispatcher("./jsp/RacingUmamusumeJSP.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -58,7 +59,7 @@ public final class RacingUmamusumeServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
 		try {
 			request.setCharacterEncoding("UTF-8");
@@ -72,6 +73,7 @@ public final class RacingUmamusumeServlet extends HttpServlet {
 			request.getRequestDispatcher("./jsp/RacingUmamusumeJSP.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 

@@ -4,7 +4,7 @@ package com.umamusumelist.bean;
  * ウマ娘を取り扱うBean
  *
  * @author Umamusumelist.com
- * @version 5.1
+ * @version 5.2
  */
 public final class UmamusumeBean {
 
