@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-NWMHELKPF9"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-NWMHELKPF9');
+		</script>
+		<script type="application/ld+json">
+			{
+				"@context" : "https://schema.org",
+				"@type" : "WebSite",
+				"name" : "ウマ娘一覧",
+				"url" : "http://umamusumelist.com/"
+			}
+		</script>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<meta name='description' content='ここから表示順を指定してウマ娘の一覧を閲覧できます。'>
+		<meta name="google-adsense-account" content="ca-pub-2822186313626105">
+		<title>トップページ</title>
+		<link rel="stylesheet" href="./css/Style3.css">
+		<link rel="icon" href="./favicon.ico">
+		<link rel="icon" sizes="192x192" href="./android-touch-icon-192x192.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon-180x180.png">
+		<script src="./js/ShowConfirm.js"></script>
+	</head>
+	<body>
+		<div class="div1" style="text-align: center">
+			<h1 style="text-align: center">トップページ</h1>
+			<img src="./img/Umamusume_Top_Number_Trio_And_The_Others.jpg" alt="大勢のウマ娘" class="imgA" style="display: block; margin: auto;">
+			<div class="div4" style="text-align: center;">©Cygames</div>
+			<br>
+			<div class="div2" style="display: inline-flex;">
+				<form action="UmamusumeList" method="post">
+					<button type="submit">ウマ娘 キャラクター一覧</button>
+				</form>
+				<form action="RacingUmamusumeList" method="post">
+					<button type="submit">ウマ娘 キャラクター一覧(実装順)</button>
+				</form>
+				<form action="Manager/" method="post">
+					<button type="submit">管理者専用ページ</button>
+				</form>
+			</div>
+			<br>
+			<p><a href="https://twitter.com/RbSbH9WTaKkBtGd">管理者のTwitterアカウント</a></p>
+			<p>Email: <a id="mailLink" href="mailto:admin@umamusumelist.com" onclick="showConfirm()">admin@umamusumelist.com</a></p><br>
+			<p>Version 5.2</p>
+		</div>
+	</body>
+</html>
