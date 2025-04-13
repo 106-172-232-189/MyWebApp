@@ -1,4 +1,4 @@
-http://umamusumelist.com/ [106-172-232-189-MyWebApp v5.2]
+http://umamusumelist.com/ [106-172-232-189-MyWebApp v5.3]
 
 v1.0 -> Released on 2023-03-18
 
@@ -15,3 +15,5 @@ v5.0 -> Released on 2024-06-08
 v5.1 -> Released on 2024-10-02
 
 v5.2 -> Released on 2024-11-09
+
+v5.3 -> Released on 2025-03-19

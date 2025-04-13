@@ -47,38 +47,12 @@
 					<th colspan="2">勝負服</th><th>名前</th><th><div class="div6">勝負服登録日</div></th>
 				</tr>
 				<% List<RacingUmamusumeBean> racingUmamusumeList = (List) request.getAttribute("racingUmamusumeList"); %>
-				<% List<RacingUmamusumeBean> racingUmamusumeListExclusive = (List) request.getAttribute("racingUmamusumeListExclusive"); %>
 				<% for (RacingUmamusumeBean ru : racingUmamusumeList) { %>
 				<tr class="tr-sp">
 					<td>勝負服</td><td><%= ru.racingSuitNo() %></td><td><% if (ru.parameter() != null) { %><a href="https://umamusume.jp/character/<%= ru.parameter() %>"><% } %><%= ru.name() == null || ru.name().startsWith("(不明") ? "&mdash;" : (ru.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(ru.name()) : ru.name()) %><% if (ru.parameter() != null) { %></a><% } %></td><td><div class="div6"><%= ru.appeared() == null ? "-" : ru.appeared() %></div></td>
 				</tr>
 				<% } %>
-				<script>
-					const txtArray = [];
-				</script>
-				<% for (RacingUmamusumeBean ru : racingUmamusumeListExclusive) { %>
-				<tr class="tr-sp">
-					<script>
-						txtArray.push([['<span class="span-a">EX</span><br><span class="span-b">勝負服</span>', <%= ru.racingSuitNo() %>], ['勝負服', <%= 900 + ru.racingSuitNo() %>]]);
-					</script>
-					<td><span class="span-c"><span class="span-a">EX</span><br><span class="span-b">勝負服</span></span></td><td><span class="span-d"><%= ru.racingSuitNo() %></span></td><td><% if (ru.parameter() != null) { %><a href="https://umamusume.jp/character/<%= ru.parameter() %>"><% } %><%= ru.name() == null || ru.name().startsWith("(不明") ? "&mdash;" : (ru.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(ru.name()) : ru.name()) %><% if (ru.parameter() != null) { %></a><% } %></td><td><div class="div6"><%= ru.appeared() == null ? "-" : ru.appeared() %></div></td>
-				</tr>
-				<% } %>
 			</table>
-			<script>
-				var j = 1;
-				setInterval(function () {
-					if (txtArray.length > 0) {
-						const spanC = document.getElementsByClassName('span-c');
-						const spanD = document.getElementsByClassName('span-d');
-						for (var i = 0; i < spanC.length; i++) {
-							spanC[i].innerHTML = txtArray[i][j][0];
-							spanD[i].innerHTML = txtArray[i][j][1];
-						}
-						j = (j + 1) % txtArray[0].length;
-					}
-				}, 5000);
-			</script>
 			<br>
 			<div class="div4">
 			勝負服が登録された(育成ウマ娘として実装された)ウマ娘の総数: <%= noMax %><br>
@@ -100,7 +74,7 @@
 			<blockquote class="twitter-tweet tw-align-center"><p lang="ja" dir="ltr">もしも<a href="https://umamusume.jp/character/">ウマ娘公式サイト</a><br>にて「新規育成ウマ娘が発表される前に勝負服が<br>登録された」ことを確認次第、私に報告をお願い<br>します。すぐに<a href="http://umamusumelist.com/RacingUmamusumeList">当ｻｲﾄの勝負服番号順/実装順ﾍﾟｰｼﾞ</a><br>にて暫定登録を行います。<a href="https://twitter.com/hashtag/%E3%82%A6%E3%83%9E%E5%A8%98?src=hash&amp;ref_src=twsrc%5Etfw">#ウマ娘</a></p>&mdash; むっぎー (@RbSbH9WTaKkBtGd) <a href="https://twitter.com/RbSbH9WTaKkBtGd/status/1779827257986703690">April 15, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 			<p>連絡は<a id="mailLink" href="mailto:admin@umamusumelist.com" onclick="showConfirm()">admin@umamusumelist.com</a><br class="br-sp4">までお願いします。</p>
 			<br>
-			<span style="display: flex; justify-content: space-between;"><span><input type="button" onclick="location.href='./'" value="ﾄｯﾌﾟﾍﾟｰｼﾞへ"><input type="button" onclick="location.href='./UmamusumeList'" value="ｷｬﾗｸﾀｰ一覧ﾍﾟｰｼﾞへ"></span><span>Version 5.2</span></span>
+			<span style="display: flex; justify-content: space-between;"><span><input type="button" onclick="location.href='./'" value="ﾄｯﾌﾟﾍﾟｰｼﾞへ"><input type="button" onclick="location.href='./UmamusumeList'" value="ｷｬﾗｸﾀｰ一覧ﾍﾟｰｼﾞへ"></span><span>Version 5.3</span></span>
 		</div>
 	</body>
 </html>
