@@ -52,12 +52,12 @@
 				<% for (UmamusumeBean u : umamusumeList) { %>
 					<% if (u.umadexNo() < 800) { %>
 				<tr>
-					<td style="text-align: center;">No.<%= u.umadexNo() %><% if (u.racingSuitNo() != 0) { %><br><div class="div3">(<%= "勝負服" + u.racingSuitNo() + (u.racingSuitNo() >= 100 ? "" : "号") %>)</div><% } %></td><td><% if (u.parameter() != null) { %><a href="https://umamusume.jp/character/<%= u.parameter() %>"><% } %><%= u.name() == null || u.name().startsWith("(不明") ? "&mdash;" : (u.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(u.name()) : u.name()) %><% if (u.parameter() != null) { %></a><% } %></td>
+					<td style="text-align: center;"><span style="font-family: 'Arial';"><%= u.umadexNo() %></span><% if (u.racingSuitNo() != 0) { %><br><div class="div3">(<%= "勝負服" + (u.racingSuitNo() >= 100 ? "" : " ") + u.racingSuitNo() %>)</div><% } %></td><td><% if (u.parameter() != null) { %><a href="https://umamusume.jp/character/<%= u.parameter() %>"><% } %><%= u.name() == null || u.name().startsWith("(不明") ? "&mdash;" : (u.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(u.name()) : u.name()) %><% if (u.parameter() != null) { %></a><% } %></td>
 				</tr>
 					<% } %>
 					<% if (u.umadexNo() >= 800) { %>
 				<tr>
-					<td style="text-align: center;" <% if (u.umadexNo() >= 800 && u.umadexNo() < 900) { %>class="div5"<% } %>><%= u.umadexNo() >= 800 && u.umadexNo() < 900 ? "トレセン学園<br>関係者No." + (u.umadexNo() - 800) : "没No." + (u.umadexNo() - 900) %><% if (u.racingSuitNo() != 0) { %><br><div class="div5">(<%= "勝負服" + (900 + u.racingSuitNo()) %>)<% } %></div></td><td><% if (u.parameter() != null) { %><a href="https://umamusume.jp/character/<%= u.parameter() %>"><% } %><%= u.name() == null || u.name().startsWith("(不明") ? "&mdash;" : (u.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(u.name()) : u.name()) %><% if (u.parameter() != null) { %></a><% } %></td>
+					<td style="text-align: center;" <% if (u.umadexNo() >= 800 && u.umadexNo() < 900) { %>class="div5"<% } %>><%= u.umadexNo() >= 800 && u.umadexNo() < 900 ? "トレセン学園<br>関係者 " + (u.umadexNo() - 800) : "没 <span style=\"font-family: 'Arial';\">" + (u.umadexNo() - 900) + "</span>" %><% if (u.racingSuitNo() != 0) { %><br><div class="div5">(<%= "勝負服" + (u.racingSuitNo() + 900) %>)<% } %></div></td><td><% if (u.parameter() != null) { %><a href="https://umamusume.jp/character/<%= u.parameter() %>"><% } %><%= u.name() == null || u.name().startsWith("(不明") ? "&mdash;" : (u.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(u.name()) : u.name()) %><% if (u.parameter() != null) { %></a><% } %></td>
 				</tr>
 					<% } %>
 				<% } %>
@@ -84,9 +84,7 @@
 			勝負服の定義: URAがウマ娘に対して発行する、競走(特にGI競走)にて着用する衣装、もしくは称号<br>
 			勝負服番号の基本的な意味: 公式サイトのウマ娘紹介ページで勝負服が登録された順番<br>
 			公式サイトのウマ娘紹介ページで勝負服が登録される基本的な条件: 新たに育成ウマ娘として実装され、かつ衣装違いではない<br>
-			※: 図鑑番号はトレセン学園関係者であるウマ娘の番号及び没ウマ娘の番号を除いて公式です。<br>
-			※※: 勝負服番号はEX勝負服を除いて公式です。<br>
-			※※※: 図鑑に登録されていないウマ娘については、<a href="https://twitter.com/RbSbH9WTaKkBtGd/status/1715564824858624044">こちらのポスト/ツイート</a>を参照してください。<br>
+			※: 図鑑番号及び勝負服番号はトレセン学園関係者であるウマ娘の番号及び没ウマ娘の番号を除いて公式です。<br>
 			出典: [<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;勝負服が称号の意味も兼ねていると解釈した根拠: <br class="br-sp"><a href="https://twitter.com/uma_musu/status/1356165415336960013">https://twitter.com/uma_musu/status/<br class="br-sp">1356165415336960013</a>,<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;ウマ娘やその勝負服が登録される公式サイトのページ: <br class="br-sp"><a href="https://umamusume.jp/character/">https://umamusume.jp/character/</a>,<br>
@@ -98,7 +96,7 @@
 			<blockquote class="twitter-tweet tw-align-center"><p lang="ja" dir="ltr">もしも<a href="https://umamusume.jp/character/">ｳﾏ娘公式ｻｲﾄ</a>に登録されているウマ娘の<br><a href="http://umamusumelist.com/UmamusumeList">当サイトの図鑑番号順ページ</a><br>への登録漏れがありましたら、私に報告をお願い<br>します。すぐに修正登録を行います。<a href="https://twitter.com/hashtag/%E3%82%A6%E3%83%9E%E5%A8%98?src=hash&amp;ref_src=twsrc%5Etfw">#ウマ娘</a></p>&mdash; むっぎー (@RbSbH9WTaKkBtGd) <a href="https://twitter.com/RbSbH9WTaKkBtGd/status/1779827006269714681">April 15, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 			<p>連絡は<a id="mailLink" href="mailto:admin@umamusumelist.com" onclick="showConfirm()">admin@umamusumelist.com</a><br class="br-sp4">までお願いします。</p>
 			<br>
-			<span style="display: flex; justify-content: space-between;"><span><input type="button" onclick="location.href='./'" value="ﾄｯﾌﾟﾍﾟｰｼﾞへ"><input type="button" onclick="location.href='./RacingUmamusumeList'" value="ｷｬﾗｸﾀｰ一覧(実装順)ﾍﾟｰｼﾞへ"></span><span>Version 5.3</span></span>
+			<span style="display: flex; justify-content: space-between;"><span><button type="button" onclick="location.href='./'">ﾄｯﾌﾟﾍﾟｰｼﾞへ</button><button type="button" onclick="location.href='./RacingUmamusumeList'">ｷｬﾗｸﾀｰ一覧(実装順)ﾍﾟｰｼﾞへ</button></span><span>Version 5.4</span></span>
 		</div>
 	</body>
 </html>
@@ -108,6 +106,7 @@ System.out.println(
 	(xffh == null ? request.getRemoteAddr() : xffh.split(",")[0].trim()) + " " +
 	LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'(UTC+09:00)'")) + " " +
 	request.getMethod() +
-	" /UmamusumeList"
+	" /UmamusumeList " +
+	request.getProtocol()
 );
 %>

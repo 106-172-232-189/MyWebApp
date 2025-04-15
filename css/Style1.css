@@ -34,7 +34,7 @@ th, td {
 	width: 500px;
 }
 
-@media screen and (max-width: 530px) {
+@media screen and (max-width: 560px) {
 	body {
 		font-family: 'ヒラギノ角ゴ ProN';
 	}

@@ -42,27 +42,46 @@
 				<button type="submit">検索</button>
 			</form>
 			<br>
+			<script>
+				const txtArray = [];
+			</script>
 			<table>
 				<tr class="tr-sp">
-					<th colspan="2">勝負服</th><th>名前</th><th><div class="div6">勝負服登録日</div></th>
+					<th colspan="2">勝負服</th><th><div class="div7">図鑑<br>番号</div></th><th>名前</th><th><div class="div6">勝負服登録日</div></th>
 				</tr>
 				<% List<RacingUmamusumeBean> racingUmamusumeList = (List) request.getAttribute("racingUmamusumeList"); %>
 				<% for (RacingUmamusumeBean ru : racingUmamusumeList) { %>
+				<script>
+					txtArray.push(['<a href="https://umamusume.jp/character/<%= ru.parameter() %>"><%= ru.name() %></a>', '<a href="https://umamusume.jp/character/<%= ru.parameter() %>"><%= KatakanaToHankaku.katakanaToHankaku(ru.name()) %></a>']);
+				</script>
 				<tr class="tr-sp">
-					<td>勝負服</td><td><%= ru.racingSuitNo() %></td><td><% if (ru.parameter() != null) { %><a href="https://umamusume.jp/character/<%= ru.parameter() %>"><% } %><%= ru.name() == null || ru.name().startsWith("(不明") ? "&mdash;" : (ru.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(ru.name()) : ru.name()) %><% if (ru.parameter() != null) { %></a><% } %></td><td><div class="div6"><%= ru.appeared() == null ? "-" : ru.appeared() %></div></td>
+					<td>勝負服</td><td><%= ru.racingSuitNo() %></td><td><div class="div6"><%= ru.umadexNo() %></div></td><td class="replaceable"><a href="https://umamusume.jp/character/<%= ru.parameter() %>"><%= ru.name() %></a></td><td><div class="div6"><%= ru.appeared() %></div></td>
 				</tr>
 				<% } %>
 			</table>
+			<script>
+				function replaceText() {
+					const width = window.innerWidth;
+					const target = document.getElementsByClassName('replaceable');
+
+					for (var i = 0; i < target.length; i++) {
+						if (width <= 560) {
+							target[i].innerHTML = txtArray[i][1];
+						} else {
+							target[i].innerHTML = txtArray[i][0];
+						}
+					}
+				}
+
+				replaceText();
+				window.addEventListener("resize", replaceText);
+			</script>
 			<br>
 			<div class="div4">
 			勝負服が登録された(育成ウマ娘として実装された)ウマ娘の総数: <%= noMax %><br>
 			勝負服の定義: URAがウマ娘に対して発行する、競走(特にGI競走)にて着用する衣装、もしくは称号<br>
 			勝負服番号の基本的な意味: 公式サイトのウマ娘紹介ページで勝負服が登録された順番<br>
-			勝負服順リストに登録される基本的な条件: 公式の立ち絵があり、かつ公式サイトのウマ娘紹介ページで勝負服が登録される<br>
-			EX勝負服順リストに登録される条件: 公式の立ち絵はあるが、公式サイトのウマ娘紹介ページで勝負服が登録されず、かつ育成ウマ娘としての実装の見込みがほとんどない<br>
 			公式サイトのウマ娘紹介ページで勝負服が登録される基本的な条件: 新たに育成ウマ娘として実装され、かつ衣装違いではない<br>
-			※: 勝負服番号はEX勝負服を除いて公式です。<br>
-			※※: 勝負服順リストに登録されていない勝負服番号については、<a href="https://twitter.com/RbSbH9WTaKkBtGd/status/1715564824858624044">こちらのポスト/ツイート</a>を参照してください。<br>
 			出典: [<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;勝負服が称号の意味も兼ねていると解釈した根拠: <br class="br-sp"><a href="https://twitter.com/uma_musu/status/1356165415336960013">https://twitter.com/uma_musu/status/<br class="br-sp">1356165415336960013</a>,<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;勝負服が登録される公式サイトのページ: <br class="br-sp"><a href="https://umamusume.jp/character/">https://umamusume.jp/character/</a>,<br>
@@ -71,10 +90,10 @@
 			]<br>
 			</div>
 			<p>↓管理者からのお願い↓</p>
-			<blockquote class="twitter-tweet tw-align-center"><p lang="ja" dir="ltr">もしも<a href="https://umamusume.jp/character/">ウマ娘公式サイト</a><br>にて「新規育成ウマ娘が発表される前に勝負服が<br>登録された」ことを確認次第、私に報告をお願い<br>します。すぐに<a href="http://umamusumelist.com/RacingUmamusumeList">当ｻｲﾄの勝負服番号順/実装順ﾍﾟｰｼﾞ</a><br>にて暫定登録を行います。<a href="https://twitter.com/hashtag/%E3%82%A6%E3%83%9E%E5%A8%98?src=hash&amp;ref_src=twsrc%5Etfw">#ウマ娘</a></p>&mdash; むっぎー (@RbSbH9WTaKkBtGd) <a href="https://twitter.com/RbSbH9WTaKkBtGd/status/1779827257986703690">April 15, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+			<blockquote class="twitter-tweet tw-align-center"><p lang="ja" dir="ltr">もしも<a href="https://umamusume.jp/character/">ｳﾏ娘公式ｻｲﾄ</a>に登録されているウマ娘の<br><a href="http://umamusumelist.com/UmamusumeList">当サイトの図鑑番号順ページ</a><br>への登録漏れがありましたら、私に報告をお願い<br>します。すぐに修正登録を行います。<a href="https://twitter.com/hashtag/%E3%82%A6%E3%83%9E%E5%A8%98?src=hash&amp;ref_src=twsrc%5Etfw">#ウマ娘</a></p>&mdash; むっぎー (@RbSbH9WTaKkBtGd) <a href="https://twitter.com/RbSbH9WTaKkBtGd/status/1779827006269714681">April 15, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 			<p>連絡は<a id="mailLink" href="mailto:admin@umamusumelist.com" onclick="showConfirm()">admin@umamusumelist.com</a><br class="br-sp4">までお願いします。</p>
 			<br>
-			<span style="display: flex; justify-content: space-between;"><span><input type="button" onclick="location.href='./'" value="ﾄｯﾌﾟﾍﾟｰｼﾞへ"><input type="button" onclick="location.href='./UmamusumeList'" value="ｷｬﾗｸﾀｰ一覧ﾍﾟｰｼﾞへ"></span><span>Version 5.3</span></span>
+			<span style="display: flex; justify-content: space-between;"><span><button type="button" onclick="location.href='./'">ﾄｯﾌﾟﾍﾟｰｼﾞへ</button><button type="button" onclick="location.href='./UmamusumeList'">ｷｬﾗｸﾀｰ一覧ﾍﾟｰｼﾞへ</button></span><span>Version 5.4</span></span>
 		</div>
 	</body>
 </html>
@@ -84,6 +103,7 @@ System.out.println(
 	(xffh == null ? request.getRemoteAddr() : xffh.split(",")[0].trim()) + " " +
 	LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'(UTC+09:00)'")) + " " +
 	request.getMethod() +
-	" /RacingUmamusumeList"
+	" /RacingUmamusumeList " +
+	request.getProtocol()
 );
 %>
