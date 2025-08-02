@@ -34,7 +34,7 @@
 			<select name="target">
 				<option value="0"></option>
 				<% for (UmamusumeBean u : umamusumeList) { %>
-				<option value="<%= u.umadexNo() %>">No.<%= u.umadexNo() %>: <%= u.name() == null ? "" : u.name() %></option>
+				<option value="<%= u.umadexNo() %>">ウマ娘<%= u.umadexNo() %>号: <%= u.name() == null ? "" : u.name() %></option>
 				<% } %>
 			</select><br>
 			<button type="submit" name="button" value="delete">削除</button>

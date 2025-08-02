@@ -36,13 +36,13 @@
 			<select name="target" class="notExclusive" disabled="disabled">
 				<option value="0"></option>
 				<% for (UmamusumeBean u : umamusumeListNotExclusive) { %>
-				<option value="<%= u.umadexNo() %>">No.<%= u.umadexNo() %>: <%= u.name() == null ? "" : u.name() %></option>
+				<option value="<%= u.umadexNo() %>">ウマ娘<%= u.umadexNo() %>号: <%= u.name() == null ? "" : u.name() %></option>
 				<% } %>
 			</select>
 			<select name="target2" class="exclusive" disabled="disabled">
 				<option value="0"></option>
 				<% for (UmamusumeBean u : umamusumeListExclusive) { %>
-				<option value="<%= u.umadexNo() %>">No.<%= u.umadexNo() %>: <%= u.name() == null ? "" : u.name() %></option>
+				<option value="<%= u.umadexNo() %>">ウマ娘<%= u.umadexNo() %>号: <%= u.name() == null ? "" : u.name() %></option>
 				<% } %>
 			</select><br>
 			勝負服登録日(通常): <input type="date" name="appeared" class="notExclusive" disabled="disabled" id="today"><br>

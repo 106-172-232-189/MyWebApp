@@ -17,7 +17,7 @@ import com.umamusumelist.dao.NotUmamusumeDAO;
  * ウマ娘でないトレセン学園関係者の登録・削除処理を行うサーブレット
  *
  * @author Umamusumelist.com
- * @version 5.2
+ * @version 5.5
  *
  */
 @WebServlet(name = "Manager/SetOrDeleteNotUmamusume")
@@ -39,6 +39,7 @@ public final class SetOrDeleteNotUmamusumeServlet extends HttpServlet {
 	 *
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
+	 * @throws IOException エラーページの表示処理に失敗
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
@@ -51,7 +52,10 @@ public final class SetOrDeleteNotUmamusumeServlet extends HttpServlet {
 				return;
 			}
 
+			final NotUmamusumeDAO nudao = new NotUmamusumeDAO();
+			request.setAttribute("notUmamusumeList", nudao.getList());
 			request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteNotUmamusume.jsp").forward(request, response);
+			nudao.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -64,13 +68,12 @@ public final class SetOrDeleteNotUmamusumeServlet extends HttpServlet {
 	 *
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
+	 * @throws IOException エラーページの表示処理に失敗
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
 		try {
 			request.setCharacterEncoding("UTF-8");
-
-			final NotUmamusumeDAO nudao = new NotUmamusumeDAO();
 
 			// 現在のセッションが無ければ、セッション有効期限切れ画面を表示する。
 			if (request.getSession(false) == null) {
@@ -78,6 +81,7 @@ public final class SetOrDeleteNotUmamusumeServlet extends HttpServlet {
 				return;
 			}
 
+			final NotUmamusumeDAO nudao = new NotUmamusumeDAO();
 			// 名前
 			final String name = request.getParameter("name") == null ? "" : request.getParameter("name");
 			// パラメーター
@@ -87,6 +91,7 @@ public final class SetOrDeleteNotUmamusumeServlet extends HttpServlet {
 			// 変更元
 			final String target = request.getParameter("target") == null ? "" : request.getParameter("target");
 			forward(request, response, name, parameter, button, target, nudao);
+			nudao.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -112,10 +117,13 @@ public final class SetOrDeleteNotUmamusumeServlet extends HttpServlet {
 	 *            ボタンの種類
 	 * @param target
 	 *            変更前の名前
+	 * @throws ServletException ページのフォワード処理に失敗①
+	 * @throws IOException ページのフォワード処理に失敗②
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	private void forward(final HttpServletRequest request, final HttpServletResponse response, final String name,
 			final String parameter, final String button, final String target, final NotUmamusumeDAO nudao)
-			throws ServletException, SQLException, IOException {
+			throws ServletException, IOException, SQLException {
 		// TODO 自動生成されたメソッド・スタブ
 		if (button != null && button.equals("add")) { // 追加ボタン
 			if (name.equals("") || parameter.equals("")) { // 名前もしくはパラメーターが入力されていない

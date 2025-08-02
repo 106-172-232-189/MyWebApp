@@ -20,6 +20,10 @@
     <location>/error/404_NotFound.html</location>
   </error-page>
   <error-page>
+    <error-code>405</error-code>
+    <location>/error/405_MethodNotAllowed.html</location>
+  </error-page>
+  <error-page>
     <error-code>500</error-code>
     <location>/error/500_InternalServerError.html</location>
   </error-page>

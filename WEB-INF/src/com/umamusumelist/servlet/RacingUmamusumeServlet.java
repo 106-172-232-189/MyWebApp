@@ -16,7 +16,7 @@ import com.umamusumelist.dao.RacingUmamusumeDAO;
  * 勝負服を得ているウマ娘の取得に関する処理を行うサーブレット
  *
  * @author Umamusumelist.com
- * @version 5.3
+ * @version 5.5
  */
 @WebServlet(name = "/RacingUmamusumeList")
 public final class RacingUmamusumeServlet extends HttpServlet {
@@ -36,6 +36,7 @@ public final class RacingUmamusumeServlet extends HttpServlet {
 	 *
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
+	 * @throws IOException エラーページの表示処理に失敗
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
@@ -46,6 +47,7 @@ public final class RacingUmamusumeServlet extends HttpServlet {
 			request.setAttribute("noMax", rudao.noMax()); // 勝負服を得ているウマ娘の総数
 			request.setAttribute("racingUmamusumeList", rudao.getList(false));
 			request.getRequestDispatcher("./jsp/RacingUmamusumeJSP.jsp").forward(request, response);
+			rudao.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -57,6 +59,7 @@ public final class RacingUmamusumeServlet extends HttpServlet {
 	 *
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
+	 * @throws IOException エラーページの表示処理に失敗
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
@@ -69,6 +72,7 @@ public final class RacingUmamusumeServlet extends HttpServlet {
 			request.setAttribute("racingUmamusumeList", getRacingUmamusume(rudao, id));
 			request.setAttribute("id", id);
 			request.getRequestDispatcher("./jsp/RacingUmamusumeJSP.jsp").forward(request, response);
+			rudao.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -80,6 +84,7 @@ public final class RacingUmamusumeServlet extends HttpServlet {
 	 *
 	 * @param id 検索欄に入力された文字列
 	 * @return idで勝負服を得ているウマ娘一覧の中から検索した結果を格納するArrayListオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	private List<RacingUmamusumeBean> getRacingUmamusume(final RacingUmamusumeDAO rudao, final String id) throws SQLException {
 		if (id == null || id.equals("")) {

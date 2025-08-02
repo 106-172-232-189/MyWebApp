@@ -15,7 +15,7 @@ import com.umamusumelist.util.KatakanaToZenkaku;
  * ウマ娘を取り扱うDAO
  *
  * @author Umamusumelist.com
- * @version 5.2
+ * @version 5.5
  */
 public final class UmamusumeDAO {
 
@@ -33,8 +33,11 @@ public final class UmamusumeDAO {
 
 	/**
 	 * 新規インスタンス作成時のコンストラクター
+	 *
+	 * @throws ClassNotFoundException JDBCドライバーが見つからない
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
-	public UmamusumeDAO() throws Exception {
+	public UmamusumeDAO() throws ClassNotFoundException, SQLException {
 		Class.forName("org.postgresql.Driver");
 		c = DriverManager.getConnection(URL, USER, PASSWORD);
 	}
@@ -45,6 +48,7 @@ public final class UmamusumeDAO {
 	 * @param isExclusive
 	 *            トレセン学園関係者であるか
 	 * @return ウマ娘一覧を全件取得するSQL文をデータベースに送るためのPreparedStatementオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	private ResultSet select(final boolean isExclusive) throws SQLException {
 		return c.prepareStatement(isExclusive
@@ -57,6 +61,7 @@ public final class UmamusumeDAO {
 	 * 名前もしくは名前の一部でウマ娘一覧の中から検索
 	 *
 	 * @return 名前もしくは名前の一部でウマ娘一覧の中から検索するSQL文をデータベースに送るためのPreparedStatementオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	private PreparedStatement searchByName() throws SQLException {
 		return c.prepareStatement("SELECT noA, name, parameter, noB FROM ("
@@ -70,6 +75,7 @@ public final class UmamusumeDAO {
 	 * 図鑑番号でウマ娘一覧(800番台以上を除く)の中から検索
 	 *
 	 * @return 図鑑番号でウマ娘一覧(800番台以上を除く)の中から検索するSQL文をデータベースに送るためのPreparedStatementオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	private PreparedStatement searchByNo() throws SQLException {
 		return c.prepareStatement("SELECT noA, name, parameter, noB FROM ("
@@ -83,6 +89,7 @@ public final class UmamusumeDAO {
 	 * @param isExclusive
 	 *            トレセン学園関係者であるか
 	 * @return 勝負服を得ていないウマ娘一覧を取得するSQL文をデータベースに送るためのPreparedStatementオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	private ResultSet selectWhereRacingUmamusumeNoIsNull(final boolean isExclusive) throws SQLException {
 		return c.prepareStatement(isExclusive
@@ -97,6 +104,7 @@ public final class UmamusumeDAO {
 	 * @param isExclusive
 	 *            トレセン学園関係者であるか
 	 * @return 新たなウマ娘を一覧に登録するSQL文をデータベースに送るためのPreparedStatementオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	private PreparedStatement insert(final boolean isExclusive) throws SQLException {
 		return c.prepareStatement(
@@ -110,6 +118,7 @@ public final class UmamusumeDAO {
 	 * @param isExclusive
 	 *            トレセン学園関係者であるか
 	 * @return ウマ娘の情報を変更するSQL文をデータベースに送るためのPreparedStatementオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	private PreparedStatement update(final boolean isExclusive) throws SQLException {
 		return c.prepareStatement("UPDATE " + (isExclusive ? "Umamusume_Exclusive " : "Umamusume ")
@@ -122,10 +131,24 @@ public final class UmamusumeDAO {
 	 * @param isExclusive
 	 *            トレセン学園関係者であるか
 	 * @return 何らかの事情により登場できなくなったウマ娘を一覧から削除するSQL文をデータベースに送るためのPreparedStatementオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	private PreparedStatement delete(final boolean isExclusive) throws SQLException {
 		return c.prepareStatement(
 				"DELETE FROM " + (isExclusive ? "Umamusume_Exclusive " : "Umamusume ") + "WHERE no = ?;");
+	}
+
+	/**
+	 * データベースへの接続を終了
+	 *
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
+	 */
+	public void close() throws SQLException {
+		if (c == null) {
+			return;
+		} else {
+			c.close();
+		}
 	}
 
 	/**
@@ -134,6 +157,7 @@ public final class UmamusumeDAO {
 	 * @param isExclusive
 	 *            トレセン学園関係者であるか
 	 * @return ウマ娘一覧(テーブル別)を全件取得した結果を格納するArrayListオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	public List<UmamusumeBean> getList(final boolean isExclusive) throws SQLException {
 		final List<UmamusumeBean> ubl = new ArrayList<>();
@@ -151,6 +175,7 @@ public final class UmamusumeDAO {
 	 * ウマ娘一覧を全件取得
 	 *
 	 * @return ウマ娘一覧を全件取得した結果を格納するArrayListオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	public List<UmamusumeBean> getList() throws SQLException {
 		final List<UmamusumeBean> ubl = getList(false);
@@ -164,6 +189,7 @@ public final class UmamusumeDAO {
 	 * @param isExclusive
 	 *            トレセン学園関係者であるか
 	 * @return 勝負服を得ていないウマ娘一覧を取得した結果を格納するArrayListオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	public List<UmamusumeBean> getListWhereRacingUmamusumeNoIsNull(final boolean isExclusive) throws SQLException {
 		final List<UmamusumeBean> ubl = new ArrayList<>();
@@ -183,6 +209,7 @@ public final class UmamusumeDAO {
 	 * @param name
 	 *            名前
 	 * @return 名前もしくは名前の一部でウマ娘一覧の中から検索した結果を格納するArrayListオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	public List<UmamusumeBean> getUmamusume(final String name) throws SQLException {
 		final PreparedStatement ps = searchByName();
@@ -205,6 +232,7 @@ public final class UmamusumeDAO {
 	 * @param umadexNo
 	 *            図鑑番号
 	 * @return 図鑑番号でウマ娘一覧(800番台以上を除く)の中から検索した結果を格納するArrayListオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	public List<UmamusumeBean> getUmamusume(final int umadexNo) throws SQLException {
 		final PreparedStatement ps = searchByNo();
@@ -228,6 +256,7 @@ public final class UmamusumeDAO {
 	 *            名前
 	 * @param parameter
 	 *            ウマ娘公式ポータルサイトにおける識別子
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	public void setUmamusume(final String name, final String parameter) throws SQLException {
 		setUmamusume(false, 0, name, parameter);
@@ -244,6 +273,7 @@ public final class UmamusumeDAO {
 	 *            名前
 	 * @param parameter
 	 *            ウマ娘公式ポータルサイトにおける識別子
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	public void setUmamusume(final boolean isExclusive, final int umadexNo, final String name, final String parameter)
 			throws SQLException {
@@ -273,6 +303,7 @@ public final class UmamusumeDAO {
 	 *            変更後の名前
 	 * @param newParameter
 	 *            変更後のウマ娘公式ポータルサイトにおける識別子
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	public void updateName(final boolean isExclusive, final int umadexNo, final String newName,
 			final String newParameter) throws SQLException {
@@ -291,6 +322,7 @@ public final class UmamusumeDAO {
 	 *            トレセン学園関係者であるか
 	 * @param umadexNo
 	 *            図鑑番号
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	public void deleteUmamusume(final boolean isExclusive, final int umadexNo) throws SQLException {
 		final PreparedStatement ps = delete(isExclusive);
@@ -302,7 +334,6 @@ public final class UmamusumeDAO {
 		} catch (SQLException e) {
 			// 正常に削除されたとみなす。
 		}
-
 	}
 
 	/**

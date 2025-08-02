@@ -15,7 +15,7 @@ import com.umamusumelist.util.KatakanaToZenkaku;
  * ウマ娘でないトレセン学園関係者を取り扱うDAO
  *
  * @author Umamusumelist.com
- * @version 5.2
+ * @version 5.5
  */
 public final class NotUmamusumeDAO {
 
@@ -33,8 +33,11 @@ public final class NotUmamusumeDAO {
 
 	/**
 	 * 新規インスタンス作成時のコンストラクター
+	 *
+	 * @throws ClassNotFoundException JDBCドライバーが見つからない
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
-	public NotUmamusumeDAO() throws Exception {
+	public NotUmamusumeDAO() throws ClassNotFoundException, SQLException {
 		Class.forName("org.postgresql.Driver");
 		c = DriverManager.getConnection(URL, USER, PASSWORD);
 	}
@@ -43,6 +46,7 @@ public final class NotUmamusumeDAO {
 	 * ウマ娘でないトレセン学園関係者一覧を全件取得
 	 *
 	 * @return ウマ娘でないトレセン学園関係者一覧を全件取得するSQL文をデータベースに送るためのPreparedStatementオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	private ResultSet select() throws SQLException {
 		return c.prepareStatement("SELECT name, parameter FROM Not_Umamusume ORDER BY name;").executeQuery();
@@ -52,6 +56,7 @@ public final class NotUmamusumeDAO {
 	 * 名前もしくは名前の一部でウマ娘でないトレセン学園関係者一覧の中から検索して取得
 	 *
 	 * @return 名前もしくは名前の一部でウマ娘でないトレセン学園関係者一覧の中から検索して取得するSQL文をデータベースに送るためのPreparedStatementオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	private PreparedStatement search() throws SQLException {
 		return c.prepareStatement("SELECT name, parameter FROM Not_Umamusume WHERE name LIKE ? ORDER BY name;");
@@ -61,6 +66,7 @@ public final class NotUmamusumeDAO {
 	 * 新たな「ウマ娘でないトレセン学園関係者」を一覧に登録
 	 *
 	 * @return 新たな「ウマ娘でないトレセン学園関係者」を一覧に登録するSQL文をデータベースに送るためのPreparedStatementオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	private PreparedStatement insert() throws SQLException {
 		return c.prepareStatement("INSERT INTO Not_Umamusume (name, parameter) VALUES (?, ?);");
@@ -70,6 +76,7 @@ public final class NotUmamusumeDAO {
 	 * ウマ娘でないトレセン学園関係者の情報を変更
 	 *
 	 * @return ウマ娘でないトレセン学園関係者の情報を変更するSQL文をデータベースに送るためのPreparedStatementオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	private PreparedStatement update() throws SQLException {
 		return c.prepareStatement("UPDATE Not_Umamusume SET name = ?, parameter = ? WHERE name = ?;");
@@ -79,15 +86,30 @@ public final class NotUmamusumeDAO {
 	 * 何らかの事情により登場できなくなった「ウマ娘でないトレセン学園関係者」を一覧から削除
 	 *
 	 * @return 何らかの事情により登場できなくなった「ウマ娘でないトレセン学園関係者」を一覧から削除するSQL文をデータベースに送るためのPreparedStatementオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	private PreparedStatement delete() throws SQLException {
 		return c.prepareStatement("DELETE FROM Not_Umamusume WHERE name = ?;");
 	}
 
 	/**
+	 * データベースへの接続を終了
+	 *
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
+	 */
+	public void close() throws SQLException {
+		if (c == null) {
+			return;
+		} else {
+			c.close();
+		}
+	}
+
+	/**
 	 * ウマ娘でないトレセン学園関係者一覧を全件取得
 	 *
 	 * @return ウマ娘でないトレセン学園関係者一覧を全件取得した結果を格納するArrayListオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	public List<NotUmamusumeBean> getList() throws SQLException {
 		final List<NotUmamusumeBean> ubl = new ArrayList<>();
@@ -106,6 +128,7 @@ public final class NotUmamusumeDAO {
 	 * @param name
 	 *            名前
 	 * @return 名前もしくは名前の一部でウマ娘でないトレセン学園関係者一覧の中から検索した結果を格納するArrayListオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	public List<NotUmamusumeBean> getNotUmamusume(final String name) throws SQLException {
 		final PreparedStatement ps = search();
@@ -128,6 +151,7 @@ public final class NotUmamusumeDAO {
 	 *            名前
 	 * @param parameter
 	 *            ウマ娘公式ポータルサイトにおける識別子
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	public void setNotUmamusume(final String name, final String parameter) throws SQLException {
 		final PreparedStatement ps = insert();
@@ -146,6 +170,7 @@ public final class NotUmamusumeDAO {
 	 *            変更後の名前
 	 * @param newParameter
 	 *            変更後の「ウマ娘公式ポータルサイトにおける識別子」
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	public void updateName(final String name, final String newName, final String newParameter) throws SQLException {
 		final PreparedStatement ps = update();
@@ -161,6 +186,7 @@ public final class NotUmamusumeDAO {
 	 *
 	 * @param name
 	 *            名前
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	public void deleteNotUmamusume(final String name) throws SQLException {
 		final PreparedStatement ps = delete();
@@ -171,7 +197,6 @@ public final class NotUmamusumeDAO {
 		} catch (SQLException e) {
 			// 正常に削除されたとみなす。
 		}
-
 	}
 
 	/**
