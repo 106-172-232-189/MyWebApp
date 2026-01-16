@@ -19,7 +19,7 @@ import com.umamusumelist.dao.UmamusumeDAO;
  * 勝負服を得たウマ娘の登録・削除処理を行うサーブレット
  *
  * @author Umamusumelist.com
- * @version 5.2
+ * @version 5.5
  *
  */
 @WebServlet(name = "Manager/SetOrDeleteRacingUmamusume")
@@ -41,6 +41,7 @@ public final class SetOrDeleteRacingUmamusumeServlet extends HttpServlet {
 	 *
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
+	 * @throws IOException エラーページの表示処理に失敗
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
@@ -61,6 +62,8 @@ public final class SetOrDeleteRacingUmamusumeServlet extends HttpServlet {
 			request.setAttribute("racingUmamusumeListExclusive", rudao.getList(true)); // 勝負服を得ている特殊なウマ娘
 			request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteRacingUmamusume.jsp").forward(request,
 					response);
+			udao.close();
+			rudao.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -73,14 +76,12 @@ public final class SetOrDeleteRacingUmamusumeServlet extends HttpServlet {
 	 *
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
+	 * @throws IOException エラーページの表示処理に失敗
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
 		try {
 			request.setCharacterEncoding("UTF-8");
-
-			final UmamusumeDAO udao = new UmamusumeDAO();
-			final RacingUmamusumeDAO rudao = new RacingUmamusumeDAO();
 
 			// 現在のセッションが無ければ、有効期限切れ画面を表示する。
 			if (request.getSession(false) == null) {
@@ -88,6 +89,8 @@ public final class SetOrDeleteRacingUmamusumeServlet extends HttpServlet {
 				return;
 			}
 
+			final UmamusumeDAO udao = new UmamusumeDAO();
+			final RacingUmamusumeDAO rudao = new RacingUmamusumeDAO();
 			// 特殊な勝負服番号(追加)
 			final int racingSuitNo = request.getParameter("no") == null || request.getParameter("no").equals("") ? 0
 					: Integer.parseInt(request.getParameter("no"));
@@ -117,6 +120,8 @@ public final class SetOrDeleteRacingUmamusumeServlet extends HttpServlet {
 			}
 			forward(request, response, racingSuitNo, button, isExclusive, target, target2, target3, target4, appeared,
 					udao, rudao);
+			udao.close();
+			rudao.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -147,11 +152,14 @@ public final class SetOrDeleteRacingUmamusumeServlet extends HttpServlet {
 	 *            削除対象の勝負服番号(トレセン学園関係者)
 	 * @param appeared
 	 *            ウマ娘公式ポータルサイトにて勝負服が登録された日時
+	 * @throws ServletException ページのフォワード処理に失敗①
+	 * @throws IOException ページのフォワード処理に失敗②
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	private void forward(final HttpServletRequest request, final HttpServletResponse response, final int racingSuitNo,
 			final String button, final boolean isExclusive, final int target, final int target2, final int target3,
 			final int target4, final Date appeared, final UmamusumeDAO udao, final RacingUmamusumeDAO rudao)
-			throws ServletException, SQLException, IOException {
+			throws ServletException, IOException, SQLException {
 		// TODO 自動生成されたメソッド・スタブ
 		if (button != null && button.equals("add")) { // 追加ボタン
 			if ((isExclusive ? target2 : target) == 0 || (isExclusive && racingSuitNo == 0)) { // 勝負服を得たウマ娘を新たに追加する際、登録対象が選択されていない、また、特殊なウマ娘の場合は、勝負服番号が入力されていない

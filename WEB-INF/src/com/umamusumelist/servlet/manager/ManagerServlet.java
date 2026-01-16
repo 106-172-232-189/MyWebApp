@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
  * 管理者専用ページへのログインに関する処理を行うサーブレット
  *
  * @author Umamusumelist.com
- * @version 5.2
+ * @version 5.5
  */
 @WebServlet(name = "/Manager/")
 public final class ManagerServlet extends HttpServlet {
@@ -34,6 +34,8 @@ public final class ManagerServlet extends HttpServlet {
 	 *
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
+	 * @throws ServletException ページのフォワード処理に失敗①
+	 * @throws IOException ページのフォワード処理に失敗②
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -57,6 +59,8 @@ public final class ManagerServlet extends HttpServlet {
 	 *
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
+	 * @throws ServletException ページのフォワード処理に失敗①
+	 * @throws IOException ページのフォワード処理に失敗②
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub

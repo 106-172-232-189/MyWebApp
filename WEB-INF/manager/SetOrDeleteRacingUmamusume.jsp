@@ -9,7 +9,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width">
-		<title>登録/削除(勝負服)</title>
+		<title>登録/削除(育成ウマ娘番号)</title>
 		<link rel="stylesheet" href="../../css/Style1.css">
 		<link rel="icon" href="../../favicon.ico">
 		<link rel="icon" sizes="192x192" href="../../android-touch-icon-192x192.png">
@@ -23,7 +23,7 @@
 		<% List<UmamusumeBean> umamusumeListExclusive = (List) request.getAttribute("umamusumeListExclusive"); %>
 		<% List<RacingUmamusumeBean> racingUmamusumeListNotExclusive = (List) request.getAttribute("racingUmamusumeListNotExclusive"); %>
 		<% List<RacingUmamusumeBean> racingUmamusumeListExclusive = (List) request.getAttribute("racingUmamusumeListExclusive"); %>
-		<h1>登録/削除(勝負服)</h1>
+		<h1>登録/削除(育成ウマ娘番号)</h1>
 		<% String message = (String) request.getAttribute("message"); %>
 		<p><%= message == null ? "" : message %></p>
 		<form action="SetOrDeleteRacingUmamusume" method="post">
@@ -36,30 +36,30 @@
 			<select name="target" class="notExclusive" disabled="disabled">
 				<option value="0"></option>
 				<% for (UmamusumeBean u : umamusumeListNotExclusive) { %>
-				<option value="<%= u.umadexNo() %>">No.<%= u.umadexNo() %>: <%= u.name() == null ? "" : u.name() %></option>
+				<option value="<%= u.umadexNo() %>">ウマ娘<%= u.umadexNo() %>号: <%= u.name() == null ? "" : u.name() %></option>
 				<% } %>
 			</select>
 			<select name="target2" class="exclusive" disabled="disabled">
 				<option value="0"></option>
 				<% for (UmamusumeBean u : umamusumeListExclusive) { %>
-				<option value="<%= u.umadexNo() %>">No.<%= u.umadexNo() %>: <%= u.name() == null ? "" : u.name() %></option>
+				<option value="<%= u.umadexNo() %>">ウマ娘<%= u.umadexNo() %>号: <%= u.name() == null ? "" : u.name() %></option>
 				<% } %>
 			</select><br>
-			勝負服登録日(通常): <input type="date" name="appeared" class="notExclusive" disabled="disabled" id="today"><br>
-			勝負服番号(特殊): 900&plus;<input type="text" class="exclusive" name="no" placeholder="2桁までの番号" title="2桁までの番号" pattern="^[0-9０-９]{1,2}$" disabled="disabled"><br>
+			登録日(通常): <input type="date" name="appeared" class="notExclusive" disabled="disabled" id="today"><br>
+			育成ウマ娘番号(特殊): 900&plus;<input type="text" class="exclusive" name="no" placeholder="2桁までの番号" title="2桁までの番号" pattern="^[0-9０-９]{1,2}$" disabled="disabled"><br>
 			<button type="submit" name="button" value="add">追加</button>
 			<h2>削除</h2>
 			名前:
 			<select name="target3" class="notExclusive" disabled="disabled">
 				<option value="0"></option>
 				<% for (RacingUmamusumeBean ru : racingUmamusumeListNotExclusive) { %>
-				<option value="<%= ru.racingSuitNo() %>">勝負服<%= ru.racingSuitNo() %>号: <%= ru.name() == null ? "" : ru.name() %></option>
+				<option value="<%= ru.racingSuitNo() %>">育成ウマ娘<%= ru.racingSuitNo() %>号: <%= ru.name() == null ? "" : ru.name() %></option>
 				<% } %>
 			</select>
 			<select name="target4" class="exclusive" disabled="disabled">
 				<option value="0"></option>
 				<% for (RacingUmamusumeBean ru : racingUmamusumeListExclusive) { %>
-				<option value="<%= ru.racingSuitNo() %>">勝負服<%= 900 + ru.racingSuitNo() %>号: <%= ru.name() == null ? "" : ru.name() %></option>
+				<option value="<%= ru.racingSuitNo() %>">育成ウマ娘<%= 900 + ru.racingSuitNo() %>号: <%= ru.name() == null ? "" : ru.name() %></option>
 				<% } %>
 			</select><br>
 			<button type="submit" name="button" value="delete">削除</button>

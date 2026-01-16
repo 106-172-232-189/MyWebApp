@@ -16,7 +16,7 @@ import com.umamusumelist.util.KatakanaToZenkaku;
  * 勝負服を得たウマ娘を取り扱うDAO
  *
  * @author Umamusumelist.com
- * @version 5.2
+ * @version 5.5
  */
 public final class RacingUmamusumeDAO {
 
@@ -34,8 +34,11 @@ public final class RacingUmamusumeDAO {
 
 	/**
 	 * 新規インスタンス作成時のコンストラクター
+	 *
+	 * @throws ClassNotFoundException JDBCドライバーが見つからない
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
-	public RacingUmamusumeDAO() throws Exception {
+	public RacingUmamusumeDAO() throws ClassNotFoundException, SQLException {
 		Class.forName("org.postgresql.Driver");
 		c = DriverManager.getConnection(URL, USER, PASSWORD);
 	}
@@ -46,6 +49,7 @@ public final class RacingUmamusumeDAO {
 	 * @param isExclusive
 	 *            排他的な勝負服であるか
 	 * @return 勝負服を得ているウマ娘一覧を全件取得するSQL文をデータベースに送るためのPreparedStatementオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	private ResultSet select(boolean isExclusive) throws SQLException {
 		return c.prepareStatement((isExclusive
@@ -61,6 +65,7 @@ public final class RacingUmamusumeDAO {
 	 * @param isExclusive
 	 *            排他的な勝負服であるか
 	 * @return 名前もしくは名前の一部で勝負服を得ているウマ娘一覧の中から検索するSQL文をデータベースに送るためのPreparedStatementオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	private PreparedStatement searchByName(final boolean isExclusive) throws SQLException {
 		return c.prepareStatement("SELECT noA, name, appeared, parameter, noB FROM ("
@@ -75,6 +80,7 @@ public final class RacingUmamusumeDAO {
 	 * 勝負服番号で勝負服を得ているウマ娘一覧(900番台を除く)の中から検索
 	 *
 	 * @return 勝負服番号で勝負服を得ているウマ娘一覧(900番台を除く)の中から検索するSQL文をデータベースに送るためのPreparedStatementオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	private PreparedStatement searchByNo() throws SQLException {
 		return c.prepareStatement("SELECT noA, name, appeared, parameter, noB FROM ( "
@@ -88,6 +94,7 @@ public final class RacingUmamusumeDAO {
 	 * @param isExclusive
 	 *            排他的な勝負服であるか
 	 * @return 新たに勝負服を得たウマ娘を一覧に登録するSQL文をデータベースに送るためのPreparedStatementオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	private PreparedStatement insert(final boolean isExclusive) throws SQLException {
 		return c.prepareStatement("INSERT INTO " + (isExclusive
@@ -102,6 +109,7 @@ public final class RacingUmamusumeDAO {
 	 * @param isExclusive
 	 *            排他的な勝負服であるか
 	 * @return 何らかの事情により登場できなくなったウマ娘を勝負服番号から特定して一覧から削除するSQL文をデータベースに送るためのPreparedStatementオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	private PreparedStatement delete(final boolean isExclusive) throws SQLException {
 		return c.prepareStatement(
@@ -110,11 +118,25 @@ public final class RacingUmamusumeDAO {
 	}
 
 	/**
+	 * データベースへの接続を終了
+	 *
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
+	 */
+	public void close() throws SQLException {
+		if (c == null) {
+			return;
+		} else {
+			c.close();
+		}
+	}
+
+	/**
 	 * 勝負服を得ているウマ娘一覧(テーブル別)を全件取得
 	 *
 	 * @param isExclusive
 	 *            排他的な勝負服であるか
 	 * @return 勝負服を得ているウマ娘一覧(テーブル別)を全件取得した結果を格納するArrayListオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	public List<RacingUmamusumeBean> getList(boolean isExclusive) throws SQLException {
 		final List<RacingUmamusumeBean> rubl = new ArrayList<>();
@@ -132,6 +154,7 @@ public final class RacingUmamusumeDAO {
 	 * 勝負服を得ているウマ娘一覧を全件取得
 	 *
 	 * @return 勝負服を得ているウマ娘一覧を全件取得した結果を格納するArrayListオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	public List<RacingUmamusumeBean> getList() throws SQLException {
 		final List<RacingUmamusumeBean> rubl = getList(false);
@@ -147,6 +170,7 @@ public final class RacingUmamusumeDAO {
 	 * @param name
 	 *            名前
 	 * @return 名前もしくは名前の一部で勝負服を得ているウマ娘一覧の中から検索した結果を格納するArrayListオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	public List<RacingUmamusumeBean> getRacingUmamusume(final boolean isExclusive, final String name)
 			throws SQLException {
@@ -170,6 +194,7 @@ public final class RacingUmamusumeDAO {
 	 * @param racingSuitno
 	 *            勝負服番号
 	 * @return 勝負服番号で勝負服を得ているウマ娘一覧(900番台を除く)の中から検索した結果を格納するArrayListオブジェクト
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	public List<RacingUmamusumeBean> getRacingUmamusume(final int racingSuitno) throws SQLException {
 		final PreparedStatement ps = searchByNo();
@@ -197,6 +222,7 @@ public final class RacingUmamusumeDAO {
 	 *            図鑑番号
 	 * @param appeared
 	 *            ウマ娘公式ポータルサイトにて勝負服が登録された日時
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	public void setRacingUmamusume(final boolean isExclusive, final int racingSuitNo, final int umadexNo,
 			final Date appeared) throws SQLException {
@@ -222,6 +248,7 @@ public final class RacingUmamusumeDAO {
 	 *            排他的な勝負服であるか
 	 * @param racingSuitNo
 	 *            勝負服番号
+	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
 	public void deleteRacingUmamusume(final boolean isExclusive, final int racingSuitNo) throws SQLException {
 		final PreparedStatement ps = delete(isExclusive);

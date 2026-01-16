@@ -1,3 +1,7 @@
+body {
+	font-family: 'ヒラギノ角ゴ ProN';
+}
+
 h1, h2, p, form {
 	text-align: center;
 }
@@ -10,12 +14,15 @@ table {
 	margin-left: auto;
 	margin-right: auto;
 	border-collapse: collapse;
-	font-family: 'ヒラギノ角ゴ ProN';
 	font-size: 25px;
 }
 
 .tr-sp {
-	height: 43px;
+	height: 60px;
+}
+
+.th-sp {
+	width: 102px;
 }
 
 .td-sp {
@@ -26,8 +33,12 @@ th, td {
 	border: 1px solid;
 }
 
-.div3, .div5 {
+.div5 {
 	font-size: 15px;
+}
+
+.div7 {
+	font-size: 18px
 }
 
 .imgB {
@@ -35,23 +46,23 @@ th, td {
 }
 
 @media screen and (max-width: 560px) {
-	body {
-		font-family: 'ヒラギノ角ゴ ProN';
-	}
-
-	.div3 {
-		font-size: 12px;
-	}
-
 	table {
 		font-size: 18px;
+	}
+
+	.dualFont {
+		font-family: 'Arial';
 	}
 
 	.tr-sp {
 		height: 30px;
 	}
 
-	div, .div4 {
+	.th-sp {
+		width: 74px;
+	}
+
+	div, .div4, .div7 {
 		font-size: 13px;
 	}
 
@@ -62,7 +73,6 @@ th, td {
 	.imgB {
 		width: 90%;
 	}
-
 }
 
 @media screen and (min-width: 435px){
