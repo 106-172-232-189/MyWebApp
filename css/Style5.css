@@ -1,0 +1,10 @@
+@CHARSET "UTF-8";
+h1, .div2 {
+	text-align: center;
+}
+
+@media screen and (max-width: 530px) {
+	body {
+		font-family: 'ヒラギノ角ゴ ProN';
+	}
+}

@@ -1,0 +1,104 @@
+body {
+	font-family: 'ヒラギノ角ゴ ProN';
+}
+
+h1, h2, p, form {
+	text-align: center;
+}
+
+.search {
+	display: inline-flex;
+}
+
+table {
+	margin-left: auto;
+	margin-right: auto;
+	border-collapse: collapse;
+	font-size: 25px;
+}
+
+.th-sp {
+	width: 112px;
+}
+
+.td-sp {
+	font-size: 13px;
+}
+
+th, td {
+	border: 1px solid;
+}
+
+.div3, .div5 {
+	font-size: 15px;
+}
+
+.div7 {
+	font-size: 18px
+}
+
+.imgB {
+	width: 500px;
+}
+
+@media screen and (max-width: 560px) {
+	.div3 {
+		font-size: 12px;
+	}
+
+	table {
+		font-size: 18px;
+	}
+
+	.dualFont {
+		font-family: 'Arial';
+	}
+
+	.tr-sp {
+		height: 30px;
+	}
+
+	.th-sp {
+		width: 85px;
+	}
+
+	div, .div4, .div7 {
+		font-size: 13px;
+	}
+
+	.div5 {
+		font-size: 11px;
+	}
+
+	.imgB {
+		width: 90%;
+	}
+
+	.dualFont2 {
+		font-family: 'Oswald';
+	}
+}
+
+@media screen and (min-width: 435px){
+	.br-sp {
+		display: none;
+	}
+}
+
+@media screen and (min-width: 400px){
+	.br-sp2 {
+		display: none;
+	}
+}
+
+@media screen and (min-width: 350px){
+	.br-sp3 {
+		display: none;
+	}
+}
+
+@media screen and (min-width: 375px){
+	.br-sp4 {
+		display: none;
+	}
+}
