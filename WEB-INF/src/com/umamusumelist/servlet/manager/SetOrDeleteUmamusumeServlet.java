@@ -17,7 +17,7 @@ import com.umamusumelist.dao.UmamusumeDAO;
  * ウマ娘の登録・削除処理を行うサーブレット
  *
  * @author Umamusumelist.com
- * @version 5.5
+ * @version 5.6
  *
  */
 @WebServlet(name = "Manager/SetOrDeleteUmamusume")
@@ -82,21 +82,31 @@ public final class SetOrDeleteUmamusumeServlet extends HttpServlet {
 			}
 
 			final UmamusumeDAO udao = new UmamusumeDAO();
+
 			// 名前
 			final String name = request.getParameter("name") == null ? "" : request.getParameter("name");
-			// 図鑑番号(登録)
-			final int umadexNo = request.getParameter("umadexNo") == null || request.getParameter("umadexNo").equals("") ? 0
-					: Integer.parseInt(request.getParameter("umadexNo"));
 			// パラメーター
 			final String parameter = request.getParameter("parameter") == null ? "" : request.getParameter("parameter");
 			// 追加ボタンもしくは変更ボタンもしくは削除ボタン
 			final String button = request.getParameter("button");
+			// 図鑑番号(登録)
+			int umadexNo;
 			// 図鑑番号(変更もしくは削除)
-			final int target = request.getParameter("target") == null || request.getParameter("target").equals("") ? 0
-					: Integer.parseInt(request.getParameter("target"));
+			int target;
+			try {
+				umadexNo = request.getParameter("umadexNo") == null || request.getParameter("umadexNo").equals("") ? 0
+						: Integer.parseInt(request.getParameter("umadexNo"));
+				target = request.getParameter("target") == null || request.getParameter("target").equals("") ? 0
+						: Integer.parseInt(request.getParameter("target"));
+			} catch (NumberFormatException e) {
+				umadexNo = 0;
+				target = 0;
+			}
+
 			forward(request, response, name, umadexNo, parameter, button, target, udao);
 			udao.close();
 		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}

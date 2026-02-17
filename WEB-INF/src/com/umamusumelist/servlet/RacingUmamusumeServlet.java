@@ -16,7 +16,7 @@ import com.umamusumelist.dao.RacingUmamusumeDAO;
  * 勝負服を得ているウマ娘の取得に関する処理を行うサーブレット
  *
  * @author Umamusumelist.com
- * @version 5.5
+ * @version 5.6
  */
 @WebServlet(name = "/RacingUmamusumeList")
 public final class RacingUmamusumeServlet extends HttpServlet {
@@ -92,7 +92,7 @@ public final class RacingUmamusumeServlet extends HttpServlet {
 		}
 
 		try {
-			return rudao.getRacingUmamusume(Integer.parseInt(id));
+			return rudao.getRacingUmamusume(Integer.parseInt(id.trim().replaceAll("[,，_＿　]", "")));
 		} catch (NumberFormatException e) {
 			return rudao.getRacingUmamusume(false, id);
 		}

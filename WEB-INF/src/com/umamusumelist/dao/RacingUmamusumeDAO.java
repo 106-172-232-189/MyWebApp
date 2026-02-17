@@ -16,7 +16,7 @@ import com.umamusumelist.util.KatakanaToZenkaku;
  * 勝負服を得たウマ娘を取り扱うDAO
  *
  * @author Umamusumelist.com
- * @version 5.5
+ * @version 5.6
  */
 public final class RacingUmamusumeDAO {
 
@@ -72,7 +72,7 @@ public final class RacingUmamusumeDAO {
 				+ (isExclusive
 						? "SELECT A.no AS noA, A.name AS name, A.appeared AS appeared, B.parameter AS parameter, B.no AS noB FROM Racing_Umamusume_Exclusive AS A INNER JOIN Umamusume_Exclusive AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name))"
 						: "SELECT A.no AS noA, A.name AS name, A.appeared AS appeared, B.parameter AS parameter, B.no AS noB FROM Racing_Umamusume AS A INNER JOIN Umamusume AS B ON ((A.name IS NULL AND B.name IS NULL) OR (A.name = B.name))")
-				+ ") AS Racing_Umamusume WHERE name LIKE ? ORDER BY noA;");
+				+ ") AS Racing_Umamusume WHERE name ILIKE ? ORDER BY noA;");
 
 	}
 
@@ -177,7 +177,7 @@ public final class RacingUmamusumeDAO {
 		final PreparedStatement ps = searchByName(isExclusive);
 		final List<RacingUmamusumeBean> rubl = new ArrayList<>();
 
-		ps.setString(1, "%" + KatakanaToZenkaku.katakanaToZenkaku(name) + "%");
+		ps.setString(1, "%" + KatakanaToZenkaku.katakanaToZenkaku(name).replaceAll("[<>\"'!@#$%\\\\&|:*+\\[\\]/{}=\\-]", "") + "%");
 		final ResultSet rs = ps.executeQuery();
 
 		while (rs.next()) {

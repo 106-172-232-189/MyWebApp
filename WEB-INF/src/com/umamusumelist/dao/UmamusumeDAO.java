@@ -15,7 +15,7 @@ import com.umamusumelist.util.KatakanaToZenkaku;
  * ウマ娘を取り扱うDAO
  *
  * @author Umamusumelist.com
- * @version 5.5
+ * @version 5.6
  */
 public final class UmamusumeDAO {
 
@@ -68,7 +68,7 @@ public final class UmamusumeDAO {
 				+ "SELECT A.no AS noA, A.name, A.parameter, B.no AS noB FROM Umamusume AS A LEFT OUTER JOIN Racing_Umamusume AS B on (A.name IS null AND B.name IS null) OR A.name = B.name "
 				+ "UNION "
 				+ "SELECT A.no AS noA, A.name, A.parameter, B.no AS noB FROM Umamusume_Exclusive AS A LEFT OUTER JOIN Racing_Umamusume_Exclusive AS B on (A.name IS null AND B.name IS null) OR A.name = B.name) "
-				+ "AS Umamusume WHERE name LIKE ? ORDER BY noA;");
+				+ "AS Umamusume WHERE name ILIKE ? ORDER BY noA;");
 	}
 
 	/**
@@ -215,7 +215,7 @@ public final class UmamusumeDAO {
 		final PreparedStatement ps = searchByName();
 		final List<UmamusumeBean> ubl = new ArrayList<>();
 
-		ps.setString(1, "%" + KatakanaToZenkaku.katakanaToZenkaku(name) + "%");
+		ps.setString(1, "%" + KatakanaToZenkaku.katakanaToZenkaku(name).replaceAll("[<>\"'!@#$%\\\\&|:*+\\[\\]/{}=\\-]", "") + "%");
 		final ResultSet rs = ps.executeQuery();
 
 		while (rs.next()) {
@@ -279,8 +279,8 @@ public final class UmamusumeDAO {
 			throws SQLException {
 		final PreparedStatement ps = insert(isExclusive);
 		ps.setInt(1, umadexNo);
-		ps.setString(2, name);
-		ps.setString(3, parameter.equals("") ? null : parameter);
+		ps.setString(2, name.replaceAll("[<>\"'!@#$%\\\\&|:*+\\[\\]/{}=\\-]", ""));
+		ps.setString(3, parameter.equals("") ? null : parameter.replaceAll("[<>\"'!@#$%\\\\&|:*+\\[\\]/{}=\\-]", ""));
 		ps.executeUpdate();
 	}
 
@@ -301,8 +301,8 @@ public final class UmamusumeDAO {
 			final String newParameter) throws SQLException {
 		final PreparedStatement ps = update(isExclusive);
 
-		ps.setString(1, newName);
-		ps.setString(2, newParameter);
+		ps.setString(1, newName.replaceAll("[<>\"'!@#$%\\\\&|:*+\\[\\]/{}=\\-]", ""));
+		ps.setString(2, newParameter.replaceAll("[<>\"'!@#$%\\\\&|:*+\\[\\]/{}=\\-]", ""));
 		ps.setInt(3, umadexNo);
 		ps.executeUpdate();
 	}

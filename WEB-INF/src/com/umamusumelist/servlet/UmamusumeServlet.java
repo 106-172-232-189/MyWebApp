@@ -19,7 +19,7 @@ import com.umamusumelist.dao.UmamusumeDAO;
  * ウマ娘、ウマ娘でないトレセン学園関係者の取得に関する処理を行うサーブレット
  *
  * @author Umamusumelist.com
- * @version 5.5
+ * @version 5.6
  */
 @WebServlet(name = "/UmamusumeList")
 public final class UmamusumeServlet extends HttpServlet {
@@ -107,7 +107,7 @@ public final class UmamusumeServlet extends HttpServlet {
 		}
 
 		try {
-			return udao.getUmamusume(Integer.parseInt(id));
+			return udao.getUmamusume(Integer.parseInt(id.trim().replaceAll("[,，_＿　]", "")));
 		} catch (NumberFormatException e) {
 			return udao.getUmamusume(id);
 		}

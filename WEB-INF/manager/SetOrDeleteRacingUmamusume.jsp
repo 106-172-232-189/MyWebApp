@@ -47,7 +47,7 @@
 				<% } %>
 			</select><br>
 			Registered Date(Normal): <input type="date" name="appeared" class="notExclusive" disabled="disabled" id="today"><br>
-			Trainee Umadex No.(Special): 900&plus;<input type="text" class="exclusive" name="no" placeholder="2 digits" title="2 digits" pattern="^[0-9０-９]{1,2}$" disabled="disabled"><br>
+			Trainee Umadex No.(Special): 1000&plus;<input type="text" class="exclusive" name="no" placeholder="2 digits" title="2 digits" pattern="^[0-9０-９]{1,2}$" disabled="disabled"><br>
 			<button type="submit" name="button" value="add">Regist</button>
 			<h2>Delete</h2>
 			Name:
@@ -60,7 +60,7 @@
 			<select name="target4" class="exclusive" disabled="disabled">
 				<option value="0"></option>
 				<% for (RacingUmamusumeBean ru : racingUmamusumeListExclusive) { %>
-				<option value="<%= ru.racingSuitNo() %>"><%= NumberSuffix.addSuffix(900 + ru.racingSuitNo()) %> Trainee Umamusume: <%= ru.name() == null ? "" : ru.name() %></option>
+				<option value="<%= ru.racingSuitNo() %>"><%= NumberSuffix.addSuffix(1000 + ru.racingSuitNo()) %> Trainee Umamusume: <%= ru.name() == null ? "" : ru.name() %></option>
 				<% } %>
 			</select><br>
 			<button type="submit" name="button" value="delete">Delete</button>
