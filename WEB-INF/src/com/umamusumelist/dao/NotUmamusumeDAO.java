@@ -15,7 +15,7 @@ import com.umamusumelist.util.KatakanaToZenkaku;
  * ウマ娘でないトレセン学園関係者を取り扱うDAO
  *
  * @author Umamusumelist.com
- * @version 5.5
+ * @version 5.6
  */
 public final class NotUmamusumeDAO {
 
@@ -134,7 +134,7 @@ public final class NotUmamusumeDAO {
 		final PreparedStatement ps = search();
 		final List<NotUmamusumeBean> ubl = new ArrayList<>();
 
-		ps.setString(1, "%" + KatakanaToZenkaku.katakanaToZenkaku(name) + "%");
+		ps.setString(1, "%" + KatakanaToZenkaku.katakanaToZenkaku(name).replaceAll("[<>\"'!@#$%\\\\&|:*+\\[\\]/{}=\\-]", "") + "%");
 		final ResultSet rs = ps.executeQuery();
 
 		while (rs.next()) {
@@ -156,8 +156,8 @@ public final class NotUmamusumeDAO {
 	public void setNotUmamusume(final String name, final String parameter) throws SQLException {
 		final PreparedStatement ps = insert();
 
-		ps.setString(1, name);
-		ps.setString(2, parameter.equals("") ? null : parameter);
+		ps.setString(1, name.replaceAll("[<>\"'!@#$%\\\\&|:*+\\[\\]/{}=\\-]", ""));
+		ps.setString(2, parameter.equals("") ? null : parameter.replaceAll("[<>\"'!@#$%\\\\&|:*+\\[\\]/{}=\\-]", ""));
 		ps.executeUpdate();
 	}
 
@@ -175,9 +175,9 @@ public final class NotUmamusumeDAO {
 	public void updateName(final String name, final String newName, final String newParameter) throws SQLException {
 		final PreparedStatement ps = update();
 
-		ps.setString(1, newName);
-		ps.setString(2, newParameter);
-		ps.setString(3, name);
+		ps.setString(1, newName.replaceAll("[<>\"'!@#$%\\\\&|:*+\\[\\]/{}=\\-]", ""));
+		ps.setString(2, newParameter.replaceAll("[<>\"'!@#$%\\\\&|:*+\\[\\]/{}=\\-]", ""));
+		ps.setString(3, name.replaceAll("[<>\"'!@#$%\\\\&|:*+\\[\\]/{}=\\-]", ""));
 		ps.executeUpdate();
 	}
 
@@ -192,7 +192,7 @@ public final class NotUmamusumeDAO {
 		final PreparedStatement ps = delete();
 
 		try {
-			ps.setString(1, name);
+			ps.setString(1, name.replaceAll("[<>\"'!@#$%\\\\&|:*+\\[\\]/{}=\\-]", ""));
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// 正常に削除されたとみなす。

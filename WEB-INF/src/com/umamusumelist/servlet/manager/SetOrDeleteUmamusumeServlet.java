@@ -17,7 +17,7 @@ import com.umamusumelist.dao.UmamusumeDAO;
  * ウマ娘の登録・削除処理を行うサーブレット
  *
  * @author Umamusumelist.com
- * @version 5.5
+ * @version 5.6
  *
  */
 @WebServlet(name = "Manager/SetOrDeleteUmamusume")
@@ -82,6 +82,7 @@ public final class SetOrDeleteUmamusumeServlet extends HttpServlet {
 			}
 
 			final UmamusumeDAO udao = new UmamusumeDAO();
+
 			// 名前
 			final String name = request.getParameter("name") == null ? "" : request.getParameter("name");
 			// パラメーター
@@ -89,11 +90,18 @@ public final class SetOrDeleteUmamusumeServlet extends HttpServlet {
 			// 追加ボタンもしくは変更ボタンもしくは削除ボタン
 			final String button = request.getParameter("button");
 			// 図鑑番号
-			final int target = request.getParameter("target") == null || request.getParameter("target").equals("") ? 0
-					: Integer.parseInt(request.getParameter("target"));
+			int target;
+			try {
+				target = request.getParameter("target") == null || request.getParameter("target").equals("") ? 0
+						: Integer.parseInt(request.getParameter("target"));
+			} catch (NumberFormatException e) {
+				target = 0;
+			}
+
 			forward(request, response, name, parameter, button, target, udao);
 			udao.close();
 		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}

@@ -16,7 +16,7 @@ import com.umamusumelist.util.KatakanaToZenkaku;
  * 勝負服を得たウマ娘を取り扱うDAO
  *
  * @author Umamusumelist.com
- * @version 5.5
+ * @version 5.6
  */
 public final class RacingUmamusumeDAO {
 
@@ -177,7 +177,7 @@ public final class RacingUmamusumeDAO {
 		final PreparedStatement ps = searchByName(isExclusive);
 		final List<RacingUmamusumeBean> rubl = new ArrayList<>();
 
-		ps.setString(1, "%" + KatakanaToZenkaku.katakanaToZenkaku(name) + "%");
+		ps.setString(1, "%" + KatakanaToZenkaku.katakanaToZenkaku(name).replaceAll("[<>\"'!@#$%\\\\&|:*+\\[\\]/{}=\\-]", "") + "%");
 		final ResultSet rs = ps.executeQuery();
 
 		while (rs.next()) {

@@ -19,7 +19,7 @@ import com.umamusumelist.dao.UmamusumeDAO;
  * 勝負服を得たウマ娘の登録・削除処理を行うサーブレット
  *
  * @author Umamusumelist.com
- * @version 5.5
+ * @version 5.6
  *
  */
 @WebServlet(name = "Manager/SetOrDeleteRacingUmamusume")
@@ -91,25 +91,39 @@ public final class SetOrDeleteRacingUmamusumeServlet extends HttpServlet {
 
 			final UmamusumeDAO udao = new UmamusumeDAO();
 			final RacingUmamusumeDAO rudao = new RacingUmamusumeDAO();
-			// 特殊な勝負服番号(追加)
-			final int racingSuitNo = request.getParameter("no") == null || request.getParameter("no").equals("") ? 0
-					: Integer.parseInt(request.getParameter("no"));
+
 			// 追加ボタンもしくは削除ボタン
 			final String button = request.getParameter("button");
+			// 特殊な勝負服番号(追加)
+			int racingSuitNo;
+			// 通常の図鑑番号
+			int target;
+			// 特殊な図鑑番号
+			int target2;
+			// 通常の勝負服番号
+			int target3;
+			// 特殊な勝負服番号(削除)
+			int target4;
+			try {
+				racingSuitNo = request.getParameter("no") == null || request.getParameter("no").equals("") ? 0
+						: Integer.parseInt(request.getParameter("no"));
+				target = request.getParameter("target") == null || request.getParameter("target").equals("") ? 0
+						: Integer.parseInt(request.getParameter("target"));
+				target2 = request.getParameter("target2") == null || request.getParameter("target2").equals("")
+						? 0 : Integer.parseInt(request.getParameter("target2"));
+				target3 = request.getParameter("target3") == null || request.getParameter("target3").equals("")
+						? 0 : Integer.parseInt(request.getParameter("target3"));
+				target4 = request.getParameter("target4") == null || request.getParameter("target4").equals("")
+						? 0 : Integer.parseInt(request.getParameter("target4"));
+			} catch (NumberFormatException e) {
+				racingSuitNo = 0;
+				target = 0;
+				target2 = 0;
+				target3 = 0;
+				target4 = 0;
+			}
 			// 通常のウマ娘か特殊なウマ娘か
 			final boolean isExclusive = Boolean.parseBoolean(request.getParameter("type"));
-			// 通常の図鑑番号
-			final int target = request.getParameter("target") == null || request.getParameter("target").equals("") ? 0
-					: Integer.parseInt(request.getParameter("target"));
-			// 特殊な図鑑番号
-			final int target2 = request.getParameter("target2") == null || request.getParameter("target2").equals("")
-					? 0 : Integer.parseInt(request.getParameter("target2"));
-			// 通常の勝負服番号
-			final int target3 = request.getParameter("target3") == null || request.getParameter("target3").equals("")
-					? 0 : Integer.parseInt(request.getParameter("target3"));
-			// 特殊な勝負服番号(削除)
-			final int target4 = request.getParameter("target4") == null || request.getParameter("target4").equals("")
-					? 0 : Integer.parseInt(request.getParameter("target4"));
 			// 勝負服登録日
 			Date appeared;
 			try {
@@ -118,11 +132,13 @@ public final class SetOrDeleteRacingUmamusumeServlet extends HttpServlet {
 			} catch (IllegalArgumentException e) {
 				appeared = Date.valueOf("2021-02-24");
 			}
+
 			forward(request, response, racingSuitNo, button, isExclusive, target, target2, target3, target4, appeared,
 					udao, rudao);
 			udao.close();
 			rudao.close();
 		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}

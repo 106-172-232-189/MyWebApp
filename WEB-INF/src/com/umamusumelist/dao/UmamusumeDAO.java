@@ -15,7 +15,7 @@ import com.umamusumelist.util.KatakanaToZenkaku;
  * ウマ娘を取り扱うDAO
  *
  * @author Umamusumelist.com
- * @version 5.5
+ * @version 5.6
  */
 public final class UmamusumeDAO {
 
@@ -215,7 +215,7 @@ public final class UmamusumeDAO {
 		final PreparedStatement ps = searchByName();
 		final List<UmamusumeBean> ubl = new ArrayList<>();
 
-		ps.setString(1, "%" + KatakanaToZenkaku.katakanaToZenkaku(name) + "%");
+		ps.setString(1, "%" + KatakanaToZenkaku.katakanaToZenkaku(name).replaceAll("[<>\"'!@#$%\\\\&|:*+\\[\\]/{}=\\-]", "") + "%");
 		final ResultSet rs = ps.executeQuery();
 
 		while (rs.next()) {
@@ -282,11 +282,11 @@ public final class UmamusumeDAO {
 		if (isExclusive) {
 			// 特殊なウマ娘を新規登録する場合、特殊な図鑑番号を添える。
 			ps.setInt(1, umadexNo);
-			ps.setString(2, name);
-			ps.setString(3, parameter.equals("") ? null : parameter);
+			ps.setString(2, name.replaceAll("[<>\"'!@#$%\\\\&|:*+\\[\\]/{}=\\-]", ""));
+			ps.setString(3, parameter.equals("") ? null : parameter.replaceAll("[<>\"'!@#$%\\\\&|:*+\\[\\]/{}=\\-]", ""));
 		} else {
-			ps.setString(1, name);
-			ps.setString(2, parameter.equals("") ? null : parameter);
+			ps.setString(1, name.replaceAll("[<>\"'!@#$%\\\\&|:*+\\[\\]/{}=\\-]", ""));
+			ps.setString(2, parameter.equals("") ? null : parameter.replaceAll("[<>\"'!@#$%\\\\&|:*+\\[\\]/{}=\\-]", ""));
 		}
 
 		ps.executeUpdate();
@@ -309,8 +309,8 @@ public final class UmamusumeDAO {
 			final String newParameter) throws SQLException {
 		final PreparedStatement ps = update(isExclusive);
 
-		ps.setString(1, newName);
-		ps.setString(2, newParameter);
+		ps.setString(1, newName.replaceAll("[<>\"'!@#$%\\\\&|:*+\\[\\]/{}=\\-]", ""));
+		ps.setString(2, newParameter.replaceAll("[<>\"'!@#$%\\\\&|:*+\\[\\]/{}=\\-]", ""));
 		ps.setInt(3, umadexNo);
 		ps.executeUpdate();
 	}

@@ -8,7 +8,7 @@
 			java.time.LocalDateTime,
 			java.time.format.DateTimeFormatter" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html lang="ja">
 	<head>
 		<!-- Google tag (gtag.js) -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-NWMHELKPF9"></script>
@@ -31,7 +31,7 @@
 	</head>
 	<body>
 		<button type="button" onclick="location.href='./'">ﾄｯﾌﾟﾍﾟｰｼﾞ</button><button type="button" onclick="location.href='./RacingUmamusumeList'">ｷｬﾗｸﾀｰ一覧(実装順)ﾍﾟｰｼﾞ</button><br>
-		<button type="button" onclick="location.href='./en/UmamusumeList'">英語版ﾍﾟｰｼﾞ/English Page</button>
+		<button type="button" onclick="location.href='../en/UmamusumeList'">英語版ﾍﾟｰｼﾞ/English Page</button>
 		<h1>ウマ娘 キャラクター一覧</h1>
 		<img src="./img/Umamusume_Top_Number_Trio.jpg" alt="ポーズをとるトウカイテイオー、スペシャルウィーク、サイレンススズカ" class="imgB" style="display: block; margin: auto;">
 		<div class="div4" style="text-align: center;">©Cygames</div>
@@ -93,9 +93,9 @@
 			<p>↓管理者からのお願い↓</p>
 			<blockquote class="twitter-tweet tw-align-center"><p lang="ja" dir="ltr">もしも<a href="https://umamusume.jp/character/">ｳﾏ娘公式ｻｲﾄ</a>に登録されているウマ娘の<br><a href="http://umamusumelist.com/UmamusumeList">当サイトの図鑑番号順ページ</a><br>への登録漏れがありましたら、私に報告をお願い<br>します。すぐに修正登録を行います。<a href="https://twitter.com/hashtag/%E3%82%A6%E3%83%9E%E5%A8%98?src=hash&amp;ref_src=twsrc%5Etfw">#ウマ娘</a></p>&mdash; むっぎー (@RbSbH9WTaKkBtGd) <a href="https://twitter.com/RbSbH9WTaKkBtGd/status/1779827006269714681">April 15, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 			<p>連絡は<a id="mailLink" href="mailto:admin@umamusumelist.com" onclick="showConfirm()">admin@umamusumelist.com</a><br class="br-sp4">までお願いします。</p>
-			<button type="button" onclick="location.href='./en/UmamusumeList'">英語版ﾍﾟｰｼﾞ/English Page</button>
+			<button type="button" onclick="location.href='../en/UmamusumeList'">英語版ﾍﾟｰｼﾞ/English Page</button>
 			<br>
-			<span style="display: flex; justify-content: space-between;"><span><button type="button" onclick="location.href='./'">ﾄｯﾌﾟﾍﾟｰｼﾞ</button><button type="button" onclick="location.href='./RacingUmamusumeList'">ｷｬﾗｸﾀｰ一覧(実装順)ﾍﾟｰｼﾞ</button></span><span>App No.1, Version 5.5</span></span>
+			<span style="display: flex; justify-content: space-between;"><span><button type="button" onclick="location.href='./'">ﾄｯﾌﾟﾍﾟｰｼﾞ</button><button type="button" onclick="location.href='./RacingUmamusumeList'">ｷｬﾗｸﾀｰ一覧(実装順)ﾍﾟｰｼﾞ</button></span><span><a href="https://github.com/106-172-232-189/MyWebApp/">App No.1, Version 5.6</a></span></span>
 		</div>
 	</body>
 </html>
