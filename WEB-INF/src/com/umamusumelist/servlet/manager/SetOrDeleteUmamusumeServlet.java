@@ -17,7 +17,7 @@ import com.umamusumelist.dao.UmamusumeDAO;
  * ウマ娘の登録・削除処理を行うサーブレット
  *
  * @author Umamusumelist.com
- * @version 5.6
+ * @version 6.0
  *
  */
 @WebServlet(name = "Manager/SetOrDeleteUmamusume")
@@ -43,7 +43,7 @@ public final class SetOrDeleteUmamusumeServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
-		try {
+		try (final UmamusumeDAO udao = new UmamusumeDAO()) {
 			request.setCharacterEncoding("UTF-8");
 
 			// 現在のセッションが無ければ、セッション有効期限切れ画面を表示する。
@@ -52,10 +52,8 @@ public final class SetOrDeleteUmamusumeServlet extends HttpServlet {
 				return;
 			}
 
-			final UmamusumeDAO udao = new UmamusumeDAO();
 			request.setAttribute("umamusumeList", udao.getListWhereRacingUmamusumeNoIsNull(false)); // 勝負服を得ていない通常のウマ娘
 			request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteUmamusume.jsp").forward(request, response);
-			udao.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -72,7 +70,7 @@ public final class SetOrDeleteUmamusumeServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
-		try {
+		try (final UmamusumeDAO udao = new UmamusumeDAO();) {
 			request.setCharacterEncoding("UTF-8");
 
 			// 現在のセッションが無ければ、セッション有効期限切れ画面を表示する。
@@ -80,8 +78,6 @@ public final class SetOrDeleteUmamusumeServlet extends HttpServlet {
 				request.getRequestDispatcher("../WEB-INF/login/SessionTimeout.html").forward(request, response);
 				return;
 			}
-
-			final UmamusumeDAO udao = new UmamusumeDAO();
 
 			// 名前
 			final String name = request.getParameter("name") == null ? "" : request.getParameter("name");
@@ -98,17 +94,26 @@ public final class SetOrDeleteUmamusumeServlet extends HttpServlet {
 						: Integer.parseInt(request.getParameter("umadexNo"));
 				target = request.getParameter("target") == null || request.getParameter("target").equals("") ? 0
 						: Integer.parseInt(request.getParameter("target"));
+				if (umadexNo < 0 || umadexNo > 800) {
+					umadexNo = 0;
+				}
 			} catch (NumberFormatException e) {
 				umadexNo = 0;
 				target = 0;
 			}
 
 			forward(request, response, name, umadexNo, parameter, button, target, udao);
-			udao.close();
-		} catch (Exception e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			request.setAttribute("message", "This input is not valid");
+			try (final UmamusumeDAO udao = new UmamusumeDAO()) {
+				request.setAttribute("umamusumeList", udao.getListWhereRacingUmamusumeNoIsNull(false));
+				request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteUmamusume.jsp").forward(request, response);
+			} catch (ClassNotFoundException | SQLException | ServletException e2) {
+				// TODO 自動生成された catch ブロック
+				e2.printStackTrace();
+				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			}
 		}
 	}
 
@@ -152,7 +157,7 @@ public final class SetOrDeleteUmamusumeServlet extends HttpServlet {
 		} else if (button != null && button.equals("update")) { // 変更ボタン
 			// 変更対象が選択されていないか、変更後の名前もしくはパラメーターが入力されていない
 			if (target == 0 || name.equals("") || parameter.equals("")) {
-				request.setAttribute("message", "Please Select the target and enter the updated name and parameter");
+				request.setAttribute("message", "Please select the target and enter the updated name and parameter");
 			} else if (isFound(udao.getList(), name, parameter, 0)) { // 入力した名前、パラメーターのいずれかが既存のデータと重複している
 				request.setAttribute("message", "This name or parameter is already registered");
 			} else { // 正常に変更される
@@ -161,7 +166,7 @@ public final class SetOrDeleteUmamusumeServlet extends HttpServlet {
 			}
 		} else if (button != null && button.equals("delete")) { // 削除ボタン
 			if (target == 0) { // 削除対象が選択されていない
-				request.setAttribute("message", "Please Select the target");
+				request.setAttribute("message", "Please select the target");
 			} else { // 正常に削除される
 				udao.deleteUmamusume(false, target);
 				request.setAttribute("message", "Deleted successfully");

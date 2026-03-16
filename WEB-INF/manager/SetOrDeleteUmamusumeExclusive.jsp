@@ -23,7 +23,7 @@
 		<h2>Regist</h2>
 		<form action="SetOrDeleteUmamusumeExclusive" method="post">
 			Name: <input type="text" name="name" placeholder="1-30 alphabetic characters" title="1-30 alphabetic characters" pattern="^[A-Za-z0-9.?]{0,30}$|^[(]Unknown[A-Z]{1,3}[)]$"><br>
-			Umadex No.: <input type="text" name="no" placeholder="800-999" title="800-999" pattern="^[8-9８-９][0-9０-９]{2}$"><br>
+			Umadex No.: <input type="text" name="no" placeholder="801-999" title="801-999" pattern="^(?!800|８００)[8-9８-９][0-9０-９]{2}$"><br>
 			Parameter: <input type="text" name="parameter" placeholder="1-30 alphabetic characters" title="1-30 alphabetic characters" pattern="^[a-z0-9.]{0,30}$"><br>
 			<button type="submit" name="button" value="add">Regist</button>
 		</form>

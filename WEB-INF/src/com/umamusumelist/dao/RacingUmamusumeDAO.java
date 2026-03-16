@@ -16,9 +16,9 @@ import com.umamusumelist.util.KatakanaToZenkaku;
  * 勝負服を得たウマ娘を取り扱うDAO
  *
  * @author Umamusumelist.com
- * @version 5.6
+ * @version 6.0
  */
-public final class RacingUmamusumeDAO {
+public final class RacingUmamusumeDAO implements AutoCloseable {
 
 	/** データベースのURL */
 	private static final String URL = "jdbc:postgresql://localhost:5432/my_database_2";
@@ -122,6 +122,7 @@ public final class RacingUmamusumeDAO {
 	 *
 	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
+	@Override
 	public void close() throws SQLException {
 		if (c == null) {
 			return;

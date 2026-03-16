@@ -50,7 +50,7 @@
 			<br>
 			<div class="div4">
 			Total Number of Trainee Umamusume: <%= noMax %><br>
-			※: The Umadex and Trainee Umadex excluding "Tracen Academy Affiliate and Removed" are derived from official information provided within the game.<br>
+			※: The Umadex and Trainee Umadex Excluding "Tracen Academy Affiliate and Removed" are derived from official information provided within the game.<br>
 			Sources: [<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://umamusume.com/characters/">https://umamusume.com/characters/</a>,<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://umamusume.wikiru.jp/index.php?%A5%C6%A1%BC%A5%D6%A5%EB%2F%B0%E9%C0%AE%A5%A6%A5%DE%CC%BC%2F%BD%E9%B4%FC%BC%C2%C1%F5">https://umamusume.wikiru.jp/index.php?テーブル/育成ウマ娘/初期実装</a>,<br>
@@ -61,7 +61,7 @@
 			<p>Administrator's Twitter Account: <a href="https://twitter.com/umamusumelist">https://twitter.com/umamusumelist</a></p>
 			<button type="button" onclick="location.href='../ja/RacingUmamusumeList'">Japanese Page/日本語版ﾍﾟｰｼﾞ</button>
 			<br>
-			<span style="display: flex; justify-content: space-between;"><span><button type="button" onclick="location.href='./'">Top Page</button><button type="button" onclick="location.href='./UmamusumeList'">Character List</button></span><span><a href="https://github.com/106-172-232-189/MyWebApp/tree/No.2/">App No.2, Version 1.1</a></span></span>
+			<span style="display: flex; justify-content: space-between;"><span><button type="button" onclick="location.href='./'">Top Page</button><button type="button" onclick="location.href='./UmamusumeList'">Character List</button></span><span><a href="https://github.com/106-172-232-189/MyWebApp/tree/No.2/">App No.2, Version 2.0</a></span></span>
 		</div>
 	</body>
 </html>

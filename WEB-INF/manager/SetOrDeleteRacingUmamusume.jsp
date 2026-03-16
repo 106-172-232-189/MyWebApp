@@ -47,7 +47,7 @@
 				<% } %>
 			</select><br>
 			Registered Date(Normal): <input type="date" name="appeared" class="notExclusive" disabled="disabled" id="today"><br>
-			Trainee Umadex No.(Special): 1000&plus;<input type="text" class="exclusive" name="no" placeholder="2 digits" title="2 digits" pattern="^[0-9０-９]{1,2}$" disabled="disabled"><br>
+			Trainee Umadex No.(Special): 1000&plus;<input type="text" class="exclusive" name="no" placeholder="2 digits" title="2 digits" pattern="^[1-9１-９][0-9０-９]$|^[1-9１-９]$" disabled="disabled"><br>
 			<button type="submit" name="button" value="add">Regist</button>
 			<h2>Delete</h2>
 			Name:

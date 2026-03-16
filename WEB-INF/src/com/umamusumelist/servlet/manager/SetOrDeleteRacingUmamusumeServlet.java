@@ -19,7 +19,7 @@ import com.umamusumelist.dao.UmamusumeDAO;
  * 勝負服を得たウマ娘の登録・削除処理を行うサーブレット
  *
  * @author Umamusumelist.com
- * @version 5.6
+ * @version 6.0
  *
  */
 @WebServlet(name = "Manager/SetOrDeleteRacingUmamusume")
@@ -45,7 +45,7 @@ public final class SetOrDeleteRacingUmamusumeServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
-		try {
+		try (final UmamusumeDAO udao = new UmamusumeDAO(); final RacingUmamusumeDAO rudao = new RacingUmamusumeDAO()) {
 			request.setCharacterEncoding("UTF-8");
 
 			// 現在のセッションが無ければ、セッション有効期限切れ画面を表示する。
@@ -54,16 +54,12 @@ public final class SetOrDeleteRacingUmamusumeServlet extends HttpServlet {
 				return;
 			}
 
-			final UmamusumeDAO udao = new UmamusumeDAO();
-			final RacingUmamusumeDAO rudao = new RacingUmamusumeDAO();
 			request.setAttribute("umamusumeListNotExclusive", udao.getListWhereRacingUmamusumeNoIsNull(false)); // 勝負服を得ていない通常のウマ娘
 			request.setAttribute("umamusumeListExclusive", udao.getListWhereRacingUmamusumeNoIsNull(true)); // 勝負服を得ていない特殊なウマ娘
 			request.setAttribute("racingUmamusumeListNotExclusive", rudao.getList(false)); // 勝負服を得ている通常のウマ娘
 			request.setAttribute("racingUmamusumeListExclusive", rudao.getList(true)); // 勝負服を得ている特殊なウマ娘
 			request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteRacingUmamusume.jsp").forward(request,
 					response);
-			udao.close();
-			rudao.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -80,7 +76,7 @@ public final class SetOrDeleteRacingUmamusumeServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
-		try {
+		try (final UmamusumeDAO udao = new UmamusumeDAO(); final RacingUmamusumeDAO rudao = new RacingUmamusumeDAO()) {
 			request.setCharacterEncoding("UTF-8");
 
 			// 現在のセッションが無ければ、有効期限切れ画面を表示する。
@@ -88,9 +84,6 @@ public final class SetOrDeleteRacingUmamusumeServlet extends HttpServlet {
 				request.getRequestDispatcher("../WEB-INF/login/SessionTimeout.html").forward(request, response);
 				return;
 			}
-
-			final UmamusumeDAO udao = new UmamusumeDAO();
-			final RacingUmamusumeDAO rudao = new RacingUmamusumeDAO();
 
 			// 追加ボタンもしくは削除ボタン
 			final String button = request.getParameter("button");
@@ -115,6 +108,15 @@ public final class SetOrDeleteRacingUmamusumeServlet extends HttpServlet {
 						? 0 : Integer.parseInt(request.getParameter("target3"));
 				target4 = request.getParameter("target4") == null || request.getParameter("target4").equals("")
 						? 0 : Integer.parseInt(request.getParameter("target4"));
+				if (racingSuitNo < 0 || racingSuitNo > 100) {
+					racingSuitNo = 0;
+				}
+				if (target < 0 || target > 800) {
+					target = 0;
+				}
+				if (target2 <= 800 || target2 > 1000) {
+					target2 = 0;
+				}
 			} catch (NumberFormatException e) {
 				racingSuitNo = 0;
 				target = 0;
@@ -135,12 +137,20 @@ public final class SetOrDeleteRacingUmamusumeServlet extends HttpServlet {
 
 			forward(request, response, racingSuitNo, button, isExclusive, target, target2, target3, target4, appeared,
 					udao, rudao);
-			udao.close();
-			rudao.close();
-		} catch (Exception e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			request.setAttribute("message", "This input is not valid");
+			try (final UmamusumeDAO udao = new UmamusumeDAO(); final RacingUmamusumeDAO rudao = new RacingUmamusumeDAO()) {
+				request.setAttribute("umamusumeListNotExclusive", udao.getListWhereRacingUmamusumeNoIsNull(false));
+				request.setAttribute("umamusumeListExclusive", udao.getListWhereRacingUmamusumeNoIsNull(true));
+				request.setAttribute("racingUmamusumeListNotExclusive", rudao.getList(false));
+				request.setAttribute("racingUmamusumeListExclusive", rudao.getList(true));
+				request.getRequestDispatcher("../WEB-INF/manager/SetOrDeleteRacingUmamusume.jsp").forward(request, response);
+			} catch (ClassNotFoundException | SQLException | ServletException e2) {
+				// TODO 自動生成された catch ブロック
+				e2.printStackTrace();
+				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			}
 		}
 	}
 
@@ -179,7 +189,7 @@ public final class SetOrDeleteRacingUmamusumeServlet extends HttpServlet {
 		// TODO 自動生成されたメソッド・スタブ
 		if (button != null && button.equals("add")) { // 追加ボタン
 			if ((isExclusive ? target2 : target) == 0 || (isExclusive && racingSuitNo == 0)) { // 勝負服を得たウマ娘を新たに追加する際、登録対象が選択されていない、また、特殊なウマ娘の場合は、勝負服番号が入力されていない
-				request.setAttribute("message", "Please Select the target, if target is special, Trainee Umadex No. too");
+				request.setAttribute("message", "Please select the target, if target is special, Trainee Umadex No. too");
 			} else if (isFound(rudao.getList(true), racingSuitNo)) { // 入力した特殊な勝負服番号が既存のデータと重複している
 				request.setAttribute("message", "This Trainee Umadex No. is already registered");
 			} else { // 正常に登録される
@@ -189,7 +199,7 @@ public final class SetOrDeleteRacingUmamusumeServlet extends HttpServlet {
 			}
 		} else if (button != null && button.equals("delete")) { // 削除ボタン
 			if ((isExclusive ? target4 : target3) == 0) { // 削除対象が選択されていない
-				request.setAttribute("message", "Please Select the target");
+				request.setAttribute("message", "Please select the target");
 			} else { // 正常に削除される
 				rudao.deleteRacingUmamusume(isExclusive, isExclusive ? target4 : target3);
 				request.setAttribute("message", "Deleted successfully");
