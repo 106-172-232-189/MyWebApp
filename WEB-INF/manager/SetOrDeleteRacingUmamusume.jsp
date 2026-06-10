@@ -46,20 +46,20 @@
 				<% } %>
 			</select><br>
 			登録日(通常): <input type="date" name="appeared" class="notExclusive" disabled="disabled" id="today"><br>
-			育成ウマ娘番号(特殊): 1000&plus;<input type="text" class="exclusive" name="no" placeholder="2桁までの番号" title="2桁までの番号" pattern="^[0-9０-９]{1,2}$" disabled="disabled"><br>
+			育成ウマ娘番号(特殊): 1000&plus;<input type="text" class="exclusive" name="no" placeholder="2桁までの番号" title="2桁までの番号" pattern="^[1-9１-９][0-9０-９]$|^[1-9１-９]$" disabled="disabled"><br>
 			<button type="submit" name="button" value="add">追加</button>
 			<h2>削除</h2>
 			名前:
 			<select name="target3" class="notExclusive" disabled="disabled">
 				<option value="0"></option>
 				<% for (RacingUmamusumeBean ru : racingUmamusumeListNotExclusive) { %>
-				<option value="<%= ru.racingSuitNo() %>">育成ウマ娘<%= ru.racingSuitNo() %>号: <%= ru.name() == null ? "" : ru.name() %></option>
+				<option value="<%= ru.racingSuitNo() %>">育成ウマ娘<%= ru.racingSuitNo() %>代: <%= ru.name() == null ? "" : ru.name() %></option>
 				<% } %>
 			</select>
 			<select name="target4" class="exclusive" disabled="disabled">
 				<option value="0"></option>
 				<% for (RacingUmamusumeBean ru : racingUmamusumeListExclusive) { %>
-				<option value="<%= ru.racingSuitNo() %>">育成ウマ娘<%= 1000 + ru.racingSuitNo() %>号: <%= ru.name() == null ? "" : ru.name() %></option>
+				<option value="<%= ru.racingSuitNo() %>">育成ウマ娘<%= 1000 + ru.racingSuitNo() %>代: <%= ru.name() == null ? "" : ru.name() %></option>
 				<% } %>
 			</select><br>
 			<button type="submit" name="button" value="delete">削除</button>

@@ -19,7 +19,7 @@ import com.umamusumelist.dao.UmamusumeDAO;
  * ウマ娘、ウマ娘でないトレセン学園関係者の取得に関する処理を行うサーブレット
  *
  * @author Umamusumelist.com
- * @version 5.6
+ * @version 6.0
  */
 @WebServlet(name = "/UmamusumeList")
 public final class UmamusumeServlet extends HttpServlet {
@@ -42,21 +42,15 @@ public final class UmamusumeServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
-		try {
+		try (final UmamusumeDAO udao = new UmamusumeDAO(); final NotUmamusumeDAO nudao = new NotUmamusumeDAO();
+				final RacingUmamusumeDAO rudao = new RacingUmamusumeDAO()) {
 			request.setCharacterEncoding("UTF-8");
-
-			final UmamusumeDAO udao = new UmamusumeDAO();
-			final NotUmamusumeDAO nudao = new NotUmamusumeDAO();
-			final RacingUmamusumeDAO rudao = new RacingUmamusumeDAO();
 			request.setAttribute("noMaxA", udao.noMax()); // 特殊なウマ娘を除いたウマ娘の総数
 			request.setAttribute("noMaxB", rudao.noMax()); // 勝負服が登録された(育成ウマ娘として実装された)ウマ娘の総数
 			request.setAttribute("noMaxC", nudao.noMax()); // ウマ娘でないトレセン学園関係者の総数
 			request.setAttribute("umamusumeList", udao.getList()); // ウマ娘一覧
 			request.setAttribute("notUmamusumeList", nudao.getList()); // ウマ娘でないトレセン学園関係者一覧
 			request.getRequestDispatcher("./jsp/UmamusumeJSP.jsp").forward(request, response);
-			udao.close();
-			nudao.close();
-			rudao.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -71,13 +65,11 @@ public final class UmamusumeServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
-		try {
+		try (final UmamusumeDAO udao = new UmamusumeDAO(); final NotUmamusumeDAO nudao = new NotUmamusumeDAO();
+				final RacingUmamusumeDAO rudao = new RacingUmamusumeDAO()) {
 			request.setCharacterEncoding("UTF-8");
 
 			final String id = request.getParameter("id"); // 検索欄に入力された文字列
-			final UmamusumeDAO udao = new UmamusumeDAO();
-			final NotUmamusumeDAO nudao = new NotUmamusumeDAO();
-			final RacingUmamusumeDAO rudao = new RacingUmamusumeDAO();
 			request.setAttribute("id", id);
 			request.setAttribute("noMaxA", udao.noMax()); // 特殊なウマ娘を除いたウマ娘の総数
 			request.setAttribute("noMaxB", rudao.noMax()); // 勝負服が登録された(育成ウマ娘として実装された)ウマ娘の総数
@@ -85,9 +77,6 @@ public final class UmamusumeServlet extends HttpServlet {
 			request.setAttribute("umamusumeList", getList(udao, id)); // 検索結果一覧
 			request.setAttribute("notUmamusumeList", getList(nudao, id)); // ウマ娘でないトレセン学園関係者一覧
 			request.getRequestDispatcher("./jsp/UmamusumeJSP.jsp").forward(request, response);
-			udao.close();
-			nudao.close();
-			rudao.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

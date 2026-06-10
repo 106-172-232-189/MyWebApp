@@ -15,9 +15,9 @@ import com.umamusumelist.util.KatakanaToZenkaku;
  * ウマ娘でないトレセン学園関係者を取り扱うDAO
  *
  * @author Umamusumelist.com
- * @version 5.6
+ * @version 6.0
  */
-public final class NotUmamusumeDAO {
+public final class NotUmamusumeDAO implements AutoCloseable {
 
 	/** データベースのURL */
 	private static final String URL = "jdbc:postgresql://localhost:5432/my_database";
@@ -97,6 +97,7 @@ public final class NotUmamusumeDAO {
 	 *
 	 * @throws SQLException データベースに関する処理時に何らかの異常が発生
 	 */
+	@Override
 	public void close() throws SQLException {
 		if (c == null) {
 			return;
