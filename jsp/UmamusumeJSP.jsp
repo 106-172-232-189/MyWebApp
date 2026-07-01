@@ -33,7 +33,7 @@
 		<button type="button" onclick="location.href='./'">ﾄｯﾌﾟﾍﾟｰｼﾞ</button><button type="button" onclick="location.href='./RacingUmamusumeList'">ｷｬﾗｸﾀｰ一覧(実装順)ﾍﾟｰｼﾞ</button><br>
 		<button type="button" onclick="location.href='../en/UmamusumeList'">英語版ﾍﾟｰｼﾞ/English Page</button>
 		<h1>ウマ娘 キャラクター一覧</h1>
-		<img src="./img/Umamusume_Top_Number_Trio.jpg" alt="ポーズをとるトウカイテイオー、スペシャルウィーク、サイレンススズカ" class="imgB" style="display: block; margin: auto;">
+		<div class="div9" style="text-align: center;"><img src="./img/Umamusume_Top_Number_Trio.jpg" alt="ポーズをとるトウカイテイオー、スペシャルウィーク、サイレンススズカ" class="imgB" style="display: block; margin: auto;"></div>
 		<div class="div4" style="text-align: center;">©Cygames</div>
 		<br>
 		<div>
@@ -45,39 +45,45 @@
 				<button type="submit">検索</button>
 			</form>
 			<br>
-			<table>
-				<tr>
-					<th class="th-sp">図鑑番号<br><div class="div5">(&amp;育成ウマ<br>娘番号)</div></th><th>名前</th>
-				</tr>
-				<% List<UmamusumeBean> umamusumeList = (List) request.getAttribute("umamusumeList"); %>
-				<% for (UmamusumeBean u : umamusumeList) { %>
-					<% if (u.umadexNo() <= 800) { %>
-				<tr>
-					<td style="text-align: center;"><div class="div7">ウマ娘</div><span class="dualFont"><%= u.umadexNo() %></span><% if (u.racingSuitNo() != 0) { %><br><div class="div5">(<%= "育成ｳﾏ娘" + (u.racingSuitNo() >= 100 ? "" : " ") + u.racingSuitNo() %>)</div><% } %></td><td><% if (u.parameter() != null) { %><a href="https://umamusume.jp/character/<%= u.parameter() %>"><% } %><%= u.name() == null || u.name().startsWith("(不明") ? "&mdash;" : (u.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(u.name()) : u.name()) %><% if (u.parameter() != null) { %></a><% } %></td>
-				</tr>
+			<div class="div9" style="text-align: center;">
+				<table>
+					<tr>
+						<th class="th-sp">図鑑番号<br><div class="div5">(&amp;育成ウマ<br>娘番号)</div></th><th>名前</th>
+					</tr>
+					<% List<UmamusumeBean> umamusumeList = (List) request.getAttribute("umamusumeList"); %>
+					<% for (UmamusumeBean u : umamusumeList) { %>
+						<% if (u.umadexNo() <= 800) { %>
+					<tr>
+						<td style="text-align: center;"><div class="div7">ウマ娘</div><span class="dualFont"><%= u.umadexNo() %></span><% if (u.racingSuitNo() != 0) { %><br><div class="div5">(<%= "育成ｳﾏ娘" + (u.racingSuitNo() >= 100 ? "" : " ") + u.racingSuitNo() %>)</div><% } %></td><td style="text-align: left;"><% if (u.parameter() != null) { %><a href="https://umamusume.jp/character/<%= u.parameter() %>"><% } %><%= u.name() == null || u.name().startsWith("(不明") ? "&mdash;" : (u.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(u.name()) : u.name()) %><% if (u.parameter() != null) { %></a><% } %></td>
+					</tr>
+						<% } %>
+						<% if (u.umadexNo() > 800) { %>
+					<tr>
+						<td style="text-align: center;" <% if (u.umadexNo() > 800 && u.umadexNo() <= 900) { %>class="div5"<% } %>><%= u.umadexNo() > 800 && u.umadexNo() <= 900 ? "トレセン学園<br>関係者である<br>ウマ娘 " + (u.umadexNo() - 800) : "<div class=\"div7\">没ウマ娘</div><span class=\"dualFont\">" + (u.umadexNo() - 900) + "</span>" %></td><td style="text-align: left;"><% if (u.parameter() != null) { %><a href="https://umamusume.jp/character/<%= u.parameter() %>"><% } %><%= u.name() == null || u.name().startsWith("(不明") ? "&mdash;" : (u.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(u.name()) : u.name()) %><% if (u.parameter() != null) { %></a><% } %></td>
+					</tr>
+						<% } %>
 					<% } %>
-					<% if (u.umadexNo() > 800) { %>
-				<tr>
-					<td style="text-align: center;" <% if (u.umadexNo() > 800 && u.umadexNo() <= 900) { %>class="div5"<% } %>><%= u.umadexNo() > 800 && u.umadexNo() <= 900 ? "トレセン学園<br>関係者である<br>ウマ娘 " + (u.umadexNo() - 800) : "<div class=\"div7\">没ウマ娘</div><span class=\"dualFont\">" + (u.umadexNo() - 900) + "</span>" %></td><td><% if (u.parameter() != null) { %><a href="https://umamusume.jp/character/<%= u.parameter() %>"><% } %><%= u.name() == null || u.name().startsWith("(不明") ? "&mdash;" : (u.name().contains("(") ? KatakanaToHankaku.katakanaToHankaku(u.name()) : u.name()) %><% if (u.parameter() != null) { %></a><% } %></td>
-				</tr>
-					<% } %>
-				<% } %>
-			</table>
+				</table>
+			</div>
 			<br>
 			<h2>ウマ娘でないトレセン学園関係者</h2>
-			<table>
-				<tr>
-					<th class="nameOfNotUmamusume">名前</th>
-				</tr>
-				<% List<NotUmamusumeBean> notUmamusumeList = (List) request.getAttribute("notUmamusumeList"); %>
-				<% for (NotUmamusumeBean nu : notUmamusumeList) { %>
-				<tr>
-					<td><% if (nu.parameter() != null) { %><a href="https://umamusume.jp/character/<%= nu.parameter() %>"><% } %><%= nu.name() == null || nu.name().startsWith("(不明") ? "&mdash;" : nu.name() %><% if (nu.parameter() != null) { %></a><% } %></td>
-				</tr>
-				<% } %>
-			</table>
+			<div class="div9" style="text-align: center;">
+				<table>
+					<tr>
+						<th class="nameOfNotUmamusume">名前</th>
+					</tr>
+					<% List<NotUmamusumeBean> notUmamusumeList = (List) request.getAttribute("notUmamusumeList"); %>
+					<% for (NotUmamusumeBean nu : notUmamusumeList) { %>
+					<tr>
+						<td style="text-align: left;"><% if (nu.parameter() != null) { %><a href="https://umamusume.jp/character/<%= nu.parameter() %>"><% } %><%= nu.name() == null || nu.name().startsWith("(不明") ? "&mdash;" : nu.name() %><% if (nu.parameter() != null) { %></a><% } %></td>
+					</tr>
+					<% } %>
+				</table>
+			</div>
 			<br>
 			<div class="div4">
+			図鑑番号の読み方:「ウマ娘n号」、「トレセン学園関係者であるウマ娘n号」、「没ウマ娘n号」<br>
+			育成ウマ娘番号の読み方:「n代育成ウマ娘」or「n代目育成ウマ娘」or「育成ウマ娘n代」or「育成ウマ娘n代目」<br>
 			トレセン学園関係者であるウマ娘、没ウマ娘を除いたウマ娘の総数: <%= noMaxA %><br>
 			育成ウマ娘として実装されたウマ娘の総数: <%= noMaxB %><br>
 			図鑑番号の基本的な意味: 公式サイトのウマ娘紹介ページに登録された順番<br>
@@ -95,7 +101,7 @@
 			<p>連絡は<a id="mailLink" href="mailto:admin@umamusumelist.com" onclick="showConfirm()">admin@umamusumelist.com</a><br class="br-sp4">までお願いします。</p>
 			<button type="button" onclick="location.href='../en/UmamusumeList'">英語版ﾍﾟｰｼﾞ/English Page</button>
 			<br>
-			<span style="display: flex; justify-content: space-between;"><span><button type="button" onclick="location.href='./'">ﾄｯﾌﾟﾍﾟｰｼﾞ</button><button type="button" onclick="location.href='./RacingUmamusumeList'">ｷｬﾗｸﾀｰ一覧(実装順)ﾍﾟｰｼﾞ</button></span><span><a href="https://github.com/106-172-232-189/MyWebApp/">App No.1, Version 6.0</a></span></span>
+			<span style="display: flex; justify-content: space-between;"><span><button type="button" onclick="location.href='./'">ﾄｯﾌﾟﾍﾟｰｼﾞ</button><button type="button" onclick="location.href='./RacingUmamusumeList'">ｷｬﾗｸﾀｰ一覧(実装順)ﾍﾟｰｼﾞ</button></span><span><a href="https://github.com/106-172-232-189/MyWebApp/">App No.1, Version 7.0</a></span></span>
 		</div>
 	</body>
 </html>

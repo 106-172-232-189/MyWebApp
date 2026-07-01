@@ -32,7 +32,7 @@
 		<button type="button" onclick="location.href='./'">ﾄｯﾌﾟﾍﾟｰｼﾞ</button><button type="button" onclick="location.href='./UmamusumeList'">ｷｬﾗｸﾀｰ一覧ﾍﾟｰｼﾞ</button><br>
 		<button type="button" onclick="location.href='../en/RacingUmamusumeList'">英語版ﾍﾟｰｼﾞ/English Page</button>
 		<h1>ウマ娘 キャラクター一覧(実装順)</h1>
-		<img src="./img/Umamusume_Top_Number_Trio.jpg" alt="ポーズをとるトウカイテイオー、スペシャルウィーク、サイレンススズカ" class="imgB" style="display: block; margin: auto;">
+		<div class="div9" style="text-align: center;"><img src="./img/Umamusume_Top_Number_Trio.jpg" alt="ポーズをとるトウカイテイオー、スペシャルウィーク、サイレンススズカ" class="imgB" style="display: block; margin: auto;"></div>
 		<div class="div4" style="text-align: center;">©Cygames</div>
 		<br>
 		<div>
@@ -46,20 +46,22 @@
 			<script>
 				const txtArray = [];
 			</script>
-			<table>
-				<tr class="tr-sp">
-					<th class="div6">育成ウマ<br>娘番号</th><th><div class="div6">図鑑番号</div></th><th>名前</th><th><div class="div6">登録日</div></th>
-				</tr>
-				<% List<RacingUmamusumeBean> racingUmamusumeList = (List) request.getAttribute("racingUmamusumeList"); %>
-				<% for (RacingUmamusumeBean ru : racingUmamusumeList) { %>
-				<script>
-					txtArray.push(['<a href="https://umamusume.jp/character/<%= ru.parameter() %>"><%= ru.name() %></a>', '<a href="https://umamusume.jp/character/<%= ru.parameter() %>"><%= KatakanaToHankaku.katakanaToHankaku(ru.name()) %></a>']);
-				</script>
-				<tr class="tr-sp">
-					<td><div class="div5">育成ｳﾏ娘</div><div class="div3"><%= ru.racingSuitNo() %></div></td><td><div class="div8">ウマ娘</div><div class="div6"><%= ru.umadexNo() %></div></td><td class="replaceable"><a href="https://umamusume.jp/character/<%= ru.parameter() %>"><%= ru.name() %></a></td><td><div class="div6"><%= ru.appeared() %></div></td>
-				</tr>
-				<% } %>
-			</table>
+			<div class="div9" style="text-align: center;">
+				<table>
+					<tr class="tr-sp">
+						<th class="div6">育成ウマ<br>娘番号</th><th><div class="div6">図鑑番号</div></th><th>名前</th><th><div class="div6">登録日</div></th>
+					</tr>
+					<% List<RacingUmamusumeBean> racingUmamusumeList = (List) request.getAttribute("racingUmamusumeList"); %>
+					<% for (RacingUmamusumeBean ru : racingUmamusumeList) { %>
+					<script>
+						txtArray.push(['<a href="https://umamusume.jp/character/<%= ru.parameter() %>"><%= ru.name() %></a>', '<a href="https://umamusume.jp/character/<%= ru.parameter() %>"><%= KatakanaToHankaku.katakanaToHankaku(ru.name()) %></a>']);
+					</script>
+					<tr class="tr-sp">
+						<td style="text-align: center;"><div class="div5">育成ｳﾏ娘</div><div class="div3"><%= ru.racingSuitNo() %></div></td><td style="text-align: center;"><div class="div8">ウマ娘</div><div class="div6"><%= ru.umadexNo() %></div></td><td class="replaceable" style="text-align: left;"><a href="https://umamusume.jp/character/<%= ru.parameter() %>"><%= ru.name() %></a></td><td style="text-align: center;"><div class="div6"><%= ru.appeared() %></div></td>
+					</tr>
+					<% } %>
+				</table>
+			</div>
 			<script>
 				function replaceText() {
 					const width = window.innerWidth;
@@ -79,6 +81,8 @@
 			</script>
 			<br>
 			<div class="div4">
+			図鑑番号の読み方:「ウマ娘n号」、「トレセン学園関係者であるウマ娘n号」、「没ウマ娘n号」<br>
+			育成ウマ娘番号の読み方:「n代育成ウマ娘」or「n代目育成ウマ娘」or「育成ウマ娘n代」or「育成ウマ娘n代目」<br>
 			育成ウマ娘として実装されたウマ娘の総数: <%= noMax %><br>
 			育成ウマ娘番号が割り当てられる条件: 新たに育成ウマ娘として実装され、かつ衣装違いではない<br>
 			※: 図鑑番号及び育成ウマ娘番号はトレセン学園関係者であるウマ娘の番号及び没ウマ娘の番号を除いて公式です。<br>
@@ -93,7 +97,7 @@
 			<p>連絡は<a id="mailLink" href="mailto:admin@umamusumelist.com" onclick="showConfirm()">admin@umamusumelist.com</a><br class="br-sp4">までお願いします。</p>
 			<button type="button" onclick="location.href='../en/RacingUmamusumeList'">英語版ﾍﾟｰｼﾞ/English Page</button>
 			<br>
-			<span style="display: flex; justify-content: space-between;"><span><button type="button" onclick="location.href='./'">ﾄｯﾌﾟﾍﾟｰｼﾞ</button><button type="button" onclick="location.href='./UmamusumeList'">ｷｬﾗｸﾀｰ一覧ﾍﾟｰｼﾞ</button></span><span><a href="https://github.com/106-172-232-189/MyWebApp/">App No.1, Version 6.0</a></span></span>
+			<span style="display: flex; justify-content: space-between;"><span><button type="button" onclick="location.href='./'">ﾄｯﾌﾟﾍﾟｰｼﾞ</button><button type="button" onclick="location.href='./UmamusumeList'">ｷｬﾗｸﾀｰ一覧ﾍﾟｰｼﾞ</button></span><span><a href="https://github.com/106-172-232-189/MyWebApp/">App No.1, Version 7.0</a></span></span>
 		</div>
 	</body>
 </html>
