@@ -25,7 +25,7 @@
 		<button type="button" onclick="location.href='./'">Top Page</button><button type="button" onclick="location.href='./UmamusumeList'">Character List</button><br>
 		<button type="button" onclick="location.href='../ja/RacingUmamusumeList'">Japanese Page/日本語版ﾍﾟｰｼﾞ</button>
 		<h1>Umamusume Playable Character List</h1>
-		<img src="./img/Umamusume_Top_Number_Trio.jpg" alt="Special Week, Silence Suzuka, and Tokai Teio strike a pose" class="imgB" style="display: block; margin: auto;">
+		<div class="div9" style="text-align: center;"><img src="./img/Umamusume_Top_Number_Trio.jpg" alt="Special Week, Silence Suzuka, and Tokai Teio strike a pose" class="imgB" style="display: block; margin: auto;"></div>
 		<div class="div4" style="text-align: center;">©Cygames</div>
 		<br>
 		<div>
@@ -36,17 +36,19 @@
 				<button type="submit">Search</button>
 			</form>
 			<br>
-			<table>
-				<tr class="tr-sp">
-					<th class="div6 dualFont2">Trainee<br>Umadex<br>No.</th><th><div class="div6">Umadex</div></th><th>Name</th><th><div class="div6">Registered<br>Date</div></th>
-				</tr>
-				<% List<RacingUmamusumeBean> racingUmamusumeList = (List) request.getAttribute("racingUmamusumeList"); %>
-				<% for (RacingUmamusumeBean ru : racingUmamusumeList) { %>
-				<tr class="tr-sp">
-					<td><%= ru.racingSuitNo() %></td><td><div class="div8 dualFont2" style="font-family: 'Oswald'">Umamusume</div><div class="div6"><%= ru.umadexNo() %></div></td><td class="dualFont2"><a href="https://umamusume.com/characters/<%= ru.parameter() %>"><%= ru.name() %></a></td><td><div class="div6"><%= ru.appeared() %></div></td>
-				</tr>
-				<% } %>
-			</table>
+			<div class="div9" style="text-align: center;">
+				<table>
+					<tr class="tr-sp">
+						<th class="div6 dualFont2">Trainee<br>Umadex<br>No.</th><th><div class="div6">Umadex</div></th><th>Name</th><th><div class="div6">Registered<br>Date</div></th>
+					</tr>
+					<% List<RacingUmamusumeBean> racingUmamusumeList = (List) request.getAttribute("racingUmamusumeList"); %>
+					<% for (RacingUmamusumeBean ru : racingUmamusumeList) { %>
+					<tr class="tr-sp">
+						<td style="text-align: center;"><%= ru.racingSuitNo() %></td><td style="text-align: center;"><div class="div8 dualFont2" style="font-family: 'Oswald'">Umamusume</div><div class="div6"><%= ru.umadexNo() %></div></td><td class="dualFont2" style="text-align: left;"><a href="https://umamusume.com/characters/<%= ru.parameter() %>"><%= ru.name() %></a></td><td style="text-align: center;"><div class="div6"><%= ru.appeared() %></div></td>
+					</tr>
+					<% } %>
+				</table>
+			</div>
 			<br>
 			<div class="div4">
 			Total Number of Trainee Umamusume: <%= noMax %><br>
@@ -61,7 +63,7 @@
 			<p>Administrator's Twitter Account: <a href="https://twitter.com/umamusumelist">https://twitter.com/umamusumelist</a></p>
 			<button type="button" onclick="location.href='../ja/RacingUmamusumeList'">Japanese Page/日本語版ﾍﾟｰｼﾞ</button>
 			<br>
-			<span style="display: flex; justify-content: space-between;"><span><button type="button" onclick="location.href='./'">Top Page</button><button type="button" onclick="location.href='./UmamusumeList'">Character List</button></span><span><a href="https://github.com/106-172-232-189/MyWebApp/tree/No.2/">App No.2, Version 2.0</a></span></span>
+			<span style="display: flex; justify-content: space-between;"><span><button type="button" onclick="location.href='./'">Top Page</button><button type="button" onclick="location.href='./UmamusumeList'">Character List</button></span><span><a href="https://github.com/106-172-232-189/MyWebApp/tree/No.2/">App No.2, Version 3.0</a></span></span>
 		</div>
 	</body>
 </html>
