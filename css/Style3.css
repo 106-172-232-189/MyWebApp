@@ -15,7 +15,7 @@ h1.err {
 	width: 500px;
 }
 
-@media screen and (max-width: 530px) {
+@media screen and (max-width: 760px) {
 	body {
 		font-family: 'ヒラギノ角ゴ ProN';
 	}

@@ -97,7 +97,7 @@
 			<p>連絡は<a id="mailLink" href="mailto:admin@umamusumelist.com" onclick="showConfirm()">admin@umamusumelist.com</a><br class="br-sp4">までお願いします。</p>
 			<button type="button" onclick="location.href='../en/RacingUmamusumeList'">英語版ﾍﾟｰｼﾞ/English Page</button>
 			<br>
-			<span style="display: flex; justify-content: space-between;"><span><button type="button" onclick="location.href='./'">ﾄｯﾌﾟﾍﾟｰｼﾞ</button><button type="button" onclick="location.href='./UmamusumeList'">ｷｬﾗｸﾀｰ一覧ﾍﾟｰｼﾞ</button></span><span><a href="https://github.com/106-172-232-189/MyWebApp/">App No.1, Version 7.0</a></span></span>
+			<span style="display: flex; justify-content: space-between;"><span><button type="button" onclick="location.href='./'">ﾄｯﾌﾟﾍﾟｰｼﾞ</button><button type="button" onclick="location.href='./UmamusumeList'">ｷｬﾗｸﾀｰ一覧ﾍﾟｰｼﾞ</button></span><span><a href="https://github.com/106-172-232-189/MyWebApp/">App No.1, Version 8.0</a></span></span>
 		</div>
 	</body>
 </html>
