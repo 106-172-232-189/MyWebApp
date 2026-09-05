@@ -4,30 +4,16 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<title>Sign In</title>
-		<link rel="stylesheet" href="../../css/Style3.css">
-		<script src="../../js/SHA512.js"></script>
+		<link rel="stylesheet" href="../css/Style3.css">
 	</head>
 	<body>
 		<button type="button" onclick="location.href='../'">Top Page</button>
-		<h1>Enter the Password</h1>
+		<h1>Enter the One Time Password</h1>
 		<div class="div2">
 			<form id="passwordForm" action="./" method="post">
-				<input id="password" type="password" name="semiPassword" title="10-20 characters" pattern="[a-zA-Z0-9]{10,20}">
-				<input id="hashedPassword" type="hidden" name="password">
+				<input id="password" type="password" name="password" title="16 characters" pattern="[a-zA-Z0-9]{16}">
 				<button type="submit">Sign In</button>
 			</form>
-			<script>
-				const passwordForm = document.getElementById("passwordForm");
-				passwordForm.addEventListener("submit", function(event) {
-					var password = document.getElementById("password");
-					var hashedPassword = document.getElementById("hashedPassword");
-					var sha512 = new jsSHA("SHA-512", "TEXT");
-					sha512.update(password.value);
-					const hash = sha512.getHash("HEX");
-					hashedPassword.value = hash;
-					password.value = "";
-				});
-			</script>
 		</div>
 	</body>
 </html>
