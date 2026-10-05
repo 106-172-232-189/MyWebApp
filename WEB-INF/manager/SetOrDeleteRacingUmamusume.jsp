@@ -53,13 +53,13 @@
 			<select name="target3" class="notExclusive" disabled="disabled">
 				<option value="0"></option>
 				<% for (RacingUmamusumeBean ru : racingUmamusumeListNotExclusive) { %>
-				<option value="<%= ru.racingSuitNo() %>">育成ウマ娘<%= ru.racingSuitNo() %>代: <%= ru.name() == null ? "" : ru.name() %></option>
+				<option value="<%= ru.racingSuitNo() %>"><%= ru.racingSuitNo() %>代目育成ウマ娘: <%= ru.name() == null ? "" : ru.name() %></option>
 				<% } %>
 			</select>
 			<select name="target4" class="exclusive" disabled="disabled">
 				<option value="0"></option>
 				<% for (RacingUmamusumeBean ru : racingUmamusumeListExclusive) { %>
-				<option value="<%= ru.racingSuitNo() %>">育成ウマ娘<%= 1000 + ru.racingSuitNo() %>代: <%= ru.name() == null ? "" : ru.name() %></option>
+				<option value="<%= ru.racingSuitNo() %>"><%= 1000 + ru.racingSuitNo() %>代目育成ウマ娘: <%= ru.name() == null ? "" : ru.name() %></option>
 				<% } %>
 			</select><br>
 			<button type="submit" name="button" value="delete">削除</button>
