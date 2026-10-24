@@ -1,4 +1,4 @@
-http://umamusumelist.com/ja/ \[106-172-232-189-MyWebApp v8.1]
+http://umamusumelist.com/ja/ \[106-172-232-189-MyWebApp v8.2]
 
 v1.0 -> Released on 2023-03-18
 
@@ -31,4 +31,6 @@ v7.0 -> Released on 2026-06-10
 v8.0 -> Released on 2026-08-22
 
 v8.1 -> Released on 2026-10-05
+
+v8.2 -> Released on 2026-10-24
 
