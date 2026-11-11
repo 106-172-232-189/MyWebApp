@@ -32,3 +32,5 @@ v8.0 -> Released on 2026-08-22
 
 v8.1 -> Released on 2026-10-05
 
+v8.2 -> Released on 2026-10-24
+
