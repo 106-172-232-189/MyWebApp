@@ -63,7 +63,7 @@
 			<p>Administrator's Twitter Account: <a href="https://twitter.com/umamusumelist">https://twitter.com/umamusumelist</a></p>
 			<button type="button" onclick="location.href='../ja/RacingUmamusumeList'">Japanese Page/日本語版ﾍﾟｰｼﾞ</button>
 			<br>
-			<span style="display: flex; justify-content: space-between;"><span><button type="button" onclick="location.href='./'">Top Page</button><button type="button" onclick="location.href='./UmamusumeList'">Character List</button></span><span><a href="https://github.com/106-172-232-189/MyWebApp/tree/No.2/">App No.2, Version 4.0</a></span></span>
+			<span style="display: flex; justify-content: space-between;"><span><button type="button" onclick="location.href='./'">Top Page</button><button type="button" onclick="location.href='./UmamusumeList'">Character List</button></span><span><a href="https://github.com/106-172-232-189/MyWebApp/tree/No.2/">App No.2, Version 4.1</a></span></span>
 		</div>
 	</body>
 </html>

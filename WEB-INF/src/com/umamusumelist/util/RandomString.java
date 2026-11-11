@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
  * ランダム文字列生成機
  *
  * @author Umamusumelist.com
- * @version 8.0
+ * @version 8.2
  */
 public final class RandomString {
 
@@ -18,7 +18,7 @@ public final class RandomString {
 	 *            桁数
 	 */
 	public static String generate(final int length) {
-		String charas = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		String charas = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\"#$%&'()=-~^|@[{;+:*]},.?/_";
 		return new SecureRandom().ints(length, 0, charas.length()).mapToObj(charas::charAt).map(Object::toString).collect(Collectors.joining());
 	}
 
